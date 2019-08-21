@@ -23,7 +23,11 @@
 ##                                          https://docs.scipy.org/doc/                                             ##
 ##                           La información relativa a mysql.conector puede ser consultada en:                      ##
 ##                                   https://dev.mysql.com/doc/connector-python/en/                                 ##
-##                                    Se requiere  "pip install mysql-connector-python"                             ##
+##                                                                                                                  ##
+##                                 Se requiere:  "pip install mysql-connector-python"                               ##
+##                                               "pip install geopy"                                                ##
+##                                               "pip install numpy"                                                ##
+##                                               "pip install pandas"                                               ##
 ##                                                                                                                  ##
 ######################################################################################################################
  
