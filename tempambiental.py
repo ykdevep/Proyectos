@@ -3,7 +3,7 @@
 ##    Módulo Python 3.6.5 (32 bits) para leer un fichero xls y guardar la información en una base de datos MySQL    ##
 ##                                     mediante las librerías pandas y mysql                                        ##
 ##                                                                                                                  ##
-##                 Se leen los datos pertenecientes a los valores de contaminación de PM 2.5 (PM25)                 ##
+##                  Se leen los datos pertenecientes a los valores de temperatura ambiental (TMP)                   ##
 ##                     de las estaciones de medición Ciudad de México y el Estado de México                         ##
 ##                  Actualmente se encuentran registrados los datos desde 01/01/2018 a 28/02/2019                   ##    
 ##                                                                                                                  ## 
@@ -59,43 +59,48 @@ from datetime import datetime
 ##                                                                                                                  ##
 ######################################################################################################################
 
-nombreBDPM25 = 'pm25'  ## Configuración para la base de dato de contaminantes SO2...
+nombreBDTempAmb = 'temperaturaambiente'  ## Configuración para la base de dato de temperatura ambiental TMP...
 config = {
   'user': 'kike',
   'password': 'kike123',
   'host': '127.0.0.1',
-  'database': 'pm25',
+  'database': 'temperaturaambiente',
   'raise_on_warnings': True,
 }
 
-tablaPM25 = {} ## Definición de la tabla de contaminantes SO2...
-tablaPM25[nombreBDPM25] = ( 
-    "CREATE TABLE `pm25` ("
-    "   `IDPM25` INT NOT NULL AUTO_INCREMENT,"
+tablaTempAmb = {} ## Definición de la tabla de temperatura ambiental...
+tablaTempAmb[nombreBDTempAmb] = ( 
+    "CREATE TABLE `tempamb` ("
+    "   `IDTMP` INT NOT NULL AUTO_INCREMENT,"
     "   `FECHA` TIMESTAMP NULL,"
     "   `HORA` INT NULL,"
+    "   `ACO` DOUBLE NULL,"
     "   `AJM` DOUBLE NULL,"
     "   `AJU` DOUBLE NULL,"
     "   `BJU` DOUBLE NULL,"
-    "   `CAM` DOUBLE NULL,"
-    "   `CCA` DOUBLE NULL,"
-    "   `COY` DOUBLE NULL,"
+    "   `CHO` DOUBLE NULL,"
+    "   `CUA` DOUBLE NULL,"
+    "   `CUT` DOUBLE NULL,"
+    "   `FAC` DOUBLE NULL,"
     "   `GAM` DOUBLE NULL,"
     "   `HGM` DOUBLE NULL,"
     "   `INN` DOUBLE NULL,"
+    "   `LAA` DOUBLE NULL,"
     "   `MER` DOUBLE NULL,"
     "   `MGH` DOUBLE NULL,"
+    "   `MON` DOUBLE NULL,"
     "   `MPA` DOUBLE NULL,"
     "   `NEZ` DOUBLE NULL,"
     "   `PED` DOUBLE NULL,"
     "   `SAG` DOUBLE NULL,"
     "   `SFE` DOUBLE NULL,"
-    "   `SJA` DOUBLE NULL,"
+    "   `TAH` DOUBLE NULL,"
     "   `TLA` DOUBLE NULL,"
     "   `UAX` DOUBLE NULL,"
     "   `UIZ` DOUBLE NULL,"
+    "   `VIF` DOUBLE NULL,"
     "   `XAL` DOUBLE NULL,"
-    "   PRIMARY KEY (`IDPM25`));"
+    "   PRIMARY KEY (`IDTMP`));"
     "   ENGINE = InnoDB"
 )
 
@@ -158,7 +163,7 @@ else:
 def create_database(cursor):  ## Función para la base de d...
     try:
         cursor.execute(
-            "CREATE DATABASE {} DEFAULT CHARACTER SET 'utf8'".format(nombreBDPM25))
+            "CREATE DATABASE {} DEFAULT CHARACTER SET 'utf8'".format(nombreBDTempAmb))
     except mysql.connector.Error as err:
         print ("   ")
         print("Error al crear la base de datos señalada: {}".format(err))
@@ -171,11 +176,11 @@ def create_database(cursor):  ## Función para la base de d...
 ######################################################################################################################
 
 try:  
-    cnx.database = nombreBDPM25  
+    cnx.database = nombreBDTempAmb  
 except mysql.connector.Error as err:
     if err.errno == errorcode.ER_BAD_DB_ERROR:
         create_database(cursor)
-        cnx.database = nombreBDPM25
+        cnx.database = nombreBDTempAmb
     else:
         print ("   ")
         print(err)
@@ -187,7 +192,7 @@ except mysql.connector.Error as err:
 ##                                                                                                                  ##
 ######################################################################################################################
 
-for name, ddl in tablaPM25.items():
+for name, ddl in tablaTempAmb.items():
     try:
         print ("   ")
         print("Creando la tabla {}: ".format(name), end='')
@@ -209,11 +214,11 @@ for name, ddl in tablaPM25.items():
 ##                                                                                                                  ##
 ######################################################################################################################
 
-direccionFichero = "C:/Users/eacar/Desktop/PM25.xls"
+direccionFichero = "C:/Users/eacar/Desktop/TMP.xls"
 xls = panda.read_excel(direccionFichero)
 
 print ("    ")
-print ("Cargando fichero de contaminantes PM 2.5, puede tardar un momento, por favor espere...")
+print ("Cargando fichero de temperatura, puede tardar un momento, por favor espere...")
 if xls.empty: #Validando si los datos fueron cargados...
     print ("    ")
     print ("Fichero se encuentra vacío, por favor verifique que sea el correcto...")
@@ -228,11 +233,11 @@ else:
 ##                                                                                                                  ##
 ######################################################################################################################
 
-print ("Imprimiendo los primeros 5 registros del registro de contaminante PM 2.5...")
+print ("Imprimiendo los primeros 5 registros del registro de temperatura...")
 print (xls.head(5))
 
 print ("    ")
-print ("Imprimiendo los últimos 5 registros del registro de contaminante PM 2.5...")
+print ("Imprimiendo los últimos 5 registros del registro de temperatura...")
 print (xls.tail(5))
 
 ######################################################################################################################
@@ -267,57 +272,67 @@ xls = xls.fillna("NULL")
 
 fecha = ""
 hora = ""
+aco = ""
 ajm = ""
 aju = ""
 bju = ""
-cam = ""
-cca = ""
-coy = ""
+cho = ""
+cua = ""
+cut = ""
+fac = ""
 gam = ""
 hgm = ""
 inn = ""
+laa = ""
 mer = ""
 mgh = ""
+mon = ""
 mpa = ""
 nez = ""
 ped = ""
 sag = ""
 sfe = ""
-sja = ""
+tah = ""
 tla = ""
 uax = ""
 uiz = ""
+vif = ""
 xal = ""
 
-datosPM25 = {
+datosTMP = {
     'datoFecha' : fecha,
     'datoHora' : hora,
+    'datoACO' : aco,
     'datoAJM' : ajm,
     'datoAJU' : aju,
     'datoBJU' : bju,
-    'datoCAM' : cam,
-    'datoCCA' : cca,
-    'datoCOY' : coy,
+    'datoCHO' : cho,
+    'datoCUA' : cua,
+    'datoCUT' : cut,
+    'datoFAC' : fac,
     'datoGAM' : gam,
     'datoHGM' : hgm,
     'datoINN' : inn,
+    'datoLAA' : laa,
     'datoMER' : mer,
     'datoMGH' : mgh,
+    'datoMON' : mon,
     'datoMPA' : mpa,
     'datoNEZ' : nez,
     'datoPED' : ped,
     'datoSAG' : sag,
     'datoSFE' : sfe,
-    'datoTJA' : sja,
+    'datoTAH' : tah,
     'datoTLA' : tla,
     'datoUAX' : uax,
     'datoUIZ' : uiz,
+    'datoVIF' : vif,
     'datoXAL' : xal,
 }
 
-addPM25 = ("INSERT INTO pm25"
-                "(FECHA, HORA, AJM, AJU, BJU, CAM, CCA, COY, GAM, HGM, INN, MER, MGH, MPA, NEZ, PED, SAG, SFE, SJA, TLA, UAX, UIZ, XAL)"
-                "VALUES (%(datoFecha)s, %(datoHora)s, %(datoAJM)s, %(datoAJU)s, %(datoBJU)s, %(datoCAM)s, %(datoCCA)s, %(datoCOY)s, %(datoGAM)s, %(datoHGM)s, %(datoINN)s, %(datoMER)s, %(datoMGH)s, %(datoMPA)s, %(datoNEZ)s, %(datoPED)s, %(datoSAG)s, %(datoSFE)s, %(datoSJA)s, %(datoTLA)s, %(datoUAX)s, %(datoUIZ)s, %(datoXAL)s)"
+addTMP = ("INSERT INTO tempamb"
+                "(FECHA, HORA, ACO, AJM, AJU, BJU, CHO, CUA, CUT, FAC, GAM, HGM, INN, LAA, MER, MGH, MON, MPA, NEZ, PED, SAG, SFE, TAH, TLA, UAX, UIZ, VIF, XAL)"
+                "VALUES (%(datoFecha)s, %(datoHora)s, %(datoACO)s, %(datoAJM)s, %(datoAJU)s, %(datoBJU)s, %(datoCHO)s, %(datoCUA)s, %(datoCUT)s, %(datoFAC)s, %(datoGAM)s, %(datoHGM)s, %(datoINN)s, %(datoLAA)s, %(datoMER)s, %(datoMGH)s, %(datoMON)s, %(datoMPA)s, %(datoNEZ)s, %(datoPED)s, %(datoSAG)s, %(datoSFE)s, %(datoTAH)s, %(datoTLA)s, %(datoUAX)s, %(datoUIZ)s, %(datoVIF)s, %(datoXAL)s)"
             )
 
 ######################################################################################################################
@@ -330,56 +345,66 @@ addPM25 = ("INSERT INTO pm25"
 for i in range(0, len(xls)):
     fecha = datetime.date(xls.iloc[i,0])
     hora = xls.iloc[i,1]
-    ajm = xls.iloc[i,2]
-    aju = xls.iloc[i,3]
-    bju = xls.iloc[i,4]
-    cam = xls.iloc[i,5]
-    cca = xls.iloc[i,6]
-    coy = xls.iloc[i,7]
-    gam = xls.iloc[i,8]
-    hgm = xls.iloc[i,9]
-    inn = xls.iloc[i,10]
-    mer = xls.iloc[i,11]
-    mgh = xls.iloc[i,12]
-    mpa = xls.iloc[i,13]
-    nez = xls.iloc[i,14]
-    ped = xls.iloc[i,15]
-    sag = xls.iloc[i,16]
-    sfe = xls.iloc[i,17]
-    sja = xls.iloc[i,18]
-    tla = xls.iloc[i,19]
-    uax = xls.iloc[i,20]
-    uiz = xls.iloc[i,21]
-    xal = xls.iloc[i,22]
+    aco = xls.iloc[i,2]
+    ajm = xls.iloc[i,3]
+    aju = xls.iloc[i,4]
+    bju = xls.iloc[i,5]
+    cho = xls.iloc[i,6]
+    cua = xls.iloc[i,7]
+    cut = xls.iloc[i,8]
+    fac = xls.iloc[i,9]
+    gam = xls.iloc[i,10]
+    hgm = xls.iloc[i,11]
+    inn = xls.iloc[i,12]
+    laa = xls.iloc[i,13]
+    mer = xls.iloc[i,14]
+    mgh = xls.iloc[i,15]
+    mon = xls.iloc[i,16]
+    mpa = xls.iloc[i,17]
+    nez = xls.iloc[i,18]
+    ped = xls.iloc[i,19]
+    sag = xls.iloc[i,20]
+    sfe = xls.iloc[i,21]
+    tah = xls.iloc[i,22]
+    tla = xls.iloc[i,23]
+    uax = xls.iloc[i,24]
+    uiz = xls.iloc[i,25]
+    vif = xls.iloc[i,26]
+    xal = xls.iloc[i,27]
 
-    datosPM25 = {
+    datosTMP = {
     'datoFecha' : fecha,
     'datoHora' : hora,
+    'datoACO' : aco,
     'datoAJM' : ajm,
     'datoAJU' : aju,
     'datoBJU' : bju,
-    'datoCAM' : cam,
-    'datoCCA' : cca,
-    'datoCOY' : coy,
+    'datoCHO' : cho,
+    'datoCUA' : cua,
+    'datoCUT' : cut,
+    'datoFAC' : fac,
     'datoGAM' : gam,
     'datoHGM' : hgm,
     'datoINN' : inn,
+    'datoLAA' : laa,
     'datoMER' : mer,
     'datoMGH' : mgh,
+    'datoMON' : mon,
     'datoMPA' : mpa,
     'datoNEZ' : nez,
     'datoPED' : ped,
     'datoSAG' : sag,
     'datoSFE' : sfe,
-    'datoSJA' : sja,
+    'datoTAH' : tah,
     'datoTLA' : tla,
     'datoUAX' : uax,
     'datoUIZ' : uiz,
+    'datoVIF' : vif,
     'datoXAL' : xal,
     }
 
     print ("Insertando registro " + str(i) + " de " + str(len(xls)))
-    cursor.execute(addPM25, datosPM25)
+    cursor.execute(addTMP, datosTMP)
     cnx.commit()
     print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(xls))) +  " porciento del total de datos")
 

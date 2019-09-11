@@ -1,20 +1,18 @@
 ######################################################################################################################
 ##                                                                                                                  ##
-##        Módulo Python 3.6.5 para leer un fichero csv y guardar la información  en una base de datos MySQL         ##
+##    Módulo Python 3.6.5 (32 bits) para leer un fichero xls y guardar la información en una base de datos MySQL    ##
 ##                                     mediante las librerías pandas y mysql                                        ##
 ##                                                                                                                  ##
-##                     Se leen los csv pertenecientes al Wearable Empatica obteniendo registros de:                 ##    
-##                                                 1) IBI                                                           ##
-##                                                 2) HRV                                                           ##
-##                                                 3) EDA                                                           ##
-##                                                 4) ACC                                                           ##
-##                                                 5) BVP                                                           ##
+##                    Se leen los datos pertenecientes a los valores de información personal                        ##
+##                     de las estaciones de medición Ciudad de México y el Estado de México                         ##
+##                  Actualmente se encuentran registrados los datos desde 01/01/2018 a 28/02/2019                   ##    
 ##                                                                                                                  ## 
 ##                Se muestran los primeros y últimos 5 registros para ver si la información es correcta             ##
-##                           Se determina el número total de campos vacíos en los datos                             ##
-##                                                 Versión 1.8.1                                                    ##
+##                            Se determina el número total de campos vacíos en los datos                            ##
+##                         Los campos que no presentan medición se marcan con el valor '-99'                        ##
+##                                                 Versión 1.12.5                                                   ##
 ##                                          Fecha creación: 1/02/2018                                               ##
-##                                        Última modificación: 19/02/2019                                           ##
+##                                        Última modificación: 19/04/2019                                           ##
 ##                                         Enrique Alfonso Carmona García                                           ##
 ##                                          eacarmona860920@gmail.com                                               ##
 ##                         La información relativa a la librería pandas puede ser consultada en:                    ##
@@ -31,38 +29,24 @@
 ##                                                                                                                  ##
 ##                                      Cargando las librerías necesarias...                                        ##
 ##                                                                                                                  ##
-######################################################################################################################  
+###################################################################################################################### 
 
 import pandas as panda
 import mysql.connector
 from mysql.connector import errorcode
+from datetime import datetime
 
 ######################################################################################################################
 ##                                                                                                                  ##
 ##                                      Listado de variables utilizadas...                                          ##
 ##                                                                                                                  ##
-## direccionFichero [Contiene la ruta donde se encuentra el fichero csv a leer]...                                  ##
-## (direccionFicheroIBI, direccionFicheroHRV, direccionFicheroEDA, direccionFicheroACC, direccionFicheroBVP)...     ##
-## csv [Contiene la información del fichero csv cargado]...                                                         ##
-## (csvIBI, csvHRV, csvEDA, csvACC, csvBVP)...                                                                      ##
+## direccionFichero [Contiene la ruta donde se encuentra el fichero xls a leer]...                                  ##
 ##                                                                                                                  ##
 ## config [Contiene la información de configuración del servidor de base de datos MySQL]...                         ##
 ## nombreBd [Contiene el nombre de la base de datos]...                                                             ##
-## (nombreBdUsuario, nombreBdWearable, nombreBdAlmacenWearable)...                                                  ##
 ## tabla [Contiene las instrucciones SQL necesarias para crear las tablas en la base de datos]...                   ##
-## (tablaUsuario, tablaWearable, tablaALmacenWearable)...                                                           ##
-##                                                                                                                  ##
-## Las variables (idUsuario, nombreUsuario, primerApellidoUsuario, segundoApellidoUsuario, sexoUsuario,             ##
-## edadUsuario, pesoUsuario, frecuenciaEjercicioUsuario) contienen la información de los usuarios...                ##
-## Las variables (idWearable, tiempoWearable, ibiWearable, hrvWearable, edaWearable, bvpWearable, accXWearable,     ##
-## accYWearable, accZWearable) contienen la información de cada uno de los registros del csv cargado...             ##
-##                                                                                                                  ##                                                        
-## datosUsuario [Contiene toda la información necesaria para insertar un nuevo registro en la base de datos]...     ##
-## datosWearable [Contiene toda la información necesaria para insertar un nuevo registro en la base de datos]...    ##
-## datosAlmacenWearable [Contiene toda la información para insertar un nuevo registro en la base de datos]...       ##
-## addUsuario [Contiene las instrucciones SQL necesarias para insertar un registro nuevo en la base de datos]...    ##
-## addWearable [Contiene las instrucciones SQL necesarias para insertar un registro nuevo en la base de datos]...   ##
-## addAlmacenWearable [Contiene las instrucciones SQL para insertar un registro nuevo en la base de datos]...       ##
+## datos [Contiene toda la información necesaria para insertar un nuevo registro en la base de datos]...            ##
+## add [Contiene las instrucciones SQL para insertar un registro nuevo en la base de datos]...                      ##
 ## cnx [Para manejar la conección al servidor MySQL]...                                                             ##
 ## cursor [Para indicar las instrucciones al servidor MySQL]...                                                     ##
 ##                                                                                                                  ##
@@ -74,3 +58,279 @@ from mysql.connector import errorcode
 ##                          Estableciendo la esctructura de las tablas en la base de datos...                       ##
 ##                                                                                                                  ##
 ######################################################################################################################
+
+nombreBDUsuarios = 'sujetos'  ## Configuración para la base de dato de temperatura ambiental TMP...
+config = {
+  'user': 'kike',
+  'password': 'kike123',
+  'host': '127.0.0.1',
+  'database': 'sujetos',
+  'raise_on_warnings': True,
+}
+
+tablaUsuarios = {} ## Definición de la tabla de temperatura ambiental...
+tablaUsuarios[nombreBDUsuarios] = ( 
+    "CREATE TABLE `infopersonal` ("
+    "   `IDUSER` INT NOT NULL AUTO_INCREMENT,"
+    "   `NOMBRE` TEXT NULL,"
+    "   `PAPELLIDO` TEXT NULL,"
+    "   `SAPELLIDO` TEXT NULL,"
+    "   `SEXO` TEXT NULL,"
+    "   `EDAD` INT NULL,"
+    "   `PESO` DOUBLE NULL,"
+    "   `ACTFISICA` TEXT NULL,"
+    "   `SOMATOTIPO` TEXT NULL,"
+    "   `HALIMENTARIOS` TEXT NULL,"
+    "   `HDESCANSO` TEXT NULL,"
+    "   `ACTLIBRE` TEXT NULL,"
+    "   PRIMARY KEY (`IDUSER`));"
+    "   ENGINE = InnoDB"
+)
+
+######################################################################################################################
+##                                                                                                                  ##
+##                   Creando una clase para convertir los tipos de datos a tipos MySQL...                           ##
+##                                                                                                                  ##
+######################################################################################################################
+
+class NumpyMySQLConverter(mysql.connector.conversion.MySQLConverter):
+    
+    """ A mysql.connector Converter que es capaz de manejar los tipos de datos de Numpy """
+
+    def _float32_to_mysql(self, value):
+        return float(value)
+
+    def _float64_to_mysql(self, value):
+        return float(value)
+
+    def _int32_to_mysql(self, value):
+        return int(value)
+
+    def _int64_to_mysql(self, value):
+        return int(value) 
+
+    def _timestamp_to_mysql(self, value):
+        return datetime.timestamp(value)
+
+######################################################################################################################
+##                                                                                                                  ##
+##                       Conectando al SGBD MySQL y creando las tablas definidas...                                 ##
+##                                                                                                                  ##
+######################################################################################################################
+
+try:
+    print ("Creando las variables de conexión...")
+    cnx = mysql.connector.connect(**config)
+    cnx.set_converter_class(NumpyMySQLConverter)
+except mysql.connector.Error as err:
+  if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+    print ("   ")
+    print("Su usuario o contraseña no son correctos, por favor verifique...")
+  elif err.errno == errorcode.ER_BAD_DB_ERROR:
+    print ("   ")
+    print("No existe la base de datos, por favor verifique...")
+  else:
+    print ("   ")
+    print(err)
+else:
+    print ("   ")
+    print ("Conexión exitosa...")
+    cursor = cnx.cursor()
+
+######################################################################################################################
+##                                                                                                                  ##
+##                           Función para crear la base de datos en el formato correspondiente...                   ##
+##                                                                                                                  ##
+######################################################################################################################
+
+def create_database(cursor):  ## Función para la base de d...
+    try:
+        cursor.execute(
+            "CREATE DATABASE {} DEFAULT CHARACTER SET 'utf8'".format(nombreBDUsuarios))
+    except mysql.connector.Error as err:
+        print ("   ")
+        print("Error al crear la base de datos señalada: {}".format(err))
+        exit(1)
+
+######################################################################################################################
+##                                                                                                                  ##
+##                                          Se solicita crear las base de datos...                                  ##
+##                                                                                                                  ##
+######################################################################################################################
+
+try:  
+    cnx.database = nombreBDUsuarios  
+except mysql.connector.Error as err:
+    if err.errno == errorcode.ER_BAD_DB_ERROR:
+        create_database(cursor)
+        cnx.database = nombreBDUsuarios
+    else:
+        print ("   ")
+        print(err)
+        exit(1) 
+
+######################################################################################################################
+##                                                                                                                  ##
+##                                  Se solicita crear todas las tablas definidas...                                 ##
+##                                                                                                                  ##
+######################################################################################################################
+
+for name, ddl in tablaUsuarios.items():
+    try:
+        print ("   ")
+        print("Creando la tabla {}: ".format(name), end='')
+        cursor.execute(ddl)
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
+            print ("   ")
+            print("Ya existe la base de datos...")
+        else:
+            print ("   ")
+            print(err.msg)
+    else:
+        print ("   ")
+        print("Tablas creadas...")
+
+######################################################################################################################
+##                                                                                                                  ##
+##                                       Cargando el fichero con la información...                                  ##
+##                                                                                                                  ##
+######################################################################################################################
+
+direccionFichero = "C:/Users/eacar/Desktop/USER.xls"
+xls = panda.read_excel(direccionFichero)
+
+print ("    ")
+print ("Cargando fichero de temperatura, puede tardar un momento, por favor espere...")
+if xls.empty: #Validando si los datos fueron cargados...
+    print ("    ")
+    print ("Fichero se encuentra vacío, por favor verifique que sea el correcto...")
+else:
+    print ("    ")
+    print ("Fichero cargado exitosamente...")
+
+######################################################################################################################
+##                                                                                                                  ##
+##                       Mostrando los primeros 5 valores cargados de cada uno de los ficheros...                   ##
+##                        Mostrando los últimos 5 valores cargados de cada uno de los ficheros...                   ##
+##                                                                                                                  ##
+######################################################################################################################
+
+print ("Imprimiendo los primeros 5 registros del registro de temperatura...")
+print (xls.head(5))
+
+print ("    ")
+print ("Imprimiendo los últimos 5 registros del registro de temperatura...")
+print (xls.tail(5))
+
+######################################################################################################################
+##                                                                                                                  ##
+##                          Determinando cantidad de campos vacíos en los datos...                                  ##
+##                                                                                                                  ##
+######################################################################################################################
+
+print ("    ")
+print ("En los datos existen la siguientes cantidad de datos vacíos:")
+info = xls.apply(lambda x: sum(x.isnull()),axis=0)
+print (info)
+
+######################################################################################################################
+##                                                                                                                  ##
+##                              Rellenando todos los valores vacios con el campo NULL...                            ##
+##                 Esto es necesario para poder insertar correctamente los valores en la base de datos...           ##
+##                                                                                                                  ##
+######################################################################################################################
+
+print ("    ")
+print ("Rellenando los campos vacíos con el valor NULL ...")
+xls = xls.fillna("NULL")
+
+######################################################################################################################
+##                                                                                                                  ##
+##      Las variables corresponden a sus respectivos campos en la base de datos (Ver descripción anterior)...       ##
+##         datosEgreso [Contiene la información necesaria para hacer la inserción en la base de datos]...           ##
+##                 addEgreso [Consulta SQL que inserta la información en la base de datos]...                       ##
+##                                                                                                                  ##
+######################################################################################################################
+
+nombre = ""
+papellido = ""
+sapellido = ""
+sexo = ""
+edad = ""
+peso = ""
+actfisica = ""
+somatotipo = ""
+halimentarios = ""
+hdescanso = ""
+actlibre = ""
+
+datosUser = {
+    'datoNombre' : nombre,
+    'datoPApellido' : papellido,
+    'datoSApellido' : sapellido,
+    'datoSexo' : sexo,
+    'datoEdad' : edad,
+    'datoPeso' : peso,
+    'datoActFisica' : actfisica,
+    'datoSomatotipo' : somatotipo,
+    'datoHAlimentarios' : halimentarios,
+    'datoHDescanso' : hdescanso,
+    'datoActLibre' : actlibre,
+}
+
+addUser = ("INSERT INTO infopersonal"
+                "(NOMBRE, PAPELLIDO, SAPELLIDO, SEXO, EDAD, PESO, ACTFISICA, SOMATOTIPO, HALIMENTARIOS, HDESCANSO, ACTLIBRE)"
+                "VALUES (%(datoNombre)s, %(datoPApellido)s, %(datoSApellido)s, %(datoSexo)s, %(datoEdad)s, %(datoPeso)s, %(datoActFisica)s, %(datoSomatotipo)s, %(datoHAlimentarios)s, %(datoHDescanso)s, %(datoActLibre)s)"
+            )
+
+######################################################################################################################
+##                                                                                                                  ##
+##                             Se leen los valores del xls y se asignan a las variables...                          ##
+##                 Esto es necesario para poder insertar correctamente los valores en la base de datos...           ##
+##                                                                                                                  ##
+######################################################################################################################
+
+for i in range(0, len(xls)):
+    nombre = xls.iloc[i,0]
+    papellido = xls.iloc[i,1]
+    sapellido = xls.iloc[i,2]
+    sexo = xls.iloc[i,3]
+    edad = xls.iloc[i,4]
+    peso = xls.iloc[i,5]
+    actfisica = xls.iloc[i,6]
+    somatotipo = xls.iloc[i,7]
+    halimentarios = xls.iloc[i,8]
+    hdescanso = xls.iloc[i,9]
+    actfisica = xls.iloc[i,10]
+  
+    datosUser = {
+    'datoNombre' : nombre,
+    'datoPApellido' : papellido,
+    'datoSApellido' : sapellido,
+    'datoSexo' : sexo,
+    'datoEdad' : edad,
+    'datoPeso' : peso,
+    'datoActFisica' : actfisica,
+    'datoSomatotipo' : somatotipo,
+    'datoHAlimentarios' : halimentarios,
+    'datoHDescanso' : hdescanso,
+    'datoActLibre' : actlibre,
+    }
+
+    print ("Insertando registro " + str(i) + " de " + str(len(xls)))
+    cursor.execute(addUser, datosUser)
+    cnx.commit()
+    print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(xls))) +  " porciento del total de datos")
+
+######################################################################################################################
+##                                                                                                                  ##
+##                                     Cerrando las conexiones a la base de datos...                                ##
+##                                                                                                                  ##
+######################################################################################################################
+
+print ("Se insertaron adecuadamente el 100 porciento de los datos del xls en la base de datos.")
+cursor.close()
+cnx.close()
+
+

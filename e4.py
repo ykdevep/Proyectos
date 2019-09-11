@@ -40,33 +40,19 @@
 import pandas as panda
 import mysql.connector
 from mysql.connector import errorcode
+from datetime import datetime
 
 ######################################################################################################################
 ##                                                                                                                  ##
 ##                                      Listado de variables utilizadas...                                          ##
 ##                                                                                                                  ##
-## direccionFichero [Contiene la ruta donde se encuentra el fichero csv a leer]...                                  ##
-## (direccionFicheroIBI, direccionFicheroHRV, direccionFicheroEDA, direccionFicheroACC, direccionFicheroBVP)...     ##
-## csv [Contiene la información del fichero csv cargado]...                                                         ##
-## (csvIBI, csvHRV, csvEDA, csvACC, csvBVP)...                                                                      ##
+## direccionFichero [Contiene la ruta donde se encuentra el fichero xls a leer]...                                  ##
 ##                                                                                                                  ##
 ## config [Contiene la información de configuración del servidor de base de datos MySQL]...                         ##
 ## nombreBd [Contiene el nombre de la base de datos]...                                                             ##
-## (nombreBdUsuario, nombreBdWearable, nombreBdAlmacenWearable)...                                                  ##
 ## tabla [Contiene las instrucciones SQL necesarias para crear las tablas en la base de datos]...                   ##
-## (tablaUsuario, tablaWearable, tablaALmacenWearable)...                                                           ##
-##                                                                                                                  ##
-## Las variables (idUsuario, nombreUsuario, primerApellidoUsuario, segundoApellidoUsuario, sexoUsuario,             ##
-## edadUsuario, pesoUsuario, frecuenciaEjercicioUsuario) contienen la información de los usuarios...                ##
-## Las variables (idWearable, tiempoWearable, ibiWearable, hrvWearable, edaWearable, bvpWearable, accXWearable,     ##
-## accYWearable, accZWearable) contienen la información de cada uno de los registros del csv cargado...             ##
-##                                                                                                                  ##                                                        
-## datosUsuario [Contiene toda la información necesaria para insertar un nuevo registro en la base de datos]...     ##
-## datosWearable [Contiene toda la información necesaria para insertar un nuevo registro en la base de datos]...    ##
-## datosAlmacenWearable [Contiene toda la información para insertar un nuevo registro en la base de datos]...       ##
-## addUsuario [Contiene las instrucciones SQL necesarias para insertar un registro nuevo en la base de datos]...    ##
-## addWearable [Contiene las instrucciones SQL necesarias para insertar un registro nuevo en la base de datos]...   ##
-## addAlmacenWearable [Contiene las instrucciones SQL para insertar un registro nuevo en la base de datos]...       ##
+## datos [Contiene toda la información necesaria para insertar un nuevo registro en la base de datos]...            ##
+## add [Contiene las instrucciones SQL para insertar un registro nuevo en la base de datos]...                      ##
 ## cnx [Para manejar la conección al servidor MySQL]...                                                             ##
 ## cursor [Para indicar las instrucciones al servidor MySQL]...                                                     ##
 ##                                                                                                                  ##
@@ -79,3 +65,483 @@ from mysql.connector import errorcode
 ##                                                                                                                  ##
 ######################################################################################################################
 
+nombreBDWearable = 'e4wearable'  ## Configuración para la base de dato de temperatura ambiental TMP...
+config = {
+  'user': 'kike',
+  'password': 'kike123',
+  'host': '127.0.0.1',
+  'database': 'e4wearable',
+  'raise_on_warnings': True,
+}
+
+tablaBVP = {} ## Definición de la tabla de temperatura ambiental...
+tablaBVP[nombreBDWearable] = ( 
+    "CREATE TABLE `bvp` ("
+    "   `IDBVP` INT NOT NULL AUTO_INCREMENT,"
+    "   `FECHATIME` DOUBLE NULL,"
+    "   `BVP` DOUBLE NULL,"
+    "   PRIMARY KEY (`IDBVP`));"
+    "   ENGINE = InnoDB"
+)
+
+tablaEDA = {} ## Definición de la tabla de temperatura ambiental...
+tablaEDA[nombreBDWearable] = ( 
+    "CREATE TABLE `eda` ("
+    "   `IDEDA` INT NOT NULL AUTO_INCREMENT,"
+    "   `FECHATIME` DOUBLE NULL,"
+    "   `EDA` DOUBLE NULL,"
+    "   PRIMARY KEY (`IDEDA`));"
+    "   ENGINE = InnoDB"
+)
+
+tablaHR = {} ## Definición de la tabla de temperatura ambiental...
+tablaHR[nombreBDWearable] = ( 
+    "CREATE TABLE `hr` ("
+    "   `IDHR` INT NOT NULL AUTO_INCREMENT,"
+    "   `FECHATIME` DOUBLE NULL,"
+    "   `HR` DOUBLE NULL,"
+    "   PRIMARY KEY (`IDHR`));"
+    "   ENGINE = InnoDB"
+)
+
+tablaTEMP = {} ## Definición de la tabla de temperatura ambiental...
+tablaTEMP[nombreBDWearable] = ( 
+    "CREATE TABLE `temp` ("
+    "   `IDTEMP` INT NOT NULL AUTO_INCREMENT,"
+    "   `FECHATIME` DOUBLE NULL,"
+    "   `TEMP` DOUBLE NULL,"
+    "   PRIMARY KEY (`IDTEMP`));"
+    "   ENGINE = InnoDB"
+)
+
+######################################################################################################################
+##                                                                                                                  ##
+##                   Creando una clase para convertir los tipos de datos a tipos MySQL...                           ##
+##                                                                                                                  ##
+######################################################################################################################
+
+class NumpyMySQLConverter(mysql.connector.conversion.MySQLConverter):
+    
+    """ A mysql.connector Converter que es capaz de manejar los tipos de datos de Numpy """
+
+    def _float32_to_mysql(self, value):
+        return float(value)
+
+    def _float64_to_mysql(self, value):
+        return float(value)
+
+    def _int32_to_mysql(self, value):
+        return int(value)
+
+    def _int64_to_mysql(self, value):
+        return int(value) 
+
+    def _timestamp_to_mysql(self, value):
+        return datetime.timestamp(value)
+
+######################################################################################################################
+##                                                                                                                  ##
+##                       Conectando al SGBD MySQL y creando las tablas definidas...                                 ##
+##                                                                                                                  ##
+######################################################################################################################
+
+try:
+    print ("Creando las variables de conexión...")
+    cnx = mysql.connector.connect(**config)
+    cnx.set_converter_class(NumpyMySQLConverter)
+except mysql.connector.Error as err:
+  if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+    print ("   ")
+    print("Su usuario o contraseña no son correctos, por favor verifique...")
+  elif err.errno == errorcode.ER_BAD_DB_ERROR:
+    print ("   ")
+    print("No existe la base de datos, por favor verifique...")
+  else:
+    print ("   ")
+    print(err)
+else:
+    print ("   ")
+    print ("Conexión exitosa...")
+    cursor = cnx.cursor()
+
+######################################################################################################################
+##                                                                                                                  ##
+##                           Función para crear la base de datos en el formato correspondiente...                   ##
+##                                                                                                                  ##
+######################################################################################################################
+
+def create_database(cursor):  ## Función para la base de d...
+    try:
+        cursor.execute(
+            "CREATE DATABASE {} DEFAULT CHARACTER SET 'utf8'".format(nombreBDWearable))
+    except mysql.connector.Error as err:
+        print ("   ")
+        print("Error al crear la base de datos señalada: {}".format(err))
+        exit(1)
+
+######################################################################################################################
+##                                                                                                                  ##
+##                                          Se solicita crear las base de datos...                                  ##
+##                                                                                                                  ##
+######################################################################################################################
+
+try:  
+    cnx.database = nombreBDWearable  
+except mysql.connector.Error as err:
+    if err.errno == errorcode.ER_BAD_DB_ERROR:
+        create_database(cursor)
+        cnx.database = nombreBDWearable
+    else:
+        print ("   ")
+        print(err)
+        exit(1) 
+
+######################################################################################################################
+##                                                                                                                  ##
+##                                  Se solicita crear todas las tablas definidas...                                 ##
+##                                                                                                                  ##
+######################################################################################################################
+
+for name, ddl in tablaBVP.items():
+    try:
+        print ("   ")
+        print("Creando la tabla {}: ".format(name), end='')
+        cursor.execute(ddl)
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
+            print ("   ")
+            print("Ya existe la base de datos...")
+        else:
+            print ("   ")
+            print(err.msg)
+    else:
+        print ("   ")
+        print("Tablas creadas...")
+
+for name, ddl in tablaEDA.items():
+    try:
+        print ("   ")
+        print("Creando la tabla {}: ".format(name), end='')
+        cursor.execute(ddl)
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
+            print ("   ")
+            print("Ya existe la base de datos...")
+        else:
+            print ("   ")
+            print(err.msg)
+    else:
+        print ("   ")
+        print("Tablas creadas...")
+
+for name, ddl in tablaHR.items():
+    try:
+        print ("   ")
+        print("Creando la tabla {}: ".format(name), end='')
+        cursor.execute(ddl)
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
+            print ("   ")
+            print("Ya existe la base de datos...")
+        else:
+            print ("   ")
+            print(err.msg)
+    else:
+        print ("   ")
+        print("Tablas creadas...")
+
+for name, ddl in tablaTEMP.items():
+    try:
+        print ("   ")
+        print("Creando la tabla {}: ".format(name), end='')
+        cursor.execute(ddl)
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
+            print ("   ")
+            print("Ya existe la base de datos...")
+        else:
+            print ("   ")
+            print(err.msg)
+    else:
+        print ("   ")
+        print("Tablas creadas...")
+
+######################################################################################################################
+##                                                                                                                  ##
+##                                       Cargando el fichero con la información...                                  ##
+##                                                                                                                  ##
+######################################################################################################################
+
+direccionFichero = "C:/Users/eacar/Desktop/BVP.csv"
+bvp = panda.read_csv(direccionFichero)
+
+print ("    ")
+print ("Cargando fichero de BVP, puede tardar un momento, por favor espere...")
+if bvp.empty: #Validando si los datos fueron cargados...
+    print ("    ")
+    print ("Fichero se encuentra vacío, por favor verifique que sea el correcto...")
+else:
+    print ("    ")
+    print ("Fichero cargado exitosamente...")
+
+direccionFichero = "C:/Users/eacar/Desktop/EDA.csv"
+eda = panda.read_csv(direccionFichero)
+
+print ("    ")
+print ("Cargando fichero de EDA, puede tardar un momento, por favor espere...")
+if eda.empty: #Validando si los datos fueron cargados...
+    print ("    ")
+    print ("Fichero se encuentra vacío, por favor verifique que sea el correcto...")
+else:
+    print ("    ")
+    print ("Fichero cargado exitosamente...")
+
+direccionFichero = "C:/Users/eacar/Desktop/HR.csv"
+hr = panda.read_csv(direccionFichero)
+
+print ("    ")
+print ("Cargando fichero de HR, puede tardar un momento, por favor espere...")
+if hr.empty: #Validando si los datos fueron cargados...
+    print ("    ")
+    print ("Fichero se encuentra vacío, por favor verifique que sea el correcto...")
+else:
+    print ("    ")
+    print ("Fichero cargado exitosamente...")
+
+direccionFichero = "C:/Users/eacar/Desktop/TEMP.csv"
+temp = panda.read_csv(direccionFichero)
+
+print ("    ")
+print ("Cargando fichero de temperatura, puede tardar un momento, por favor espere...")
+if temp.empty: #Validando si los datos fueron cargados...
+    print ("    ")
+    print ("Fichero se encuentra vacío, por favor verifique que sea el correcto...")
+else:
+    print ("    ")
+    print ("Fichero cargado exitosamente...")
+
+######################################################################################################################
+##                                                                                                                  ##
+##                       Mostrando los primeros 5 valores cargados de cada uno de los ficheros...                   ##
+##                        Mostrando los últimos 5 valores cargados de cada uno de los ficheros...                   ##
+##                                                                                                                  ##
+######################################################################################################################
+
+print ("Imprimiendo los primeros 5 registros del registro de temperatura...")
+print (bvp.head(5))
+
+print ("    ")
+print ("Imprimiendo los últimos 5 registros del registro de temperatura...")
+print (bvp.tail(5))
+
+print ("Imprimiendo los primeros 5 registros del registro de temperatura...")
+print (eda.head(5))
+
+print ("    ")
+print ("Imprimiendo los últimos 5 registros del registro de temperatura...")
+print (eda.tail(5))
+
+print ("Imprimiendo los primeros 5 registros del registro de temperatura...")
+print (hr.head(5))
+
+print ("    ")
+print ("Imprimiendo los últimos 5 registros del registro de temperatura...")
+print (hr.tail(5))
+
+print ("Imprimiendo los primeros 5 registros del registro de temperatura...")
+print (temp.head(5))
+
+print ("    ")
+print ("Imprimiendo los últimos 5 registros del registro de temperatura...")
+print (temp.tail(5))
+
+######################################################################################################################
+##                                                                                                                  ##
+##                          Determinando cantidad de campos vacíos en los datos...                                  ##
+##                                                                                                                  ##
+######################################################################################################################
+
+print ("    ")
+print ("En los datos existen la siguientes cantidad de datos vacíos:")
+info = bvp.apply(lambda x: sum(x.isnull()),axis=0)
+print (info)
+
+print ("    ")
+print ("En los datos existen la siguientes cantidad de datos vacíos:")
+info = eda.apply(lambda x: sum(x.isnull()),axis=0)
+print (info)
+
+print ("    ")
+print ("En los datos existen la siguientes cantidad de datos vacíos:")
+info = hr.apply(lambda x: sum(x.isnull()),axis=0)
+print (info)
+
+print ("    ")
+print ("En los datos existen la siguientes cantidad de datos vacíos:")
+info = temp.apply(lambda x: sum(x.isnull()),axis=0)
+print (info)
+
+######################################################################################################################
+##                                                                                                                  ##
+##                              Rellenando todos los valores vacios con el campo NULL...                            ##
+##                 Esto es necesario para poder insertar correctamente los valores en la base de datos...           ##
+##                                                                                                                  ##
+######################################################################################################################
+
+print ("    ")
+print ("Rellenando los campos vacíos con el valor NULL ...")
+bvp = bvp.fillna("NULL")
+
+print ("    ")
+print ("Rellenando los campos vacíos con el valor NULL ...")
+eda = eda.fillna("NULL")
+
+print ("    ")
+print ("Rellenando los campos vacíos con el valor NULL ...")
+hr = hr.fillna("NULL")
+
+print ("    ")
+print ("Rellenando los campos vacíos con el valor NULL ...")
+temp = temp.fillna("NULL")
+
+######################################################################################################################
+##                                                                                                                  ##
+##      Las variables corresponden a sus respectivos campos en la base de datos (Ver descripción anterior)...       ##
+##         datosEgreso [Contiene la información necesaria para hacer la inserción en la base de datos]...           ##
+##                 addEgreso [Consulta SQL que inserta la información en la base de datos]...                       ##
+##                                                                                                                  ##
+######################################################################################################################
+
+fechaTimeBVP = ""
+bvpDatos = ""
+
+datosBVP = {
+    'datoFechaTimeBVP' : fechaTimeBVP,
+    'datoBVPDato' : bvpDatos,
+}
+
+addBVP = ("INSERT INTO bvp"
+                "(FECHATIME, BVP)"
+                "VALUES (%(datoFechaTimeBVP)s, %(datoBVPDato)s)"
+            )
+
+fechaTimeEDA = ""
+edaDatos = ""
+
+datosEDA = {
+    'datoFechaTimeEDA' : fechaTimeEDA,
+    'datoEDADato' : edaDatos,
+}
+
+addEDA = ("INSERT INTO eda"
+                "(FECHATIME, EDA)"
+                "VALUES (%(datoFechaTimeEDA)s, %(datoEDADato)s)"
+            )
+
+fechaTimeHR = ""
+hrDatos = ""
+
+datosHR = {
+    'datoFechaTimeHR' : fechaTimeHR,
+    'datoHRDato' : hrDatos,
+}
+
+addHR = ("INSERT INTO hr"
+                "(FECHATIME, HR)"
+                "VALUES (%(datoFechaTimeHR)s, %(datoHRDato)s)"
+            )
+
+fechaTimeTEMP = ""
+tempDatos = ""
+
+datosTEMP = {
+    'datoFechaTimeTEMP' : fechaTimeTEMP,
+    'datoTEMPDato' : tempDatos,
+}
+
+addTEMP = ("INSERT INTO temp"
+                "(FECHATIME, TEMP)"
+                "VALUES (%(datoFechaTimeTEMP)s, %(datoTEMPDato)s)"
+            )
+
+######################################################################################################################
+##                                                                                                                  ##
+##                             Se leen los valores del xls y se asignan a las variables...                          ##
+##                 Esto es necesario para poder insertar correctamente los valores en la base de datos...           ##
+##                                                                                                                  ##
+######################################################################################################################
+
+fechaTimeBVP = bvp.iloc[0,0]
+fechaTimeBVP = fechaTimeBVP * 1000
+for i in range(24, len(bvp)):
+    fechaTimeBVP = fechaTimeBVP + 15
+    bvpDatos = bvp.iloc[i,0]
+ 
+    datosBVP = {
+    'datoFechaTimeBVP' : fechaTimeBVP,
+    'datoBVPDato' : bvpDatos,
+    }
+
+    print ("Insertando registro " + str(i) + " de " + str(len(bvp)))
+    cursor.execute(addBVP, datosBVP)
+    cnx.commit()
+    print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(bvp))) +  " porciento del total de datos")
+
+print ("Se insertaron adecuadamente el 100 porciento de los datos del xls en la base de datos.")
+
+fechaTimeEDA = eda.iloc[0,0]
+fechaTimeEDA = fechaTimeEDA * 1000
+for i in range(5, len(eda)):
+    fechaTimeEDA = fechaTimeEDA + 250
+    edaDatos = eda.iloc[i,0]
+ 
+    datosEDA = {
+    'datoFechaTimeEDA' : fechaTimeEDA,
+    'datoEDADato' : edaDatos,
+    }
+
+    print ("Insertando registro " + str(i) + " de " + str(len(eda)))
+    cursor.execute(addEDA, datosEDA)
+    cnx.commit()
+    print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(eda))) +  " porciento del total de datos")
+
+print ("Se insertaron adecuadamente el 100 porciento de los datos del xls en la base de datos.")
+
+fechaTimeHR = hr.iloc[0,0]
+fechaTimeHR = fechaTimeHR * 1000
+for i in range(4, len(hr)):
+    fechaTimeHR = fechaTimeHR + 1000
+    hrDatos = hr.iloc[i,0]
+ 
+    datosHR = {
+    'datoFechaTimeHR' : fechaTimeHR,
+    'datoHRDato' : hrDatos,
+    }
+
+    print ("Insertando registro " + str(i) + " de " + str(len(hr)))
+    cursor.execute(addHR, datosHR)
+    cnx.commit()
+    print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(hr))) +  " porciento del total de datos")
+
+print ("Se insertaron adecuadamente el 100 porciento de los datos del xls en la base de datos.")
+
+fechaTimeTEMP = temp.iloc[0,0]
+fechaTimeTEMP = fechaTimeTEMP * 1000
+for i in range(4, len(temp)):
+    fechaTimeTEMP = fechaTimeTEMP + 250
+    tempDatos = temp.iloc[i,0]
+ 
+    datosTEMP = {
+    'datoFechaTimeTEMP' : fechaTimeTEMP,
+    'datoTEMPDato' : tempDatos,
+    }
+
+    print ("Insertando registro " + str(i) + " de " + str(len(temp)))
+    cursor.execute(addTEMP, datosTEMP)
+    cnx.commit()
+    print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(temp))) +  " porciento del total de datos")
+
+print ("Se insertaron adecuadamente el 100 porciento de los datos del xls en la base de datos.")
+
+cursor.close()
+cnx.close()

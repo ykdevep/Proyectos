@@ -4,6 +4,7 @@ import pandas as panda
 import mysql.connector
 from mysql.connector import errorcode
 from datetime import datetime
+import time as pruebaTiempo
 
 
 direccionFichero = "C:/Users/eacar/Desktop/ubic.json"
@@ -57,33 +58,26 @@ xls = json.fillna("NULL")
 print (" FIN ")
 
 
-for i in range(0, 1):
-    print (json.iloc[i,0])
+for i in range(0, 2):
+    print (json.iloc[i])
     control = json.iloc[i,0]
-    valor = []
-    valor.append(json.iloc[i,0])
+    marcaTiempo = control['timestampMs']
+    latitud = control['latitudeE7']
+    longitud = control['longitudeE7']
+    print ("Imprimiendo valores:")
+    print ("tiempo:")
+    print (marcaTiempo)
+    tiempo2 = marcaTiempo[0:10]
+    print (type(tiempo2))
+    print (tiempo2)
+    fecha = pruebaTiempo.ctime(int(tiempo2))
+    fecha2 = datetime.fromtimestamp(int(tiempo2))
+    print ("Fecha:")
+    print (fecha)
+    print (fecha2)
+    print ("latitud:")
+    print (latitud)
+    print ("longitud:")
+    print (longitud)
 
-print ("  ")
-print(valor)
-print("")
-print ("Imprimiendo control")
-print (type(control))
-print (len(control))
-print (control)
-
-datos =  control.values()
-
-print ("Datos diccionario")
-print (datos)
-
-print ("LLaves del diccionario")
-llaves = control.keys()
-print (llaves)
-
-print ("Datos 1")
-print (datos[0])
-
-
-
-print (" FIN 2 ")
-    
+   
