@@ -33,6 +33,7 @@ import pandas as panda
 import mysql.connector
 from mysql.connector import errorcode
 from datetime import datetime
+from geopy import distance
 
 ######################################################################################################################
 ##                                                                                                                  ##
@@ -57,25 +58,61 @@ from datetime import datetime
 ##                                                                                                                  ##
 ######################################################################################################################
 
-nombreBDLoc = 'localizacion'  ## Configuración para la base de dato de localización gegráfica...
+nombreBDAlmacen = 'almacen'  ## Configuración para la base de dato de localización gegráfica...
 config = {
   'user': 'kike',
   'password': 'kike123',
   'host': '127.0.0.1',
-  'database': 'localizacion',
+  'database': 'almacen',
   'raise_on_warnings': True,
 }
 
-tablaLoc = {} ## Definición de la tabla de localización...
-tablaLoc[nombreBDLoc] = ( 
-    "CREATE TABLE `mapslocalizacion` ("
-    "   `IDMAPS` INT NOT NULL AUTO_INCREMENT,"
+config2 = {
+  'user': 'kike',
+  'password': 'kike123',
+  'host': '127.0.0.1',
+  'database': 'estacionesmonitoreo',
+  'raise_on_warnings': True,
+}
+
+tablaAlmacen = {} ## Definición de la tabla de localización...
+tablaAlmacen[nombreBDAlmacen] = ( 
+    "CREATE TABLE `almacendatos` ("
+    "   `IDALDA` INT NOT NULL AUTO_INCREMENT,"
+    "   `IDUSUARIO` INT NULL,"
     "   `FECHA` TIMESTAMP NULL,"
     "   `MARCATIEMPO` DOUBLE NULL,"
-    "   `LATITUD` DOUBLE NULL,"
-    "   `LONGITUD` DOUBLE NULL,"
-    "   `IDUSUARIO` INT NULL,"
-    "   PRIMARY KEY (`IDMAPS`));"
+    "   `SO2` DOUBLE NULL,"
+    "   `TORRESO2` TEXT NULL,"
+    "   `NO2` DOUBLE NULL,"
+    "   `TORRENO2` TEXT NULL,"
+    "   `HR` DOUBLE NULL,"
+    "   `TORREHR` TEXT NULL,"
+    "   `TEMPAMB` DOUBLE NULL,"
+    "   `TORRETEMPAMB` TEXT NULL,"
+    "   `CO` DOUBLE NULL,"
+    "   `TORRECO` TEXT NULL,"
+    "   `NO` DOUBLE NULL,"
+    "   `TORRENO` TEXT NULL,"
+    "   `NOX` DOUBLE NULL,"
+    "   `TORRENOX` TEXT NULL,"
+    "   `O3` DOUBLE NULL,"
+    "   `TORREO3` TEXT NULL,"
+    "   `PM10` DOUBLE NULL,"
+    "   `TORREPM10` TEXT NULL,"
+    "   `PM25` DOUBLE NULL,"
+    "   `TORREPM25` TEXT NULL,"
+    "   `PA` DOUBLE NULL,"
+    "   `TORREPA` TEXT NULL,"
+    "   `RUVA` DOUBLE NULL,"
+    "   `TORRERUVA` TEXT NULL,"
+    "   `RUVB` DOUBLE NULL,"
+    "   `TORRERUVB` TEXT NULL,"
+    "   `BVP` DOUBLE NULL,"
+    "   `EDA` DOUBLE NULL,"
+    "   `RITMOCARD` DOUBLE NULL,"
+    "   `TEMPCUERPO` DOUBLE NULL,"
+    "   PRIMARY KEY (`IDALDA`));"
     "   ENGINE = InnoDB"
 )
 
@@ -113,7 +150,9 @@ class NumpyMySQLConverter(mysql.connector.conversion.MySQLConverter):
 try:
     print ("Creando las variables de conexión...")
     cnx = mysql.connector.connect(**config)
+    cnx1 = mysql.connector.connect(**config2)
     cnx.set_converter_class(NumpyMySQLConverter)
+    cnx1.set_converter_class(NumpyMySQLConverter)
 except mysql.connector.Error as err:
   if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
     print ("   ")
@@ -128,6 +167,7 @@ else:
     print ("   ")
     print ("Conexión exitosa...")
     cursor = cnx.cursor()
+    cursor1 = cnx1.cursor()
 
 ######################################################################################################################
 ##                                                                                                                  ##
@@ -138,7 +178,7 @@ else:
 def create_database(cursor):  ## Función para la base de d...
     try:
         cursor.execute(
-            "CREATE DATABASE {} DEFAULT CHARACTER SET 'utf8'".format(nombreBDLoc))
+            "CREATE DATABASE {} DEFAULT CHARACTER SET 'utf8'".format(nombreBDAlmacen))
     except mysql.connector.Error as err:
         print ("   ")
         print("Error al crear la base de datos señalada: {}".format(err))
@@ -151,11 +191,11 @@ def create_database(cursor):  ## Función para la base de d...
 ######################################################################################################################
 
 try:  
-    cnx.database = nombreBDLoc  
+    cnx.database = nombreBDAlmacen  
 except mysql.connector.Error as err:
     if err.errno == errorcode.ER_BAD_DB_ERROR:
         create_database(cursor)
-        cnx.database = nombreBDLoc
+        cnx.database = nombreBDAlmacen
     else:
         print ("   ")
         print(err)
@@ -167,7 +207,7 @@ except mysql.connector.Error as err:
 ##                                                                                                                  ##
 ######################################################################################################################
 
-for name, ddl in tablaLoc.items():
+for name, ddl in tablaAlmacen.items():
     try:
         print ("   ")
         print("Creando la tabla {}: ".format(name), end='')
@@ -183,140 +223,48 @@ for name, ddl in tablaLoc.items():
         print ("   ")
         print("Tablas creadas...")
 
-######################################################################################################################
-##                                                                                                                  ##
-##                                       Cargando el fichero con la información...                                  ##
-##                                                                                                                  ##
-######################################################################################################################
 
-direccionFichero = "C:/Users/eacar/Desktop/ubic.json"
-json = panda.read_json(direccionFichero)
 
-print ("    ")
-print ("Cargando fichero de contaminantes CO, puede tardar un momento, por favor espere...")
-if json.empty: #Validando si los datos fueron cargados...
-    print ("    ")
-    print ("Fichero se encuentra vacío, por favor verifique que sea el correcto...")
-else:
-    print ("    ")
-    print ("Fichero cargado exitosamente...")
 
-direccionFicheroUsuario = "C:/Users/eacar/Desktop/IDUSER.xls"
-xls = panda.read_excel(direccionFicheroUsuario)
 
-print ("    ")
-print ("Cargando fichero de temperatura, puede tardar un momento, por favor espere...")
-if xls.empty: #Validando si los datos fueron cargados...
-    print ("    ")
-    print ("Fichero se encuentra vacío, por favor verifique que sea el correcto...")
-else:
-    print ("    ")
-    print ("Fichero cargado exitosamente...")
 
-######################################################################################################################
-##                                                                                                                  ##
-##                       Mostrando los primeros 5 valores cargados de cada uno de los ficheros...                   ##
-##                        Mostrando los últimos 5 valores cargados de cada uno de los ficheros...                   ##
-##                                                                                                                  ##
-######################################################################################################################
 
-print ("Imprimiendo los primeros 5 registros del registro de contaminantes CO...")
-print (json.head(5))
 
-print ("    ")
-print ("Imprimiendo los últimos 5 registros del registro de contaminantes CO...")
-print (json.tail(5))
 
-######################################################################################################################
-##                                                                                                                  ##
-##                          Determinando cantidad de campos vacíos en los datos...                                  ##
-##                                                                                                                  ##
-######################################################################################################################
-
-print ("    ")
-print ("En los datos existen la siguientes cantidad de datos vacíos:")
-info = json.apply(lambda x: sum(x.isnull()),axis=0)
-print (info)
-
-######################################################################################################################
-##                                                                                                                  ##
-##                              Rellenando todos los valores vacios con el campo NULL...                            ##
-##                 Esto es necesario para poder insertar correctamente los valores en la base de datos...           ##
-##                                                                                                                  ##
-######################################################################################################################
-
-print ("    ")
-print ("Rellenando los campos vacíos con el valor NULL ...")
-json = json.fillna("NULL")
-
-######################################################################################################################
-##                                                                                                                  ##
-##      Las variables corresponden a sus respectivos campos en la base de datos (Ver descripción anterior)...       ##
-##         datosEgreso [Contiene la información necesaria para hacer la inserción en la base de datos]...           ##
-##                 addEgreso [Consulta SQL que inserta la información en la base de datos]...                       ##
-##                                                                                                                  ##
-######################################################################################################################
-
-fecha = ""
-marcaTiempo = ""
-latitud = ""
-longitud = ""
-idUsuario = ""
-
-datosLoc = {
-    'datoFecha' : fecha,
-    'datoMarcaTiempo' : marcaTiempo,
-    'datoLatitud' : latitud,
-    'datoLongitud' : longitud,
-    'datoIdUsuario' : idUsuario,
-}
-
-addLoc = ("INSERT INTO mapslocalizacion"
-                "(FECHA, MARCATIEMPO, LATITUD, LONGITUD, IDUSUARIO)"
-                "VALUES (%(datoFecha)s, %(datoMarcaTiempo)s, %(datoLatitud)s, %(datoLongitud)s, %(datoIdUsuario)s)"
-            )
-
-######################################################################################################################
-##                                                                                                                  ##
-##                             Se leen los valores del json y se asignan a las variables...                         ##
-##                 Esto es necesario para poder insertar correctamente los valores en la base de datos...           ##
-##                                                                                                                  ##
-######################################################################################################################
-
-for i in range(0, len(xls)):
-    idUsuario = xls.iloc[i,0]
-
-for i in range(0, len(json)):
-    control = json.iloc[i,0]
-    marcaTiempo = control['timestampMs']
-    latitud = control['latitudeE7']
-    longitud = control['longitudeE7']
-    tiempo2 = marcaTiempo[0:10]
-    fecha = datetime.fromtimestamp(int(tiempo2))
-
-    datosLoc = {
-        'datoFecha' : fecha,
-        'datoMarcaTiempo' : marcaTiempo,
-        'datoLatitud' : latitud,
-        'datoLongitud' : longitud,
-        'datoIdUsuario' : idUsuario,
-    }
-
-    print ("Insertando registro " + str(i) + " de " + str(len(json)))
-    cursor.execute(addLoc, datosLoc)
-    cnx.commit()
-    print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(json))) +  " porciento del total de datos")
-
-######################################################################################################################
-##                                                                                                                  ##
-##                                     Cerrando las conexiones a la base de datos...                                ##
-##                                                                                                                  ##
-######################################################################################################################
-
-print ("Se insertaron adecuadamente el 100 porciento de los datos del xls en la base de datos.")
 cursor.close()
 cnx.close()
+cursor1.close()
+cnx1.close()
 
 
 
-   
+
+
+'''
+newport_ri = (41.49008, -71.312796)
+cleveland_oh = (41.499498, -81.695391)
+other = (41.45999, -81.957418)
+print(distance.distance(newport_ri, cleveland_oh).miles)
+print(distance.distance(newport_ri,cleveland_oh))
+print(distance.distance(newport_ri, other).miles)
+print(distance.distance(newport_ri,other))
+valor = distance.distance(newport_ri, cleveland_oh)
+valor2 = distance.distance(newport_ri, other)
+print(type(valor))
+print(valor)
+print(valor2)
+
+if (valor > valor2):
+    print("Wl mayor es 1 " + str(valor))
+else:
+    print("EL mayor es 2 " + str(valor2))
+'''
+
+
+
+distanciaUsuarioATorre = {}
+
+def MedicionDistancia(ubicacionUsuario, ubicacionTorre):
+    distanciaUsuarioATorre.append(distance.distance(ubicacionUsuario, ubicacionTorre))
+
+
