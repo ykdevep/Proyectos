@@ -189,7 +189,7 @@ for name, ddl in tablaVitales.items():
 ##                                                                                                                  ##
 ######################################################################################################################
 
-direccionFichero = "C:/Users/eacar/Desktop/ALTER.xls"
+direccionFichero = "C:/Users/Cubano/Documents/GitHub/Proyectos/BancosDatos/alteraciones.xls"
 xls = panda.read_excel(direccionFichero)
 
 print ("    ")

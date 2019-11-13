@@ -1,11 +1,11 @@
 ######################################################################################################################
 ##                                                                                                                  ##
-##    Módulo Python 3.6.5 (32 bits) para leer un fichero xls y guardar la información en una base de datos MySQL    ##
-##                                     mediante las librerías pandas y mysql                                        ##
+## -> Módulo Python 3.7.4 (64 bits) para leer un fichero xls y guardar la información en una base de datos MySQL    ##
+##           mediante las librerías pandas y mysql. Requiere Python 3.6.X o superior.                               ##
 ##                                                                                                                  ##
 ##             Se leen los datos pertenecientes a los valores de contaminación de Dióxido de Azufre (SO2)           ##
 ##                     de las estaciones de medición Ciudad de México y el Estado de México                         ##
-##                  Actualmente se encuentran registrados los datos desde 01/01/2018 a 28/02/2019                   ##    
+##                  Actualmente se encuentran registrados los datos desde 01/01/2018                                ##    
 ##                                                                                                                  ## 
 ##                Se muestran los primeros y últimos 5 registros para ver si la información es correcta             ##
 ##                            Se determina el número total de campos vacíos en los datos                            ##
@@ -21,7 +21,9 @@
 ##                                          https://docs.scipy.org/doc/                                             ##
 ##                           La información relativa a mysql.conector puede ser consultada en:                      ##
 ##                                   https://dev.mysql.com/doc/connector-python/en/                                 ##
-##                                    Se requiere  "pip install mysql-connector-python"                             ##
+##                                    Se requiere:
+##                                                 "pip install mysql-connector-python"
+##                                                 "pip install datetime"                             ##
 ##                                                                                                                  ##
 ######################################################################################################################
  
@@ -73,7 +75,7 @@ tablaDioxAzuf[nombreBDDioxAzuf] = (
     "CREATE TABLE `dioxazufre` ("
     "   `IDDIOX` INT NOT NULL AUTO_INCREMENT,"
     "   `FECHA` TIMESTAMP NULL,"
-    "   `HORA` INT NULL,"
+    "   `HORA` DOUBLE NULL,"
     "   `ACO` DOUBLE NULL,"
     "   `AJM` DOUBLE NULL,"
     "   `ATI` DOUBLE NULL,"
@@ -219,7 +221,7 @@ for name, ddl in tablaDioxAzuf.items():
 ##                                                                                                                  ##
 ######################################################################################################################
 
-direccionFichero = "C:/Users/eacar/Desktop/SO2.xls"
+direccionFichero = "C:/Users/Cubano/Documents/GitHub/Proyectos/BancosDatos/SO2.xls"
 xls = panda.read_excel(direccionFichero)
 
 print ("    ")
@@ -359,38 +361,38 @@ addSO2 = ("INSERT INTO dioxazufre"
 
 for i in range(0, len(xls)):
     fecha = datetime.date(xls.iloc[i,0])
-    hora = xls.iloc[i,1]
-    aco = xls.iloc[i,2]
-    ajm = xls.iloc[i,3]
-    ati = xls.iloc[i,4]
-    bju = xls.iloc[i,5]
-    cam = xls.iloc[i,6]
-    cca = xls.iloc[i,7]
-    cho = xls.iloc[i,8]
-    cua = xls.iloc[i,9]
-    cut = xls.iloc[i,10]
-    fac = xls.iloc[i,11]
-    hgm = xls.iloc[i,12]
-    inn = xls.iloc[i,13]
-    izt = xls.iloc[i,14]
-    lla = xls.iloc[i,15]
-    lpr = xls.iloc[i,16]
-    mer = xls.iloc[i,17]
-    mgh = xls.iloc[i,18]
-    mon = xls.iloc[i,19]
-    mpa = xls.iloc[i,20]
-    nez = xls.iloc[i,21]
-    ped = xls.iloc[i,22]
-    sag = xls.iloc[i,23]
-    sfe = xls.iloc[i,24]
-    sja = xls.iloc[i,25]
-    tah = xls.iloc[i,26]
-    tla = xls.iloc[i,27]
-    tli = xls.iloc[i,28]
-    uax = xls.iloc[i,29]
-    uiz = xls.iloc[i,30]
-    vif = xls.iloc[i,31]
-    xal = xls.iloc[i,32]
+    hora = float(xls.iloc[i,1])
+    aco = float(xls.iloc[i,2])
+    ajm = float(xls.iloc[i,3])
+    ati = float(xls.iloc[i,4])
+    bju = float(xls.iloc[i,5])
+    cam = float(xls.iloc[i,6])
+    cca = float(xls.iloc[i,7])
+    cho = float(xls.iloc[i,8])
+    cua = float(xls.iloc[i,9])
+    cut = float(xls.iloc[i,10])
+    fac = float(xls.iloc[i,11])
+    hgm = float(xls.iloc[i,12])
+    inn = float(xls.iloc[i,13])
+    izt = float(xls.iloc[i,14])
+    lla = float(xls.iloc[i,15])
+    lpr = float(xls.iloc[i,16])
+    mer = float(xls.iloc[i,17])
+    mgh = float(xls.iloc[i,18])
+    mon = float(xls.iloc[i,19])
+    mpa = float(xls.iloc[i,20])
+    nez = float(xls.iloc[i,21])
+    ped = float(xls.iloc[i,22])
+    sag = float(xls.iloc[i,23])
+    sfe = float(xls.iloc[i,24])
+    sja = float(xls.iloc[i,25])
+    tah = float(xls.iloc[i,26])
+    tla = float(xls.iloc[i,27])
+    tli = float(xls.iloc[i,28])
+    uax = float(xls.iloc[i,29])
+    uiz = float(xls.iloc[i,30])
+    vif = float(xls.iloc[i,31])
+    xal = float(xls.iloc[i,32])
 
     datosSO2 = {
     'datoFecha' : fecha,
