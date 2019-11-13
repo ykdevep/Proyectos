@@ -59,12 +59,12 @@ from datetime import datetime
 ##                                                                                                                  ##
 ######################################################################################################################
 
-nombreBDVitales = 'guiasclinicas'  ## Configuración para la base de dato de temperatura ambiental TMP...
+nombreBDVitales = 'bancosexternos'  ## Configuración para la base de dato de temperatura ambiental TMP...
 config = {
   'user': 'kike',
   'password': 'kike123',
   'host': '127.0.0.1',
-  'database': 'guiasclinicas',
+  'database': 'bancosexternos',
   'raise_on_warnings': True,
 }
 

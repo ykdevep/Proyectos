@@ -59,12 +59,12 @@ from datetime import datetime
 ##                                                                                                                  ##
 ######################################################################################################################
 
-nombreBDOxNitr = 'oxidosnitrogeno'  ## Configuración para la base de dato de contaminantes NO...
+nombreBDOxNitr = 'bancosexternos'  ## Configuración para la base de dato de contaminantes NO...
 config = {
   'user': 'kike',
   'password': 'kike123',
   'host': '127.0.0.1',
-  'database': 'oxidosnitrogeno',
+  'database': 'bancosexternos',
   'raise_on_warnings': True,
 }
 

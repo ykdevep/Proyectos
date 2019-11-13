@@ -59,12 +59,12 @@ from datetime import datetime
 ##                                                                                                                  ##
 ######################################################################################################################
 
-nombreBDPM25 = 'pm25'  ## Configuración para la base de dato de contaminantes SO2...
+nombreBDPM25 = 'bancosexternos'  ## Configuración para la base de dato de contaminantes SO2...
 config = {
   'user': 'kike',
   'password': 'kike123',
   'host': '127.0.0.1',
-  'database': 'pm25',
+  'database': 'bancosexternos',
   'raise_on_warnings': True,
 }
 

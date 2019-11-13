@@ -231,7 +231,7 @@ cantidadTorreAInsertar = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 ##                                                                                                                  ##
 ######################################################################################################################
 
-for i in range(0, 1000000):
+for i in range(0, 50000):
     latitudes.append(random.randint(19079559, 19857710))
     longitudes.append(random.randint(98763194, 99495169))
     longitudes[i] = longitudes[i] * (-1)
@@ -269,7 +269,7 @@ addLoc = ("INSERT INTO localizaciones"
 ##                                                                                                                  ##
 ######################################################################################################################
 
-for i in range(0, 1000000):
+for i in range(0, 50000):
     distanciasATorres = []
     menorDistancia = 9999999999999
     posicionMenorDistancia = -99
@@ -284,12 +284,13 @@ for i in range(0, 1000000):
     torreAsignada.append(torreNombre[posicionMenorDistancia])
     cantidadTorre[posicionMenorDistancia] = cantidadTorre[posicionMenorDistancia] + 1
 
+print (cantidadTorre)
 cantidadTorre.sort()
 menorTotalTorres = cantidadTorre[0]
 print ("Se insertaran un total de " + str(menorTotalTorres) + " en la base de datos.")
 
-for i in range(0, 1000000):
-    if (torreAsignada[i] == "ACO" and cantidadTorreAInsertar[0] <= menorTotalTorres):
+for i in range(0, 50000):
+    if (torreAsignada[i] == "ACO" and cantidadTorreAInsertar[0] < menorTotalTorres):
         cantidadTorreAInsertar[0] = cantidadTorreAInsertar[0] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -306,7 +307,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "AJU" and cantidadTorreAInsertar[1] <= menorTotalTorres):
+    if (torreAsignada[i] == "AJU" and cantidadTorreAInsertar[1] < menorTotalTorres):
         cantidadTorreAInsertar[1] = cantidadTorreAInsertar[1] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -323,7 +324,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "AJM" and cantidadTorreAInsertar[2] <= menorTotalTorres):
+    if (torreAsignada[i] == "AJM" and cantidadTorreAInsertar[2] < menorTotalTorres):
         cantidadTorreAInsertar[2] = cantidadTorreAInsertar[2] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -340,7 +341,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "ATI" and cantidadTorreAInsertar[3] <= menorTotalTorres):
+    if (torreAsignada[i] == "ATI" and cantidadTorreAInsertar[3] < menorTotalTorres):
         cantidadTorreAInsertar[3] = cantidadTorreAInsertar[3] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -357,7 +358,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "BJU" and cantidadTorreAInsertar[4] <= menorTotalTorres):
+    if (torreAsignada[i] == "BJU" and cantidadTorreAInsertar[4] < menorTotalTorres):
         cantidadTorreAInsertar[4] = cantidadTorreAInsertar[4] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -374,7 +375,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "CAM" and cantidadTorreAInsertar[5] <= menorTotalTorres):
+    if (torreAsignada[i] == "CAM" and cantidadTorreAInsertar[5] < menorTotalTorres):
         cantidadTorreAInsertar[5] = cantidadTorreAInsertar[5] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -391,7 +392,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "CCA" and cantidadTorreAInsertar[6] <= menorTotalTorres):
+    if (torreAsignada[i] == "CCA" and cantidadTorreAInsertar[6] < menorTotalTorres):
         cantidadTorreAInsertar[6] = cantidadTorreAInsertar[6] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -408,7 +409,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "TEC" and cantidadTorreAInsertar[7] <= menorTotalTorres):
+    if (torreAsignada[i] == "TEC" and cantidadTorreAInsertar[7] < menorTotalTorres):
         cantidadTorreAInsertar[7] = cantidadTorreAInsertar[7] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -425,7 +426,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "CHO" and cantidadTorreAInsertar[8] <= menorTotalTorres):
+    if (torreAsignada[i] == "CHO" and cantidadTorreAInsertar[8] < menorTotalTorres):
         cantidadTorreAInsertar[8] = cantidadTorreAInsertar[8] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -442,7 +443,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "COR" and cantidadTorreAInsertar[9] <= menorTotalTorres):
+    if (torreAsignada[i] == "COR" and cantidadTorreAInsertar[9] < menorTotalTorres):
         cantidadTorreAInsertar[9] = cantidadTorreAInsertar[9] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -459,7 +460,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "COY" and cantidadTorreAInsertar[10] <= menorTotalTorres):
+    if (torreAsignada[i] == "COY" and cantidadTorreAInsertar[10] < menorTotalTorres):
         cantidadTorreAInsertar[10] = cantidadTorreAInsertar[10] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -476,7 +477,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "CUA" and cantidadTorreAInsertar[11] <= menorTotalTorres):
+    if (torreAsignada[i] == "CUA" and cantidadTorreAInsertar[11] < menorTotalTorres):
         cantidadTorreAInsertar[11] = cantidadTorreAInsertar[11] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -493,7 +494,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "CUT" and cantidadTorreAInsertar[12] <= menorTotalTorres):
+    if (torreAsignada[i] == "CUT" and cantidadTorreAInsertar[12] < menorTotalTorres):
         cantidadTorreAInsertar[12] = cantidadTorreAInsertar[12] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -510,7 +511,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "DIC" and cantidadTorreAInsertar[13] <= menorTotalTorres):
+    if (torreAsignada[i] == "DIC" and cantidadTorreAInsertar[13] < menorTotalTorres):
         cantidadTorreAInsertar[13] = cantidadTorreAInsertar[13] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -527,7 +528,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "EAJ" and cantidadTorreAInsertar[14] <= menorTotalTorres):
+    if (torreAsignada[i] == "EAJ" and cantidadTorreAInsertar[14] < menorTotalTorres):
         cantidadTorreAInsertar[14] = cantidadTorreAInsertar[14] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -544,7 +545,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "EDL" and cantidadTorreAInsertar[15] <= menorTotalTorres):
+    if (torreAsignada[i] == "EDL" and cantidadTorreAInsertar[15] < menorTotalTorres):
         cantidadTorreAInsertar[15] = cantidadTorreAInsertar[15] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -561,7 +562,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "FAC" and cantidadTorreAInsertar[16] <= menorTotalTorres):
+    if (torreAsignada[i] == "FAC" and cantidadTorreAInsertar[16] < menorTotalTorres):
         cantidadTorreAInsertar[16] = cantidadTorreAInsertar[16] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -578,7 +579,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "GAM" and cantidadTorreAInsertar[17] <= menorTotalTorres):
+    if (torreAsignada[i] == "GAM" and cantidadTorreAInsertar[17] < menorTotalTorres):
         cantidadTorreAInsertar[17] = cantidadTorreAInsertar[17] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -595,7 +596,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "HGM" and cantidadTorreAInsertar[18] <= menorTotalTorres):
+    if (torreAsignada[i] == "HGM" and cantidadTorreAInsertar[18] < menorTotalTorres):
         cantidadTorreAInsertar[18] = cantidadTorreAInsertar[18] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -612,7 +613,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "INN" and cantidadTorreAInsertar[19] <= menorTotalTorres):
+    if (torreAsignada[i] == "INN" and cantidadTorreAInsertar[19] < menorTotalTorres):
         cantidadTorreAInsertar[19] = cantidadTorreAInsertar[19] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -629,7 +630,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "IZT" and cantidadTorreAInsertar[20] <= menorTotalTorres):
+    if (torreAsignada[i] == "IZT" and cantidadTorreAInsertar[20] < menorTotalTorres):
         cantidadTorreAInsertar[20] = cantidadTorreAInsertar[20] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -646,7 +647,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "LPR" and cantidadTorreAInsertar[21] <= menorTotalTorres):
+    if (torreAsignada[i] == "LPR" and cantidadTorreAInsertar[21] < menorTotalTorres):
         cantidadTorreAInsertar[21] = cantidadTorreAInsertar[21] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -663,7 +664,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "LAA" and cantidadTorreAInsertar[22] <= menorTotalTorres):
+    if (torreAsignada[i] == "LAA" and cantidadTorreAInsertar[22] < menorTotalTorres):
         cantidadTorreAInsertar[22] = cantidadTorreAInsertar[22] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -680,7 +681,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "IBM" and cantidadTorreAInsertar[23] <= menorTotalTorres):
+    if (torreAsignada[i] == "IBM" and cantidadTorreAInsertar[23] < menorTotalTorres):
         cantidadTorreAInsertar[23] = cantidadTorreAInsertar[23] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -697,7 +698,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
     
-    if (torreAsignada[i] == "LOM" and cantidadTorreAInsertar[24] <= menorTotalTorres):
+    if (torreAsignada[i] == "LOM" and cantidadTorreAInsertar[24] < menorTotalTorres):
         cantidadTorreAInsertar[24] = cantidadTorreAInsertar[24] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -714,7 +715,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "LLA" and cantidadTorreAInsertar[25] <= menorTotalTorres):
+    if (torreAsignada[i] == "LLA" and cantidadTorreAInsertar[25] < menorTotalTorres):
         cantidadTorreAInsertar[25] = cantidadTorreAInsertar[25] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -731,7 +732,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "MER" and cantidadTorreAInsertar[26] <= menorTotalTorres):
+    if (torreAsignada[i] == "MER" and cantidadTorreAInsertar[26] < menorTotalTorres):
         cantidadTorreAInsertar[26] = cantidadTorreAInsertar[26] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -748,7 +749,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "MGH" and cantidadTorreAInsertar[27] <= menorTotalTorres):
+    if (torreAsignada[i] == "MGH" and cantidadTorreAInsertar[27] < menorTotalTorres):
         cantidadTorreAInsertar[27] = cantidadTorreAInsertar[27] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -765,7 +766,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "MPA" and cantidadTorreAInsertar[28] <= menorTotalTorres):
+    if (torreAsignada[i] == "MPA" and cantidadTorreAInsertar[28] < menorTotalTorres):
         cantidadTorreAInsertar[28] = cantidadTorreAInsertar[28] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -782,7 +783,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "MON" and cantidadTorreAInsertar[29] <= menorTotalTorres):
+    if (torreAsignada[i] == "MON" and cantidadTorreAInsertar[29] < menorTotalTorres):
         cantidadTorreAInsertar[29] = cantidadTorreAInsertar[29] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -799,7 +800,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "MCM" and cantidadTorreAInsertar[30] <= menorTotalTorres):
+    if (torreAsignada[i] == "MCM" and cantidadTorreAInsertar[30] < menorTotalTorres):
         cantidadTorreAInsertar[30] = cantidadTorreAInsertar[30] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -816,7 +817,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "NEZ" and cantidadTorreAInsertar[31] <= menorTotalTorres):
+    if (torreAsignada[i] == "NEZ" and cantidadTorreAInsertar[31] < menorTotalTorres):
         cantidadTorreAInsertar[31] = cantidadTorreAInsertar[31] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -833,7 +834,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "PED" and cantidadTorreAInsertar[32] <= menorTotalTorres):
+    if (torreAsignada[i] == "PED" and cantidadTorreAInsertar[32] < menorTotalTorres):
         cantidadTorreAInsertar[32] = cantidadTorreAInsertar[32] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -850,7 +851,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "SAG" and cantidadTorreAInsertar[33] <= menorTotalTorres):
+    if (torreAsignada[i] == "SAG" and cantidadTorreAInsertar[33] < menorTotalTorres):
         cantidadTorreAInsertar[33] = cantidadTorreAInsertar[33] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -867,7 +868,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "SJA" and cantidadTorreAInsertar[34] <= menorTotalTorres):
+    if (torreAsignada[i] == "SJA" and cantidadTorreAInsertar[34] < menorTotalTorres):
         cantidadTorreAInsertar[34] = cantidadTorreAInsertar[34] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -884,7 +885,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "SNT" and cantidadTorreAInsertar[35] <= menorTotalTorres):
+    if (torreAsignada[i] == "SNT" and cantidadTorreAInsertar[35] < menorTotalTorres):
         cantidadTorreAInsertar[35] = cantidadTorreAInsertar[35] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -901,7 +902,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "SFE" and cantidadTorreAInsertar[36] <= menorTotalTorres):
+    if (torreAsignada[i] == "SFE" and cantidadTorreAInsertar[36] < menorTotalTorres):
         cantidadTorreAInsertar[36] = cantidadTorreAInsertar[36] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -918,7 +919,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "SHA" and cantidadTorreAInsertar[37] <= menorTotalTorres):
+    if (torreAsignada[i] == "SHA" and cantidadTorreAInsertar[37] < menorTotalTorres):
         cantidadTorreAInsertar[37] = cantidadTorreAInsertar[37] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -935,7 +936,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "TAH" and cantidadTorreAInsertar[38] <= menorTotalTorres):
+    if (torreAsignada[i] == "TAH" and cantidadTorreAInsertar[38] < menorTotalTorres):
         cantidadTorreAInsertar[38] = cantidadTorreAInsertar[38] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -952,7 +953,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "TLA" and cantidadTorreAInsertar[39] <= menorTotalTorres):
+    if (torreAsignada[i] == "TLA" and cantidadTorreAInsertar[39] < menorTotalTorres):
         cantidadTorreAInsertar[39] = cantidadTorreAInsertar[39] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -969,7 +970,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "TLI" and cantidadTorreAInsertar[40] <= menorTotalTorres):
+    if (torreAsignada[i] == "TLI" and cantidadTorreAInsertar[40] < menorTotalTorres):
         cantidadTorreAInsertar[40] = cantidadTorreAInsertar[40] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -986,7 +987,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "UIZ" and cantidadTorreAInsertar[41] <= menorTotalTorres):
+    if (torreAsignada[i] == "UIZ" and cantidadTorreAInsertar[41] < menorTotalTorres):
         cantidadTorreAInsertar[41] = cantidadTorreAInsertar[41] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -1003,7 +1004,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "UAX" and cantidadTorreAInsertar[42] <= menorTotalTorres):
+    if (torreAsignada[i] == "UAX" and cantidadTorreAInsertar[42] < menorTotalTorres):
         cantidadTorreAInsertar[42] = cantidadTorreAInsertar[42] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -1020,7 +1021,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "VIF" and cantidadTorreAInsertar[43] <= menorTotalTorres):
+    if (torreAsignada[i] == "VIF" and cantidadTorreAInsertar[43] < menorTotalTorres):
         cantidadTorreAInsertar[43] = cantidadTorreAInsertar[43] + 1
         latit = latitudes[i]
         longit = longitudes[i]
@@ -1037,7 +1038,7 @@ for i in range(0, 1000000):
         cnx.commit()
         print ("Registro insertado")
 
-    if (torreAsignada[i] == "XAL" and cantidadTorreAInsertar[44] <= menorTotalTorres):
+    if (torreAsignada[i] == "XAL" and cantidadTorreAInsertar[44] < menorTotalTorres):
         cantidadTorreAInsertar[44] = cantidadTorreAInsertar[44] + 1
         latit = latitudes[i]
         longit = longitudes[i]

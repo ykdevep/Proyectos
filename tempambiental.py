@@ -59,12 +59,12 @@ from datetime import datetime
 ##                                                                                                                  ##
 ######################################################################################################################
 
-nombreBDTempAmb = 'temperaturaambiente'  ## Configuración para la base de dato de temperatura ambiental TMP...
+nombreBDTempAmb = 'bancosexternos'  ## Configuración para la base de dato de temperatura ambiental TMP...
 config = {
   'user': 'kike',
   'password': 'kike123',
   'host': '127.0.0.1',
-  'database': 'temperaturaambiente',
+  'database': 'bancosexternos',
   'raise_on_warnings': True,
 }
 

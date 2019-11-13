@@ -59,12 +59,12 @@ from datetime import datetime
 ##                                                                                                                  ##
 ######################################################################################################################
 
-nombreBDDioxAzuf = 'dioxidosazufre'  ## Configuración para la base de dato de contaminantes SO2...
+nombreBDDioxAzuf = 'bancosexternos'  ## Configuración para la base de dato de contaminantes SO2...
 config = {
   'user': 'kike',
   'password': 'kike123',
   'host': '127.0.0.1',
-  'database': 'dioxidosazufre',
+  'database': 'bancosexternos',
   'raise_on_warnings': True,
 }
 

@@ -59,12 +59,12 @@ from datetime import datetime
 ##                                                                                                                  ##
 ######################################################################################################################
 
-nombreBDRadUVB = 'radiacionuvb'  ## Configuración para la base de dato de contaminantes SO2...
+nombreBDRadUVB = 'bancosexternos'  ## Configuración para la base de dato de contaminantes SO2...
 config = {
   'user': 'kike',
   'password': 'kike123',
   'host': '127.0.0.1',
-  'database': 'radiacionuvb',
+  'database': 'bancosexternos',
   'raise_on_warnings': True,
 }
 

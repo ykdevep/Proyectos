@@ -59,12 +59,12 @@ from datetime import datetime
 ##                                                                                                                  ##
 ######################################################################################################################
 
-nombreBDPm10 = 'pm10'  ## Configuración para la base de dato de contaminantes NO...
+nombreBDPm10 = 'bancosexternos'  ## Configuración para la base de dato de contaminantes NO...
 config = {
   'user': 'kike',
   'password': 'kike123',
   'host': '127.0.0.1',
-  'database': 'pm10',
+  'database': 'bancosexternos',
   'raise_on_warnings': True,
 }
 

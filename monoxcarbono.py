@@ -59,12 +59,12 @@ from datetime import datetime
 ##                                                                                                                  ##
 ######################################################################################################################
 
-nombreBDMonoxCarb = 'monoxidoscarbono'  ## Configuración para la base de dato de contaminantes CO...
+nombreBDMonoxCarb = 'bancosexternos'  ## Configuración para la base de dato de contaminantes CO...
 config = {
   'user': 'kike',
   'password': 'kike123',
   'host': '127.0.0.1',
-  'database': 'monoxidoscarbono',
+  'database': 'bancosexternos',
   'raise_on_warnings': True,
 }
 

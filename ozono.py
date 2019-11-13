@@ -59,12 +59,12 @@ from datetime import datetime
 ##                                                                                                                  ##
 ######################################################################################################################
 
-nombreBDOzono = 'ozono'  ## Configuración para la base de dato de contaminantes NO...
+nombreBDOzono = 'bancosexternos'  ## Configuración para la base de dato de contaminantes NO...
 config = {
   'user': 'kike',
   'password': 'kike123',
   'host': '127.0.0.1',
-  'database': 'ozono',
+  'database': 'bancosexternos',
   'raise_on_warnings': True,
 }
 

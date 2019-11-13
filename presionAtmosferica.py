@@ -59,12 +59,12 @@ from datetime import datetime
 ##                                                                                                                  ##
 ######################################################################################################################
 
-nombreBDPresionAtm = 'presionatmosferica'  ## Configuración para la base de dato de contaminantes CO...
+nombreBDPresionAtm = 'bancosexternos'  ## Configuración para la base de dato de contaminantes CO...
 config = {
   'user': 'kike',
   'password': 'kike123',
   'host': '127.0.0.1',
-  'database': 'presionatmosferica',
+  'database': 'bancosexternos',
   'raise_on_warnings': True,
 }
 

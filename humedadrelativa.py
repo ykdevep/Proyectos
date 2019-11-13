@@ -59,12 +59,12 @@ from datetime import datetime
 ##                                                                                                                  ##
 ######################################################################################################################
 
-nombreBDHumRel = 'humedadrelativa'  ## Configuración para la base de datos de humedad relativa RH...
+nombreBDHumRel = 'bancosexternos'  ## Configuración para la base de datos de humedad relativa RH...
 config = {
   'user': 'kike',
   'password': 'kike123',
   'host': '127.0.0.1',
-  'database': 'humedadrelativa',
+  'database': 'bancosexternos',
   'raise_on_warnings': True,
 }
 

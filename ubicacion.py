@@ -57,12 +57,12 @@ from datetime import datetime
 ##                                                                                                                  ##
 ######################################################################################################################
 
-nombreBDLoc = 'localizacion'  ## Configuración para la base de dato de localización gegráfica...
+nombreBDLoc = 'bancosexternos'  ## Configuración para la base de dato de localización gegráfica...
 config = {
   'user': 'kike',
   'password': 'kike123',
   'host': '127.0.0.1',
-  'database': 'localizacion',
+  'database': 'bancosexternos',
   'raise_on_warnings': True,
 }
 
