@@ -73,7 +73,7 @@ tablaPm10[nombreBDPm10] = (
     "CREATE TABLE `pm10` ("
     "   `IDMONOX` INT NOT NULL AUTO_INCREMENT,"
     "   `FECHA` TIMESTAMP NULL,"
-    "   `HORA` INT NULL,"
+    "   `HORA` DOUBLE NULL,"
     "   `ACO` DOUBLE NULL,"
     "   `AJM` DOUBLE NULL,"
     "   `ATI` DOUBLE NULL,"
@@ -212,7 +212,7 @@ for name, ddl in tablaPm10.items():
 ##                                                                                                                  ##
 ######################################################################################################################
 
-direccionFichero = "C:/Users/eacar/Desktop/PM10.xls"
+direccionFichero = "C:/Users/Cubano/Documents/GitHub/Proyectos/BancosDatos/PM10.xls"
 xls = panda.read_excel(direccionFichero)
 
 print ("    ")
@@ -338,31 +338,31 @@ addPm10 = ("INSERT INTO pm10"
 
 for i in range(0, len(xls)):
     fecha = datetime.date(xls.iloc[i,0])
-    hora = xls.iloc[i,1]
-    aco = xls.iloc[i,2]
-    ajm = xls.iloc[i,3]
-    ati = xls.iloc[i,4]
-    bju = xls.iloc[i,5]
-    cam = xls.iloc[i,6]
-    cho = xls.iloc[i,7]
-    cua = xls.iloc[i,8]
-    cut = xls.iloc[i,9]
-    fac = xls.iloc[i,10]
-    hgm = xls.iloc[i,11]
-    inn = xls.iloc[i,12]
-    izt = xls.iloc[i,13]
-    mer = xls.iloc[i,14]
-    mgh = xls.iloc[i,15]
-    mpa = xls.iloc[i,16]
-    ped = xls.iloc[i,17]
-    sag = xls.iloc[i,18]
-    sfe = xls.iloc[i,19]
-    tah = xls.iloc[i,20]
-    tla = xls.iloc[i,21]
-    tli = xls.iloc[i,22]
-    uiz = xls.iloc[i,23]
-    vif = xls.iloc[i,24]
-    xal = xls.iloc[i,25]
+    hora = float(xls.iloc[i,1])
+    aco = float(xls.iloc[i,2])
+    ajm = float(xls.iloc[i,3])
+    ati = float(xls.iloc[i,4])
+    bju = float(xls.iloc[i,5])
+    cam = float(xls.iloc[i,6])
+    cho = float(xls.iloc[i,7])
+    cua = float(xls.iloc[i,8])
+    cut = float(xls.iloc[i,9])
+    fac = float(xls.iloc[i,10])
+    hgm = float(xls.iloc[i,11])
+    inn = float(xls.iloc[i,12])
+    izt = float(xls.iloc[i,13])
+    mer = float(xls.iloc[i,14])
+    mgh = float(xls.iloc[i,15])
+    mpa = float(xls.iloc[i,16])
+    ped = float(xls.iloc[i,17])
+    sag = float(xls.iloc[i,18])
+    sfe = float(xls.iloc[i,19])
+    tah = float(xls.iloc[i,20])
+    tla = float(xls.iloc[i,21])
+    tli = float(xls.iloc[i,22])
+    uiz = float(xls.iloc[i,23])
+    vif = float(xls.iloc[i,24])
+    xal = float(xls.iloc[i,25])
 
     datosPm10 = {
     'datoFecha' : fecha,

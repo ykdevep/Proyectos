@@ -73,7 +73,7 @@ tablaPM25[nombreBDPM25] = (
     "CREATE TABLE `pm25` ("
     "   `IDPM25` INT NOT NULL AUTO_INCREMENT,"
     "   `FECHA` TIMESTAMP NULL,"
-    "   `HORA` INT NULL,"
+    "   `HORA` DOUBLE NULL,"
     "   `AJM` DOUBLE NULL,"
     "   `AJU` DOUBLE NULL,"
     "   `BJU` DOUBLE NULL,"
@@ -209,7 +209,7 @@ for name, ddl in tablaPM25.items():
 ##                                                                                                                  ##
 ######################################################################################################################
 
-direccionFichero = "C:/Users/eacar/Desktop/PM25.xls"
+direccionFichero = "C:/Users/Cubano/Documents/GitHub/Proyectos/BancosDatos/PM25.xls"
 xls = panda.read_excel(direccionFichero)
 
 print ("    ")
@@ -329,28 +329,28 @@ addPM25 = ("INSERT INTO pm25"
 
 for i in range(0, len(xls)):
     fecha = datetime.date(xls.iloc[i,0])
-    hora = xls.iloc[i,1]
-    ajm = xls.iloc[i,2]
-    aju = xls.iloc[i,3]
-    bju = xls.iloc[i,4]
-    cam = xls.iloc[i,5]
-    cca = xls.iloc[i,6]
-    coy = xls.iloc[i,7]
-    gam = xls.iloc[i,8]
-    hgm = xls.iloc[i,9]
-    inn = xls.iloc[i,10]
-    mer = xls.iloc[i,11]
-    mgh = xls.iloc[i,12]
-    mpa = xls.iloc[i,13]
-    nez = xls.iloc[i,14]
-    ped = xls.iloc[i,15]
-    sag = xls.iloc[i,16]
-    sfe = xls.iloc[i,17]
-    sja = xls.iloc[i,18]
-    tla = xls.iloc[i,19]
-    uax = xls.iloc[i,20]
-    uiz = xls.iloc[i,21]
-    xal = xls.iloc[i,22]
+    hora = float(xls.iloc[i,1])
+    ajm = float(xls.iloc[i,2])
+    aju = float(xls.iloc[i,3])
+    bju = float(xls.iloc[i,4])
+    cam = float(xls.iloc[i,5])
+    cca = float(xls.iloc[i,6])
+    coy = float(xls.iloc[i,7])
+    gam = float(xls.iloc[i,8])
+    hgm = float(xls.iloc[i,9])
+    inn = float(xls.iloc[i,10])
+    mer = float(xls.iloc[i,11])
+    mgh = float(xls.iloc[i,12])
+    mpa = float(xls.iloc[i,13])
+    nez = float(xls.iloc[i,14])
+    ped = float(xls.iloc[i,15])
+    sag = float(xls.iloc[i,16])
+    sfe = float(xls.iloc[i,17])
+    sja = float(xls.iloc[i,18])
+    tla = float(xls.iloc[i,19])
+    uax = float(xls.iloc[i,20])
+    uiz = float(xls.iloc[i,21])
+    xal = float(xls.iloc[i,22])
 
     datosPM25 = {
     'datoFecha' : fecha,

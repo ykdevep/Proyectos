@@ -73,7 +73,7 @@ tablaRadUVB[nombreBDRadUVB] = (
     "CREATE TABLE `raduvb` ("
     "   `IDUVB` INT NOT NULL AUTO_INCREMENT,"
     "   `FECHA` TIMESTAMP NULL,"
-    "   `HORA` INT NULL,"
+    "   `HORA` DOUBLE NULL,"
     "   `CHO` DOUBLE NULL,"
     "   `CUT` DOUBLE NULL,"
     "   `FAC` DOUBLE NULL,"
@@ -199,7 +199,7 @@ for name, ddl in tablaRadUVB.items():
 ##                                                                                                                  ##
 ######################################################################################################################
 
-direccionFichero = "C:/Users/eacar/Desktop/UVB.xls"
+direccionFichero = "C:/Users/Cubano/Documents/GitHub/Proyectos/BancosDatos/UVB.xls"
 xls = panda.read_excel(direccionFichero)
 
 print ("    ")
@@ -299,18 +299,18 @@ addUVB = ("INSERT INTO raduvb"
 
 for i in range(0, len(xls)):
     fecha = datetime.date(xls.iloc[i,0])
-    hora = xls.iloc[i,1]
-    cho = xls.iloc[i,2]
-    cut = xls.iloc[i,3]
-    fac = xls.iloc[i,4]
-    laa = xls.iloc[i,5]
-    mer = xls.iloc[i,6]
-    mon = xls.iloc[i,7]
-    mpa = xls.iloc[i,8]
-    ped = xls.iloc[i,9]
-    sag = xls.iloc[i,10]
-    sfe = xls.iloc[i,11]
-    tla = xls.iloc[i,12]
+    hora = float(xls.iloc[i,1])
+    cho = float(xls.iloc[i,2])
+    cut = float(xls.iloc[i,3])
+    fac = float(xls.iloc[i,4])
+    laa = float(xls.iloc[i,5])
+    mer = float(xls.iloc[i,6])
+    mon = float(xls.iloc[i,7])
+    mpa = float(xls.iloc[i,8])
+    ped = float(xls.iloc[i,9])
+    sag = float(xls.iloc[i,10])
+    sfe = float(xls.iloc[i,11])
+    tla = float(xls.iloc[i,12])
 
     datosUVB = {
     'datoFecha' : fecha,
