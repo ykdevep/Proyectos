@@ -73,7 +73,7 @@ tablaTempAmb[nombreBDTempAmb] = (
     "CREATE TABLE `tempamb` ("
     "   `IDTMP` INT NOT NULL AUTO_INCREMENT,"
     "   `FECHA` TIMESTAMP NULL,"
-    "   `HORA` INT NULL,"
+    "   `HORA` DOUBLE NULL,"
     "   `ACO` DOUBLE NULL,"
     "   `AJM` DOUBLE NULL,"
     "   `AJU` DOUBLE NULL,"
@@ -214,7 +214,7 @@ for name, ddl in tablaTempAmb.items():
 ##                                                                                                                  ##
 ######################################################################################################################
 
-direccionFichero = "C:/Users/eacar/Desktop/TMP.xls"
+direccionFichero = "C:/Users/Cubano/Documents/GitHub/Proyectos/BancosDatos/TMP.xls"
 xls = panda.read_excel(direccionFichero)
 
 print ("    ")
@@ -344,33 +344,33 @@ addTMP = ("INSERT INTO tempamb"
 
 for i in range(0, len(xls)):
     fecha = datetime.date(xls.iloc[i,0])
-    hora = xls.iloc[i,1]
-    aco = xls.iloc[i,2]
-    ajm = xls.iloc[i,3]
-    aju = xls.iloc[i,4]
-    bju = xls.iloc[i,5]
-    cho = xls.iloc[i,6]
-    cua = xls.iloc[i,7]
-    cut = xls.iloc[i,8]
-    fac = xls.iloc[i,9]
-    gam = xls.iloc[i,10]
-    hgm = xls.iloc[i,11]
-    inn = xls.iloc[i,12]
-    laa = xls.iloc[i,13]
-    mer = xls.iloc[i,14]
-    mgh = xls.iloc[i,15]
-    mon = xls.iloc[i,16]
-    mpa = xls.iloc[i,17]
-    nez = xls.iloc[i,18]
-    ped = xls.iloc[i,19]
-    sag = xls.iloc[i,20]
-    sfe = xls.iloc[i,21]
-    tah = xls.iloc[i,22]
-    tla = xls.iloc[i,23]
-    uax = xls.iloc[i,24]
-    uiz = xls.iloc[i,25]
-    vif = xls.iloc[i,26]
-    xal = xls.iloc[i,27]
+    hora = float(xls.iloc[i,1])
+    aco = float(xls.iloc[i,2])
+    ajm = float(xls.iloc[i,3])
+    aju = float(xls.iloc[i,4])
+    bju = float(xls.iloc[i,5])
+    cho = float(xls.iloc[i,6])
+    cua = float(xls.iloc[i,7])
+    cut = float(xls.iloc[i,8])
+    fac = float(xls.iloc[i,9])
+    gam = float(xls.iloc[i,10])
+    hgm = float(xls.iloc[i,11])
+    inn = float(xls.iloc[i,12])
+    laa = float(xls.iloc[i,13])
+    mer = float(xls.iloc[i,14])
+    mgh = float(xls.iloc[i,15])
+    mon = float(xls.iloc[i,16])
+    mpa = float(xls.iloc[i,17])
+    nez = float(xls.iloc[i,18])
+    ped = float(xls.iloc[i,19])
+    sag = float(xls.iloc[i,20])
+    sfe = float(xls.iloc[i,21])
+    tah = float(xls.iloc[i,22])
+    tla = float(xls.iloc[i,23])
+    uax = float(xls.iloc[i,24])
+    uiz = float(xls.iloc[i,25])
+    vif = float(xls.iloc[i,26])
+    xal = float(xls.iloc[i,27])
 
     datosTMP = {
     'datoFecha' : fecha,
