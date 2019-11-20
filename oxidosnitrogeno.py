@@ -73,7 +73,7 @@ tablaOxNitr[nombreBDOxNitr] = (
     "CREATE TABLE `oxnitrogenos` ("
     "   `IDMONOX` INT NOT NULL AUTO_INCREMENT,"
     "   `FECHA` TIMESTAMP NULL,"
-    "   `HORA` INT NULL,"
+    "   `HORA` DOUBLE NULL,"
     "   `ACO` DOUBLE NULL,"
     "   `AJM` DOUBLE NULL,"
     "   `ATI` DOUBLE NULL,"
@@ -218,7 +218,7 @@ for name, ddl in tablaOxNitr.items():
 ##                                                                                                                  ##
 ######################################################################################################################
 
-direccionFichero = "C:/Users/eacar/Desktop/NOX.xls"
+direccionFichero = "C:/Users/Cubano/Documents/GitHub/Proyectos/BancosDatos/NOX.xls"
 xls = panda.read_excel(direccionFichero)
 
 print ("    ")
@@ -356,37 +356,37 @@ addNOX = ("INSERT INTO oxnitrogenos"
 
 for i in range(0, len(xls)):
     fecha = datetime.date(xls.iloc[i,0])
-    hora = xls.iloc[i,1]
-    aco = xls.iloc[i,2]
-    ajm = xls.iloc[i,3]
-    ati = xls.iloc[i,4]
-    bju = xls.iloc[i,5]
-    cam = xls.iloc[i,6]
-    cca = xls.iloc[i,7]
-    cho = xls.iloc[i,8]
-    cua = xls.iloc[i,9]
-    fac = xls.iloc[i,10]
-    hgm = xls.iloc[i,11]
-    inn = xls.iloc[i,12]
-    izt = xls.iloc[i,13]
-    lla = xls.iloc[i,14]
-    lpr = xls.iloc[i,15]
-    mer = xls.iloc[i,16]
-    mgh = xls.iloc[i,17]
-    mon = xls.iloc[i,18]
-    mpa = xls.iloc[i,19]
-    nez = xls.iloc[i,20]
-    ped = xls.iloc[i,21]
-    sag = xls.iloc[i,22]
-    sfe = xls.iloc[i,23]
-    sja = xls.iloc[i,24]
-    tah = xls.iloc[i,25]
-    tla = xls.iloc[i,26]
-    tli = xls.iloc[i,27]
-    uax = xls.iloc[i,28]
-    uiz = xls.iloc[i,29]
-    vif = xls.iloc[i,30]
-    xal = xls.iloc[i,31]
+    hora = float(xls.iloc[i,1])
+    aco = float(xls.iloc[i,2])
+    ajm = float(xls.iloc[i,3])
+    ati = float(xls.iloc[i,4])
+    bju = float(xls.iloc[i,5])
+    cam = float(xls.iloc[i,6])
+    cca = float(xls.iloc[i,7])
+    cho = float(xls.iloc[i,8])
+    cua = float(xls.iloc[i,9])
+    fac = float(xls.iloc[i,10])
+    hgm = float(xls.iloc[i,11])
+    inn = float(xls.iloc[i,12])
+    izt = float(xls.iloc[i,13])
+    lla = float(xls.iloc[i,14])
+    lpr = float(xls.iloc[i,15])
+    mer = float(xls.iloc[i,16])
+    mgh = float(xls.iloc[i,17])
+    mon = float(xls.iloc[i,18])
+    mpa = float(xls.iloc[i,19])
+    nez = float(xls.iloc[i,20])
+    ped = float(xls.iloc[i,21])
+    sag = float(xls.iloc[i,22])
+    sfe = float(xls.iloc[i,23])
+    sja = float(xls.iloc[i,24])
+    tah = float(xls.iloc[i,25])
+    tla = float(xls.iloc[i,26])
+    tli = float(xls.iloc[i,27])
+    uax = float(xls.iloc[i,28])
+    uiz = float(xls.iloc[i,29])
+    vif = float(xls.iloc[i,30])
+    xal = float(xls.iloc[i,31])
 
     datosNOX = {
     'datoFecha' : fecha,
