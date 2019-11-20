@@ -194,7 +194,7 @@ for name, ddl in tablaVitales.items():
 ##                                                                                                                  ##
 ######################################################################################################################
 
-direccionFichero = "C:/Users/eacar/Desktop/SIGNOS.xls"
+direccionFichero = "C:/Users/Cubano/Documents/GitHub/Proyectos/BancosDatos/SIGNOS.xls"
 xls = panda.read_excel(direccionFichero)
 
 print ("    ")
