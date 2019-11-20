@@ -231,7 +231,7 @@ cantidadTorreAInsertar = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 ##                                                                                                                  ##
 ######################################################################################################################
 
-for i in range(0, 500):
+for i in range(0, 50000):
     latitudes.append(random.randint(19079559, 19857710))
     longitudes.append(random.randint(98763194, 99495169))
     longitudes[i] = longitudes[i] * (-1)
@@ -269,7 +269,7 @@ addLoc = ("INSERT INTO localizaciones"
 ##                                                                                                                  ##
 ######################################################################################################################
 
-for i in range(0, 500):
+for i in range(0, 50000):
     distanciasATorres = []
     menorDistancia = 9999999999999
     posicionMenorDistancia = -99
@@ -283,13 +283,12 @@ for i in range(0, 500):
     
     torreAsignada.append(torreNombre[posicionMenorDistancia])
     cantidadTorre[posicionMenorDistancia] = cantidadTorre[posicionMenorDistancia] + 1
-
 print (cantidadTorre)
 cantidadTorre.sort()
 menorTotalTorres = cantidadTorre[0]
 print ("Se insertaran un total de " + str(menorTotalTorres) + " en la base de datos.")
 
-for i in range(0, 500):
+for i in range(0, 50000):
     if (torreAsignada[i] == "ACO" and cantidadTorreAInsertar[0] < menorTotalTorres):
         cantidadTorreAInsertar[0] = cantidadTorreAInsertar[0] + 1
         latit = latitudes[i]
