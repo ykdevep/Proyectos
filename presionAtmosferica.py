@@ -73,7 +73,7 @@ tablaPresionAtm[nombreBDPresionAtm] = (
     "CREATE TABLE `presionatm` ("
     "   `IDPREATM` INT NOT NULL AUTO_INCREMENT,"
     "   `FECHA` TIMESTAMP NULL,"
-    "   `HORA` INT NULL,"
+    "   `HORA` DOUBLE NULL,"
     "   `AJM` DOUBLE NULL,"
     "   `CUT` DOUBLE NULL,"
     "   `HGM` DOUBLE NULL,"
@@ -198,7 +198,7 @@ for name, ddl in tablaPresionAtm.items():
 ##                                                                                                                  ##
 ######################################################################################################################
 
-direccionFichero = "C:/Users/eacar/Desktop/PA.xls"
+direccionFichero = "C:/Users/Cubano/Documents/GitHub/Proyectos/BancosDatos/PA.xls"
 xls = panda.read_excel(direccionFichero)
 
 print ("    ")
@@ -296,17 +296,17 @@ addPA = ("INSERT INTO presionatm"
 
 for i in range(0, len(xls)):
     fecha = datetime.date(xls.iloc[i,0])
-    hora = xls.iloc[i,1]
-    ajm = xls.iloc[i,2]
-    cut = xls.iloc[i,3]
-    hgm = xls.iloc[i,4]
-    inn = xls.iloc[i,5]
-    laa = xls.iloc[i,6]
-    mer = xls.iloc[i,7]
-    mon = xls.iloc[i,8]
-    mpa = xls.iloc[i,9]
-    tla = xls.iloc[i,10]
-    xal = xls.iloc[i,11]
+    hora = float(xls.iloc[i,1])
+    ajm = float(xls.iloc[i,2])
+    cut = float(xls.iloc[i,3])
+    hgm = float(xls.iloc[i,4])
+    inn = float(xls.iloc[i,5])
+    laa = float(xls.iloc[i,6])
+    mer = float(xls.iloc[i,7])
+    mon = float(xls.iloc[i,8])
+    mpa = float(xls.iloc[i,9])
+    tla = float(xls.iloc[i,10])
+    xal = float(xls.iloc[i,11])
     
     datosPA = {
     'datoFecha' : fecha,

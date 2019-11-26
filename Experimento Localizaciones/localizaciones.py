@@ -286,7 +286,7 @@ for i in range(0, 50000):
 print (cantidadTorre)
 cantidadTorre.sort()
 menorTotalTorres = cantidadTorre[0]
-print ("Se insertaran un total de " + str(menorTotalTorres) + " en la base de datos.")
+print ("Se insertarán un total de " + str(menorTotalTorres) + " en la base de datos.")
 
 for i in range(0, 50000):
     if (torreAsignada[i] == "ACO" and cantidadTorreAInsertar[0] < menorTotalTorres):
