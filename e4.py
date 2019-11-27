@@ -65,12 +65,12 @@ from datetime import datetime
 ##                                                                                                                  ##
 ######################################################################################################################
 
-nombreBDWearable = 'wearable'  ## Configuración para la base de dato de temperatura ambiental TMP...
+nombreBDWearable = 'wearables'  ## Configuración para la base de dato de temperatura ambiental TMP...
 config = {
   'user': 'kike',
   'password': 'kike123',
   'host': '127.0.0.1',
-  'database': 'wearable',
+  'database': 'wearables',
   'raise_on_warnings': True,
 }
 
