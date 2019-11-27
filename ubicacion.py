@@ -74,7 +74,7 @@ tablaLoc[nombreBDLoc] = (
     "   `MARCATIEMPO` DOUBLE NULL,"
     "   `LATITUD` DOUBLE NULL,"
     "   `LONGITUD` DOUBLE NULL,"
-    "   `IDUSUARIO` INT NULL,"
+    "   `IDUSUARIO` DOUBLE NULL,"
     "   PRIMARY KEY (`IDMAPS`));"
     "   ENGINE = InnoDB"
 )
@@ -189,7 +189,7 @@ for name, ddl in tablaLoc.items():
 ##                                                                                                                  ##
 ######################################################################################################################
 
-direccionFichero = "C:/Users/eacar/Desktop/ubic.json"
+direccionFichero = "C:/Users/Cubano/Documents/GitHub/Proyectos/BancosDatos/ubic.json"
 json = panda.read_json(direccionFichero)
 
 print ("    ")
@@ -201,7 +201,7 @@ else:
     print ("    ")
     print ("Fichero cargado exitosamente...")
 
-direccionFicheroUsuario = "C:/Users/eacar/Desktop/IDUSER.xls"
+direccionFicheroUsuario = "C:/Users/Cubano/Documents/GitHub/Proyectos/BancosDatos/IDUSER.xlsx"
 xls = panda.read_excel(direccionFicheroUsuario)
 
 print ("    ")
