@@ -65,18 +65,18 @@ from datetime import datetime
 ##                                                                                                                  ##
 ######################################################################################################################
 
-nombreBDWearable = 'e4wearable'  ## Configuración para la base de dato de temperatura ambiental TMP...
+nombreBDWearable = 'wearable'  ## Configuración para la base de dato de temperatura ambiental TMP...
 config = {
   'user': 'kike',
   'password': 'kike123',
   'host': '127.0.0.1',
-  'database': 'e4wearable',
+  'database': 'wearable',
   'raise_on_warnings': True,
 }
 
 tablaBVP = {} ## Definición de la tabla de temperatura ambiental...
 tablaBVP[nombreBDWearable] = ( 
-    "CREATE TABLE `bvp` ("
+    "CREATE TABLE `e4bvp` ("
     "   `IDBVP` INT NOT NULL AUTO_INCREMENT,"
     "   `FECHATIME` DOUBLE NULL,"
     "   `BVP` DOUBLE NULL,"
@@ -86,7 +86,7 @@ tablaBVP[nombreBDWearable] = (
 
 tablaEDA = {} ## Definición de la tabla de temperatura ambiental...
 tablaEDA[nombreBDWearable] = ( 
-    "CREATE TABLE `eda` ("
+    "CREATE TABLE `e4eda` ("
     "   `IDEDA` INT NOT NULL AUTO_INCREMENT,"
     "   `FECHATIME` DOUBLE NULL,"
     "   `EDA` DOUBLE NULL,"
@@ -96,7 +96,7 @@ tablaEDA[nombreBDWearable] = (
 
 tablaHR = {} ## Definición de la tabla de temperatura ambiental...
 tablaHR[nombreBDWearable] = ( 
-    "CREATE TABLE `hr` ("
+    "CREATE TABLE `e4hr` ("
     "   `IDHR` INT NOT NULL AUTO_INCREMENT,"
     "   `FECHATIME` DOUBLE NULL,"
     "   `HR` DOUBLE NULL,"
@@ -106,7 +106,7 @@ tablaHR[nombreBDWearable] = (
 
 tablaTEMP = {} ## Definición de la tabla de temperatura ambiental...
 tablaTEMP[nombreBDWearable] = ( 
-    "CREATE TABLE `temp` ("
+    "CREATE TABLE `e4temp` ("
     "   `IDTEMP` INT NOT NULL AUTO_INCREMENT,"
     "   `FECHATIME` DOUBLE NULL,"
     "   `TEMP` DOUBLE NULL,"
@@ -272,7 +272,7 @@ for name, ddl in tablaTEMP.items():
 ##                                                                                                                  ##
 ######################################################################################################################
 
-direccionFichero = "C:/Users/eacar/Desktop/BVP.csv"
+direccionFichero = "C:/Users/Cubano/Documents/GitHub/Proyectos/BancosDatos/E4/BVP.csv"
 bvp = panda.read_csv(direccionFichero)
 
 print ("    ")
@@ -284,7 +284,7 @@ else:
     print ("    ")
     print ("Fichero cargado exitosamente...")
 
-direccionFichero = "C:/Users/eacar/Desktop/EDA.csv"
+direccionFichero = "C:/Users/Cubano/Documents/GitHub/Proyectos/BancosDatos/E4/EDA.csv"
 eda = panda.read_csv(direccionFichero)
 
 print ("    ")
@@ -296,7 +296,7 @@ else:
     print ("    ")
     print ("Fichero cargado exitosamente...")
 
-direccionFichero = "C:/Users/eacar/Desktop/HR.csv"
+direccionFichero = "C:/Users/Cubano/Documents/GitHub/Proyectos/BancosDatos/E4/HR.csv"
 hr = panda.read_csv(direccionFichero)
 
 print ("    ")
@@ -308,7 +308,7 @@ else:
     print ("    ")
     print ("Fichero cargado exitosamente...")
 
-direccionFichero = "C:/Users/eacar/Desktop/TEMP.csv"
+direccionFichero = "C:/Users/Cubano/Documents/GitHub/Proyectos/BancosDatos/E4/TEMP.csv"
 temp = panda.read_csv(direccionFichero)
 
 print ("    ")
@@ -420,7 +420,7 @@ datosBVP = {
     'datoBVPDato' : bvpDatos,
 }
 
-addBVP = ("INSERT INTO bvp"
+addBVP = ("INSERT INTO e4bvp"
                 "(FECHATIME, BVP)"
                 "VALUES (%(datoFechaTimeBVP)s, %(datoBVPDato)s)"
             )
@@ -433,7 +433,7 @@ datosEDA = {
     'datoEDADato' : edaDatos,
 }
 
-addEDA = ("INSERT INTO eda"
+addEDA = ("INSERT INTO e4eda"
                 "(FECHATIME, EDA)"
                 "VALUES (%(datoFechaTimeEDA)s, %(datoEDADato)s)"
             )
@@ -446,7 +446,7 @@ datosHR = {
     'datoHRDato' : hrDatos,
 }
 
-addHR = ("INSERT INTO hr"
+addHR = ("INSERT INTO e4hr"
                 "(FECHATIME, HR)"
                 "VALUES (%(datoFechaTimeHR)s, %(datoHRDato)s)"
             )
@@ -459,7 +459,7 @@ datosTEMP = {
     'datoTEMPDato' : tempDatos,
 }
 
-addTEMP = ("INSERT INTO temp"
+addTEMP = ("INSERT INTO e4temp"
                 "(FECHATIME, TEMP)"
                 "VALUES (%(datoFechaTimeTEMP)s, %(datoTEMPDato)s)"
             )

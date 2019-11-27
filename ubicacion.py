@@ -284,7 +284,7 @@ addLoc = ("INSERT INTO mapslocalizacion"
 ######################################################################################################################
 
 for i in range(0, len(xls)):
-    idUsuario = xls.iloc[i,0]
+    idUsuario = float(xls.iloc[i,0])
 
 for i in range(0, len(json)):
     control = json.iloc[i,0]
