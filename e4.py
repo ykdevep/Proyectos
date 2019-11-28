@@ -80,6 +80,7 @@ tablaBVP[nombreBDWearable] = (
     "   `IDBVP` INT NOT NULL AUTO_INCREMENT,"
     "   `FECHATIME` DOUBLE NULL,"
     "   `BVP` DOUBLE NULL,"
+    "   `IDUSUARIO` DOUBLE NULL,"
     "   PRIMARY KEY (`IDBVP`));"
     "   ENGINE = InnoDB"
 )
@@ -90,6 +91,7 @@ tablaEDA[nombreBDWearable] = (
     "   `IDEDA` INT NOT NULL AUTO_INCREMENT,"
     "   `FECHATIME` DOUBLE NULL,"
     "   `EDA` DOUBLE NULL,"
+    "   `IDUSUARIO` DOUBLE NULL,"
     "   PRIMARY KEY (`IDEDA`));"
     "   ENGINE = InnoDB"
 )
@@ -100,6 +102,7 @@ tablaHR[nombreBDWearable] = (
     "   `IDHR` INT NOT NULL AUTO_INCREMENT,"
     "   `FECHATIME` DOUBLE NULL,"
     "   `HR` DOUBLE NULL,"
+    "   `IDUSUARIO` DOUBLE NULL,"
     "   PRIMARY KEY (`IDHR`));"
     "   ENGINE = InnoDB"
 )
@@ -110,6 +113,7 @@ tablaTEMP[nombreBDWearable] = (
     "   `IDTEMP` INT NOT NULL AUTO_INCREMENT,"
     "   `FECHATIME` DOUBLE NULL,"
     "   `TEMP` DOUBLE NULL,"
+    "   `IDUSUARIO` DOUBLE NULL,"
     "   PRIMARY KEY (`IDTEMP`));"
     "   ENGINE = InnoDB"
 )
@@ -272,6 +276,9 @@ for name, ddl in tablaTEMP.items():
 ##                                                                                                                  ##
 ######################################################################################################################
 
+direccionFicheroUsuario = "C:/Users/Cubano/Documents/GitHub/Proyectos/BancosDatos/IDUSER.xlsx"
+xls = panda.read_excel(direccionFicheroUsuario)
+
 direccionFichero = "C:/Users/Cubano/Documents/GitHub/Proyectos/BancosDatos/E4/BVP.csv"
 bvp = panda.read_csv(direccionFichero)
 
@@ -414,54 +421,62 @@ temp = temp.fillna("NULL")
 
 fechaTimeBVP = ""
 bvpDatos = ""
+idUsuario = ""
 
 datosBVP = {
     'datoFechaTimeBVP' : fechaTimeBVP,
     'datoBVPDato' : bvpDatos,
+    'datoIdUsuario' : idUsuario,
 }
 
 addBVP = ("INSERT INTO e4bvp"
-                "(FECHATIME, BVP)"
-                "VALUES (%(datoFechaTimeBVP)s, %(datoBVPDato)s)"
+                "(FECHATIME, BVP, IDUSUARIO)"
+                "VALUES (%(datoFechaTimeBVP)s, %(datoBVPDato)s, %(datoIdUsuario)s)"
             )
 
 fechaTimeEDA = ""
 edaDatos = ""
+idUsuario = ""
 
 datosEDA = {
     'datoFechaTimeEDA' : fechaTimeEDA,
     'datoEDADato' : edaDatos,
+    'datoIdUsuario' : idUsuario,
 }
 
 addEDA = ("INSERT INTO e4eda"
-                "(FECHATIME, EDA)"
-                "VALUES (%(datoFechaTimeEDA)s, %(datoEDADato)s)"
+                "(FECHATIME, EDA, IDUSUARIO)"
+                "VALUES (%(datoFechaTimeEDA)s, %(datoEDADato)s, %(datoIdUsuario)s)"
             )
 
 fechaTimeHR = ""
 hrDatos = ""
+idUsuario =""
 
 datosHR = {
     'datoFechaTimeHR' : fechaTimeHR,
     'datoHRDato' : hrDatos,
+    'datoIdUsuario' : idUsuario,
 }
 
 addHR = ("INSERT INTO e4hr"
-                "(FECHATIME, HR)"
-                "VALUES (%(datoFechaTimeHR)s, %(datoHRDato)s)"
+                "(FECHATIME, HR, IDUSUARIO)"
+                "VALUES (%(datoFechaTimeHR)s, %(datoHRDato)s, %(datoIdUsuario)s)"
             )
 
 fechaTimeTEMP = ""
 tempDatos = ""
+idUsuario = ""
 
 datosTEMP = {
     'datoFechaTimeTEMP' : fechaTimeTEMP,
     'datoTEMPDato' : tempDatos,
+    'datoIdUsuario' : idUsuario,
 }
 
 addTEMP = ("INSERT INTO e4temp"
-                "(FECHATIME, TEMP)"
-                "VALUES (%(datoFechaTimeTEMP)s, %(datoTEMPDato)s)"
+                "(FECHATIME, TEMP, IDUSUARIO)"
+                "VALUES (%(datoFechaTimeTEMP)s, %(datoTEMPDato)s, %(datoIdUsuario)s)"
             )
 
 ######################################################################################################################
@@ -470,6 +485,9 @@ addTEMP = ("INSERT INTO e4temp"
 ##                 Esto es necesario para poder insertar correctamente los valores en la base de datos...           ##
 ##                                                                                                                  ##
 ######################################################################################################################
+
+for i in range(0, len(xls)):
+    idUsuario = float(xls.iloc[i,0])
 
 fechaTimeBVP = bvp.iloc[0,0]
 fechaTimeBVP = fechaTimeBVP * 1000
@@ -480,6 +498,7 @@ for i in range(24, len(bvp)):
     datosBVP = {
     'datoFechaTimeBVP' : fechaTimeBVP,
     'datoBVPDato' : bvpDatos,
+    'datoIdUsuario' : idUsuario,
     }
 
     print ("Insertando registro " + str(i) + " de " + str(len(bvp)))
@@ -488,6 +507,9 @@ for i in range(24, len(bvp)):
     print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(bvp))) +  " porciento del total de datos")
 
 print ("Se insertaron adecuadamente el 100 porciento de los datos del xls en la base de datos.")
+
+for i in range(0, len(xls)):
+    idUsuario = float(xls.iloc[i,0])
 
 fechaTimeEDA = eda.iloc[0,0]
 fechaTimeEDA = fechaTimeEDA * 1000
@@ -498,6 +520,7 @@ for i in range(5, len(eda)):
     datosEDA = {
     'datoFechaTimeEDA' : fechaTimeEDA,
     'datoEDADato' : edaDatos,
+    'datoIdUsuario' : idUsuario,
     }
 
     print ("Insertando registro " + str(i) + " de " + str(len(eda)))
@@ -506,6 +529,9 @@ for i in range(5, len(eda)):
     print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(eda))) +  " porciento del total de datos")
 
 print ("Se insertaron adecuadamente el 100 porciento de los datos del xls en la base de datos.")
+
+for i in range(0, len(xls)):
+    idUsuario = float(xls.iloc[i,0])
 
 fechaTimeHR = hr.iloc[0,0]
 fechaTimeHR = fechaTimeHR * 1000
@@ -516,6 +542,7 @@ for i in range(4, len(hr)):
     datosHR = {
     'datoFechaTimeHR' : fechaTimeHR,
     'datoHRDato' : hrDatos,
+    'datoIdUsuario' : idUsuario,
     }
 
     print ("Insertando registro " + str(i) + " de " + str(len(hr)))
@@ -524,6 +551,9 @@ for i in range(4, len(hr)):
     print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(hr))) +  " porciento del total de datos")
 
 print ("Se insertaron adecuadamente el 100 porciento de los datos del xls en la base de datos.")
+
+for i in range(0, len(xls)):
+    idUsuario = float(xls.iloc[i,0])
 
 fechaTimeTEMP = temp.iloc[0,0]
 fechaTimeTEMP = fechaTimeTEMP * 1000
@@ -534,6 +564,7 @@ for i in range(4, len(temp)):
     datosTEMP = {
     'datoFechaTimeTEMP' : fechaTimeTEMP,
     'datoTEMPDato' : tempDatos,
+    'datoIdUsuario' : idUsuario,
     }
 
     print ("Insertando registro " + str(i) + " de " + str(len(temp)))
