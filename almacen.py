@@ -59,13 +59,23 @@ from geopy import distance
 ######################################################################################################################
 
 nombreBDAlmacen = 'almacen'  ## Configuración para la base de dato de localización gegráfica...
-config = {
-  'user': 'kike',
-  'password': 'kike123',
-  'host': '127.0.0.1',
-  'database': 'almacen',
-  'raise_on_warnings': True,
+configAlmacen = {
+  'user' : 'kike',
+  'password' : 'kike123',
+  'host' : '127.0.0.1',
+  'database' : 'almacen',
+  'raise_on_warnings' : True,
 }
+
+configVariables = {
+    'user' : 'kike',
+    'password' : 'kike123',
+    'host' : '127.0.0.1',
+    'database' : 'wearables',
+    'raise_on_warnings' : True,
+}
+
+
 
 tablaAlmacen = {} ## Definición de la tabla de localización...
 tablaAlmacen[nombreBDAlmacen] = ( 
@@ -158,12 +168,13 @@ class NumpyMySQLConverter(mysql.connector.conversion.MySQLConverter):
 ######################################################################################################################
 ##                                                                                                                  ##
 ##                       Conectando al SGBD MySQL y creando las tablas definidas...                                 ##
+## -> Se conecta a almacen y se crea la tabla almacendatos...
 ##                                                                                                                  ##
 ######################################################################################################################
 
 try:
     print ("Creando las variables de conexión...")
-    cnx = mysql.connector.connect(**config)
+    cnx = mysql.connector.connect(**configAlmacen)
     cnx.set_converter_class(NumpyMySQLConverter)
 except mysql.connector.Error as err:
   if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
@@ -233,6 +244,71 @@ for name, ddl in tablaAlmacen.items():
     else:
         print ("   ")
         print("Tablas creadas...")
+
+######################################################################################################################
+##                                                                                                                  ##
+##                                  Se cierra el enlace a la base de datos...                                       ##
+##                                                                                                                  ##
+######################################################################################################################
+
+cursor.close()
+cnx.close()
+
+######################################################################################################################
+##                                                                                                                  ##
+##                       Conectando al SGBD MySQL y creando las tablas definidas...                                 ##
+## -> Se conecta a wearable y se crea la tabla almacendatos...
+##                                                                                                                  ##
+######################################################################################################################
+
+try:
+    print ("Creando las variables de conexión...")
+    cnx = mysql.connector.connect(**configVariables)
+    cnx.set_converter_class(NumpyMySQLConverter)
+except mysql.connector.Error as err:
+  if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+    print ("   ")
+    print("Su usuario o contraseña no son correctos, por favor verifique...")
+  elif err.errno == errorcode.ER_BAD_DB_ERROR:
+    print ("   ")
+    print("No existe la base de datos, por favor verifique...")
+  else:
+    print ("   ")
+    print(err)
+else:
+    print ("   ")
+    print ("Conexión exitosa...")
+    cursor = cnx.cursor()
+
+
+
+cursor.execute(
+    "SELECT * FROM e4temp"
+)
+
+datosTEMP = cursor.fetchall()
+
+for i in datosTEMP:
+    fecha = i[1]
+    bvp = i[2]
+    usuario = i[3]
+    print("Fecha: " + str(fecha))
+    print("BVP: " + str(bvp))
+    print("Usuario: " + str(usuario))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ######################################################################################################################
 ##                                                                                                                  ##
