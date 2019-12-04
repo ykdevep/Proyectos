@@ -67,29 +67,21 @@ config = {
   'raise_on_warnings': True,
 }
 
-config2 = {
-  'user': 'kike',
-  'password': 'kike123',
-  'host': '127.0.0.1',
-  'database': 'estacionesmonitoreo',
-  'raise_on_warnings': True,
-}
-
 tablaAlmacen = {} ## Definición de la tabla de localización...
 tablaAlmacen[nombreBDAlmacen] = ( 
     "CREATE TABLE `almacendatos` ("
     "   `IDALDA` INT NOT NULL AUTO_INCREMENT,"
     "   `IDUSUARIO` INT NULL,"
+    "   `LATUSR` DOUBLE NULL,"
+    "   `LONGUSR` DOUBLE NULL,"
     "   `FECHA` TIMESTAMP NULL,"
     "   `MARCATIEMPO` DOUBLE NULL,"
     "   `SO2` DOUBLE NULL,"
     "   `TORRESO2` TEXT NULL,"
     "   `NO2` DOUBLE NULL,"
     "   `TORRENO2` TEXT NULL,"
-    "   `HR` DOUBLE NULL,"
+    "   `RH` DOUBLE NULL,"
     "   `TORREHR` TEXT NULL,"
-    "   `TEMPAMB` DOUBLE NULL,"
-    "   `TORRETEMPAMB` TEXT NULL,"
     "   `CO` DOUBLE NULL,"
     "   `TORRECO` TEXT NULL,"
     "   `NO` DOUBLE NULL,"
@@ -108,10 +100,32 @@ tablaAlmacen[nombreBDAlmacen] = (
     "   `TORRERUVA` TEXT NULL,"
     "   `RUVB` DOUBLE NULL,"
     "   `TORRERUVB` TEXT NULL,"
+    "   `TEMPAMB` DOUBLE NULL,"
+    "   `TORRETEMPAMB` TEXT NULL,"
     "   `BVP` DOUBLE NULL,"
+    "   `BVPPROMSEG` DOUBLE NULL,"
+    "   `BVPDESESTSEG` DOUBLE NULL,"
+    "   `BVPMEDSEG` DOUBLE NULL,"
+    "   `BVPMINSEG` DOUBLE NULL,"
+    "   `BVPMAXSEG` DOUBLE NULL,"
     "   `EDA` DOUBLE NULL,"
-    "   `RITMOCARD` DOUBLE NULL,"
-    "   `TEMPCUERPO` DOUBLE NULL,"
+    "   `EDAPROMSEG` DOUBLE NULL,"
+    "   `EDADESESTSEG` DOUBLE NULL,"
+    "   `EDAMEDSEG` DOUBLE NULL,"
+    "   `EDAMINSEG` DOUBLE NULL,"
+    "   `EDAMAXSEG` DOUBLE NULL,"
+    "   `RC` DOUBLE NULL,"
+    "   `RCPROMSEG` DOUBLE NULL,"
+    "   `RCDESESTSEG` DOUBLE NULL,"
+    "   `RCMEDSEG` DOUBLE NULL,"
+    "   `RCMINSEG` DOUBLE NULL,"
+    "   `RCMAXSEG` DOUBLE NULL,"
+    "   `TEMPC` DOUBLE NULL,"
+    "   `TCPROMSEG` DOUBLE NULL,"
+    "   `TCDESESTSEG` DOUBLE NULL,"
+    "   `TCMEDSEG` DOUBLE NULL,"
+    "   `TCMINSEG` DOUBLE NULL,"
+    "   `TCMAXSEG` DOUBLE NULL,"
     "   PRIMARY KEY (`IDALDA`));"
     "   ENGINE = InnoDB"
 )
@@ -150,9 +164,7 @@ class NumpyMySQLConverter(mysql.connector.conversion.MySQLConverter):
 try:
     print ("Creando las variables de conexión...")
     cnx = mysql.connector.connect(**config)
-    cnx1 = mysql.connector.connect(**config2)
     cnx.set_converter_class(NumpyMySQLConverter)
-    cnx1.set_converter_class(NumpyMySQLConverter)
 except mysql.connector.Error as err:
   if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
     print ("   ")
@@ -167,8 +179,7 @@ else:
     print ("   ")
     print ("Conexión exitosa...")
     cursor = cnx.cursor()
-    cursor1 = cnx1.cursor()
-
+    
 ######################################################################################################################
 ##                                                                                                                  ##
 ##                           Función para crear la base de datos en el formato correspondiente...                   ##
@@ -223,9 +234,136 @@ for name, ddl in tablaAlmacen.items():
         print ("   ")
         print("Tablas creadas...")
 
+######################################################################################################################
+##                                                                                                                  ##
+## -> Las variables corresponden a sus respectivos campos en la base de datos (Ver descripción anterior)...         ##
+##        datosLoc [Contiene la información de la latitud, longitud y de la torre asignada]...                      ##
+##                 (La torre seleccionada es la más cercana a las coordenadas seleccionadas)...                     ##
+## -> Consulta SQL necesaria para insertar los valores en la base de datos...  [addLoc]                             ##
+##                                                                                                                  ##
+######################################################################################################################
+
+idUsuario = ""
+latUsuario = ""
+longUsuario = ""
+fecha = ""
+marcaTiempo = ""
+so2 = ""
+torreSO2 = ""
+no2 = ""
+torreNO2 = ""
+rh = ""
+torreRH = ""
+co = ""
+torreCO = ""
+no = ""
+torreNO = ""
+nox = ""
+torreNOX = ""
+o3 = ""
+torreO3 = ""
+pm10 = ""
+torrePM10 = ""
+pm25 = ""
+torrePM25 = ""
+pa = ""
+torrePA = ""
+uva = ""
+torreUVA = ""
+uvb = ""
+torreUVB = ""
+temp = ""
+torreTEMP = ""
+bvp = ""
+bvpPromSeg = ""
+bvpDesEstSeg = ""
+bvpMedSeg = ""
+bvpMinSeg = ""
+bvpMaxSeg = ""
+eda = ""
+edaPromSeg = ""
+edaDesEstseg = ""
+edaMedSeg = ""
+edaMinSeg = ""
+edaMaxSeg = ""
+rc = ""
+rcPromSeg = ""
+rcDesEstSeg = ""
+rcMedSeg = ""
+rcMinSeg = ""
+rcMaxSeg = ""
+tempC = ""
+tempCPromSeg = ""
+tempCDesEstSeg = ""
+tempCMedSeg = ""
+tempCMinSeg = ""
+tempCMaxSeg = ""
+
+datosAlm = {
+    'datoIdUsuario' : idUsuario,
+    'datoLatUsuario' : latUsuario,
+    'datoLongUsuario' : longUsuario,
+    'datoFecha' : fecha,
+    'datoMarcaTiempo' : marcaTiempo,
+    'datoSO2' : so2,
+    'datoTorreSO2' : torreSO2,
+    'datoNO2' : no2,
+    'datoTorreNO2' : torreNO2,
+    'datoRH' : rh,
+    'datoTorreRH' : torreRH,
+    'datoCO' : co,
+    'datoTorreCO' : torreCO,
+    'datoNO' : no,
+    'datoTorreNO' : torreNO,
+    'datoTorreNOX' : nox,
+    'datoTorreNOX' : torreNOX,
+    'datoO3' : o3,
+    'datoTorreO3' : torreO3,
+    'datoTorrePM10' : pm10,
+    'datoTorrePM10' : torrePM10,
+    'datoPM25' : pm25,
+    'datoTorrePM25' : torrePM25,
+    'datoPA' : pa,
+    'datoTorrePA' : torrePA,
+    'datoUVA' : uva,
+    'datoTorreUVA' : torreUVA,
+    'datoUVB' : uvb,
+    'datoTorreUVB' : torreUVB,
+    'datoTEMP' : temp,
+    'datoTorreTEMP' : torreTEMP,
+    'datoBVP' : bvp,
+    'datoBVPPromSeg' : bvpPromSeg,
+    'datoBVPDesEstSeg' : bvpDesEstSeg,
+    'datoBVPMedSeg' : bvpMedSeg,
+    'datoBVPMinSeg' : bvpMinSeg,
+    'datoBVPMaxSeg' : bvpMaxSeg,
+    'datoEDA' : eda,
+    'datoEDAPromSeg' : edaPromSeg,
+    'datoEDADesEstSeg' : edaDesEstseg,
+    'datoEDAMedSeg' : edaMedSeg,
+    'datoEDAMinSeg' : edaMinSeg,
+    'datoEDAMaxSeg' : edaMaxSeg,
+    'datoRC' : rc,
+    'datoRCPromSeg' : rcPromSeg,
+    'datoRCDesEstSeg' : rcDesEstSeg,
+    'datoRCMedSeg' : rcMedSeg,
+    'datoRCMinSeg' : rcMinSeg,
+    'datoRCMaxSeg' : rcMaxSeg,
+    'datoTempC' : tempC,
+    'datoTempCPromSeg' : tempCPromSeg,
+    'datoTempCDesEstSeg' : tempCDesEstSeg,
+    'datoTempCMedSeg' : tempCMedSeg,
+    'datoTempCMinSeg' : tempCMinSeg,
+    'datoTempCMaxSeg' : tempCMaxSeg,
+}
 
 
 
+
+
+
+
+  
 
 
 
@@ -233,38 +371,6 @@ for name, ddl in tablaAlmacen.items():
 
 cursor.close()
 cnx.close()
-cursor1.close()
-cnx1.close()
 
-
-
-
-
-'''
-newport_ri = (41.49008, -71.312796)
-cleveland_oh = (41.499498, -81.695391)
-other = (41.45999, -81.957418)
-print(distance.distance(newport_ri, cleveland_oh).miles)
-print(distance.distance(newport_ri,cleveland_oh))
-print(distance.distance(newport_ri, other).miles)
-print(distance.distance(newport_ri,other))
-valor = distance.distance(newport_ri, cleveland_oh)
-valor2 = distance.distance(newport_ri, other)
-print(type(valor))
-print(valor)
-print(valor2)
-
-if (valor > valor2):
-    print("Wl mayor es 1 " + str(valor))
-else:
-    print("EL mayor es 2 " + str(valor2))
-'''
-
-
-
-distanciaUsuarioATorre = {}
-
-def MedicionDistancia(ubicacionUsuario, ubicacionTorre):
-    distanciaUsuarioATorre.append(distance.distance(ubicacionUsuario, ubicacionTorre))
 
 

@@ -256,7 +256,7 @@ torreTEMP = ["ACO", "AJU", "AJM", "BJU", "CHO", "CUA", "CUT", "FAC", "GAM", "HGM
              "MPA", "MON", "NEZ", "PED", "SAG", "SFE", "TAH", "TLA", "UIZ", "UAX", "VIF", "XAL"]
 torreSO2Latitud = ["19.635501", "19.2721", "19.576963", "19.371612", "19.468404", "19.3262", "19.266948", 
                    "19.365313", "19.722186", "19.482473", "19.411617", "19.291968", "19.384413", "19.534727",
-                   "19.578792", "1942461", "19.40405", "19.1769", "19.460415", "19.393734", "19.325146", 
+                   "19.578792", "19.42461", "19.40405", "19.1769", "19.460415", "19.393734", "19.325146", 
                    "19.532968", "19.452592", "19.357357", "19.246459", "19.529077", "19.602542", "19.360794",
                    "19.304441", "19.658223", "19.525995"]
 torreSO2Longitud = ["-98.912003", "-99.207658", "-99.254133", "-99.158969", "-99.169794", "-99.1761", 
@@ -270,14 +270,14 @@ torreNO2Latitud = ["19.635501", "19.2721", "19.576963", "19.371612", "19.468404"
                    "19.325146", "19.532968", "19.452592", "19.357352", "19.246459", "19.529077", "19.602542",
                    "19.360794", "19.30441", "19.658223", "19.525995"]
 torreNO2Longitud = ["-98.912003", "-99.207658", "-99.254133", "-99.158969", "-99.169794", "-99.1761",
-                    "-98.886088", "-99.157101", "-99.198602", "-99.243524", "-99.152207", "-99.38052", 
+                    "-98.886088", "-99.157101", "-99.291705", "-99.198602", "-99.243524", "-99.152207", "-99.38052", 
                     "-99.117641", "-99.11772", "-99.242062", "-99.119594", "-99.202603", "-98.990189",
                     "-98.902853", "-99.028212", "-99.204136", "-99.030324", "-99.086095", "-99.262865",
                     "-99.010564", "-99.204597", "-99.177173", "-99.07388", "-99.103629", "-99.09659", "-99.0824"]
 torreRHLatitud = ["19.635501", "19.154674", "19.2721", "19.371612", "19.266948", "19.365313", "19.722186",
                   "19.482473", "19.4827", "19.411617", "19.291968", "19.483781", "19.42461", "19.40405",
-                  "19.1769", "19.4604415", "19.393734", "19.325146", "19.532968", "19.357357", "19.246459",
-                  "19.360794", "19.304441", "19.658223", "19.525995"]
+                  "19.1769", "19.460415", "19.393734", "19.325146", "19.532968", "19.357357", "19.246459",
+                  "19.529077", "19.360794", "19.304441", "19.658223", "19.525995"]
 torreRHLongitud = ["-98.912003", "-99.162459", "-99.207658", "-99.158969", "-98.886088", "-99.291705",
                    "-99.198602", "-99.243524", "-99.094517", "-99.152207", "-99.38052", "-99.147312",
                    "-99.119594", "-99.202603", "-98.990189", "-98.902853", "-99.028212", "-99.204136",
@@ -295,7 +295,7 @@ torreCOLongitud = ["-98.912003", "-99.207658", "-99.254133", "-99.158969", "-99.
                     "-99.010564", "-99.204597", "-99.177173", "-99.07388", "-99.103629", "-99.09659", "-99.0824"]
 torreNOLatitud = ["19.635501", "19.2721", "19.576963", "19.468404", "19.3262", "19.266948", "19.350258",
                   "19.365313", "19.722186", "19.482473", "19.411617", "19.291968", "19.384413", "19.534727",
-                  "19.578792", "1942461", "19.40405", "19.1769", "19.460415", "19.393734", "19.325146", 
+                  "19.578792", "19.42461", "19.40405", "19.1769", "19.460415", "19.393734", "19.325146", 
                   "19.532968", "19.452592", "19.357357", "19.246459", "19.529077", "19.602542", "19.360794",
                   "19.304441", "19.658223", "19.525995"]
 torreNOLongitud = ["-98.912003", "-99.207658", "-99.254133", "-99.169794", "-99.1761", "-98.886088", "-99.157101",
@@ -305,7 +305,7 @@ torreNOLongitud = ["-98.912003", "-99.207658", "-99.254133", "-99.169794", "-99.
                    "-99.103629", "-99.09659", "-99.0824"]
 torreNOXLatitud = ["19.635501", "19.2721", "19.576963", "19.468404", "19.3262", "19.266948", "19.350258",
                   "19.365313", "19.722186", "19.482473", "19.411617", "19.291968", "19.384413", "19.534727",
-                  "19.578792", "1942461", "19.40405", "19.1769", "19.460415", "19.393734", "19.325146", 
+                  "19.578792", "19.42461", "19.40405", "19.1769", "19.460415", "19.393734", "19.325146", 
                   "19.532968", "19.452592", "19.357357", "19.246459", "19.529077", "19.602542", "19.360794",
                   "19.304441", "19.658223", "19.525995"]
 torreNOXLongitud = ["-98.912003", "-99.207658", "-99.254133", "-99.169794", "-99.1761", "-98.886088", "-99.157101",
@@ -315,7 +315,7 @@ torreNOXLongitud = ["-98.912003", "-99.207658", "-99.254133", "-99.169794", "-99
                    "-99.103629", "-99.09659", "-99.0824"]
 torreO3Latitud = ["19.635501", "19.154674", "19.2721", "19.576963", "19.371612", "19.468404", "19.3262", "19.266948",
                   "19.350258", "19.365313", "19.722196", "19.482473", "19.4827", "19.411617", "19.291968", "19.384413",
-                  "19.534727", "19.578792", "1942461", "19.40405", "19.1769", "19.460415", "19.393734", "19.325146",
+                  "19.534727", "19.578792", "19.42461", "19.40405", "19.1769", "19.460415", "19.393734", "19.325146",
                   "19.532968", "19.452592", "19.357357", "19.246459", "19.529077", "19.602542", "19.360794",
                   "19.304441", "19.658223", "19.525995"]
 torreO3Longitud = ["-98.912003", "-99.162459", "-99.206758", "-99.254133", "-99.158969", "-99.169794", "-99.1761",
@@ -364,10 +364,12 @@ torreTEMPLongitud = ["-98.912003", "-99.162459", "-99.207658", "-99.158969", "-9
 ##                                                                                                                  ##
 ##  -> Generación aleatoria de coordenadas geográficas a partir de los límites establecidos...                      ##
 ##  -> Conversión para el entero generado a un valor de coordenada geográfica...                                    ##
+##                    -> valoresTotales (Es la cantidad de valores a generar aleatoriamente)                        ##
 ##                                                                                                                  ##
 ######################################################################################################################
 
-for i in range(0, 50000):
+valoresTotales = 5000
+for i in range(0, valoresTotales):
     latitudes.append(random.randint(19079559, 19857710))
     longitudes.append(random.randint(98763194, 99495169))
     longitudes[i] = longitudes[i] * (-1)
@@ -385,39 +387,312 @@ for i in range(0, 50000):
 
 latit = ""
 longit = ""
-torreSO2 = ""
-torreNO2 = ""
-torreRH = ""
-torreCO = ""
-torreNO = ""
-torreNOX = ""
-torreO3 = ""
-torrePM10 = ""
-torrePM25 = ""
-torrePA = ""
-torreUVA = ""
-torreUVB = ""
-torreTEMP = ""
+torreDSO2 = ""
+torreDNO2 = ""
+torreDRH = ""
+torreDCO = ""
+torreDNO = ""
+torreDNOX = ""
+torreDO3 = ""
+torreDPM10 = ""
+torreDPM25 = ""
+torreDPA = ""
+torreDUVA = ""
+torreDUVB = ""
+torreDTEMP = ""
 
 datosLoc = {
     'datoLatitud' : latit,
     'datoLongitud' : longit,
-    'datoTorreSO2' : torreSO2,
-    'datoTorreNO2' : torreNO2,
-    'datoTorreRH' : torreRH,
-    'datoTorreCO' : torreCO,
-    'datoTorreNO' : torreNO,
-    'datoTorreNOX' : torreNOX,
-    'datoTorreO3' : torreO3,
-    'datoTorrePM10' : torrePM10,
-    'datoTorrePM25' : torrePM25,
-    'datoTorrePA' : torrePA,
-    'datoTorreUVA' torreUVA,
-    'datoTorreUVB' : torreUVB,
-    'datoTorreTEMP' : datoTEMP,
+    'datoTorreSO2' : torreDSO2,
+    'datoTorreNO2' : torreDNO2,
+    'datoTorreRH' : torreDRH,
+    'datoTorreCO' : torreDCO,
+    'datoTorreNO' : torreDNO,
+    'datoTorreNOX' : torreDNOX,
+    'datoTorreO3' : torreDO3,
+    'datoTorrePM10' : torreDPM10,
+    'datoTorrePM25' : torreDPM25,
+    'datoTorrePA' : torreDPA,
+    'datoTorreUVA' : torreDUVA,
+    'datoTorreUVB' : torreDUVB,
+    'datoTorreTEMP' : torreDTEMP,
 }
 
 addLoc = ("INSERT INTO localizaciones"
                 "(LATITUD, LONGITUD, TORRESO2, TORRENO2, TORRERH, TORRECO, TORRENO, TORRENOX, TORREO3, TORREPM10, TORREPM25, TORREPA, TORREUVA, TORREUVB, TORRETEMP)"
                 "VALUES (%(datoLatitud)s, %(datoLongitud)s, %(datoTorreSO2)s, %(datoTorreNO2)s, %(datoTorreRH)s, %(datoTorreCO)s, %(datoTorreNO)s, %(datoTorreNOX)s, %(datoTorreO3)s, %(datoTorrePM10)s, %(datoTorrePM25)s, %(datoTorrePA)s, %(datoTorreUVA)s, %(datoTorreUVB)s, %(datoTorreTEMP)s)"
             )
+
+######################################################################################################################
+##                                                                                                                  ##
+## -> Se calculan las distancias a cada una de las torres y se selecciona la torre más cercana para cada una de     ##
+##       las coordenadas generadas por cada uno de los contaminantes...                                             ##      
+##                                                                                                                  ##
+######################################################################################################################
+
+for i in range(0, valoresTotales):
+
+    ###
+    ### Se determina la menor distancia para las torres de contaminantes SO2...
+    ###
+
+    distanciasAtorresSO2 = []
+    menorDistanciaSO2 = 9999999999999
+    posicionMenorDistanciaSO2 = -99
+    for j in range(len(torreSO2)):
+        coordenada1 = (latitudes[i], longitudes[i])
+        coordenada2 = (torreSO2Latitud[j], torreSO2Longitud[j])
+        distanciasAtorresSO2.append(distance.distance(coordenada1, coordenada2))
+        if(distanciasAtorresSO2[j] < menorDistanciaSO2):
+            menorDistanciaSO2 = distanciasAtorresSO2[j]
+            posicionMenorDistanciaSO2 = j
+    torreAsignadaSO2.append(torreSO2[posicionMenorDistanciaSO2])
+
+    ###
+    ### Se determina la menor distancia para las torres de contaminantes NO2...
+    ###
+
+    distanciasAtorresNO2 = []
+    menorDistanciaNO2 = 9999999999999
+    posicionMenorDistanciaNO2 = -99
+    for j in range(len(torreNO2)):
+        coordenada1 = (latitudes[i], longitudes[i])
+        coordenada2 = (torreNO2Latitud[j], torreNO2Longitud[j])
+        distanciasAtorresNO2.append(distance.distance(coordenada1, coordenada2))
+        if(distanciasAtorresNO2[j] < menorDistanciaNO2):
+            menorDistanciaNO2 = distanciasAtorresNO2[j]
+            posicionMenorDistanciaNO2 = j
+    torreAsignadaNO2.append(torreNO2[posicionMenorDistanciaNO2])
+
+    ###
+    ### Se determina la menor distancia para las torres de contaminantes RH...
+    ###
+
+    distanciasAtorresRH = []
+    menorDistanciaRH = 9999999999999
+    posicionMenorDistanciaRH = -99
+    for j in range(len(torreRH)):
+        coordenada1 = (latitudes[i], longitudes[i])
+        coordenada2 = (torreRHLatitud[j], torreRHLongitud[j])
+        distanciasAtorresRH.append(distance.distance(coordenada1, coordenada2))
+        if(distanciasAtorresRH[j] < menorDistanciaRH):
+            menorDistanciaRH = distanciasAtorresRH[j]
+            posicionMenorDistanciaRH = j
+    torreAsignadaRH.append(torreSO2[posicionMenorDistanciaRH])
+
+    ###
+    ### Se determina la menor distancia para las torres de contaminantes CO...
+    ###
+
+    distanciasAtorresCO = []
+    menorDistanciaCO = 9999999999999
+    posicionMenorDistanciaCO = -99
+    for j in range(len(torreCO)):
+        coordenada1 = (latitudes[i], longitudes[i])
+        coordenada2 = (torreCOLatitud[j], torreCOLongitud[j])
+        distanciasAtorresCO.append(distance.distance(coordenada1, coordenada2))
+        if(distanciasAtorresCO[j] < menorDistanciaCO):
+            menorDistanciaCO = distanciasAtorresCO[j]
+            posicionMenorDistanciaCO = j
+    torreAsignadaCO.append(torreCO[posicionMenorDistanciaCO])
+
+    ###
+    ### Se determina la menor distancia para las torres de contaminantes NO...
+    ###
+
+    distanciasAtorresNO = []
+    menorDistanciaNO = 9999999999999
+    posicionMenorDistanciaNO = -99
+    for j in range(len(torreNO)):
+        coordenada1 = (latitudes[i], longitudes[i])
+        coordenada2 = (torreNOLatitud[j], torreNOLongitud[j])
+        distanciasAtorresNO.append(distance.distance(coordenada1, coordenada2))
+        if(distanciasAtorresNO[j] < menorDistanciaNO):
+            menorDistanciaNO = distanciasAtorresNO[j]
+            posicionMenorDistanciaNO = j
+    torreAsignadaNO.append(torreNO[posicionMenorDistanciaNO])
+
+    ###
+    ### Se determina la menor distancia para las torres de contaminantes NOX...
+    ###
+
+    distanciasAtorresNOX = []
+    menorDistanciaNOX = 9999999999999
+    posicionMenorDistanciaNOX = -99
+    for j in range(len(torreNOX)):
+        coordenada1 = (latitudes[i], longitudes[i])
+        coordenada2 = (torreNOXLatitud[j], torreNOXLongitud[j])
+        distanciasAtorresNOX.append(distance.distance(coordenada1, coordenada2))
+        if(distanciasAtorresNOX[j] < menorDistanciaNOX):
+            menorDistanciaNOX = distanciasAtorresNOX[j]
+            posicionMenorDistanciaNOX = j
+    torreAsignadaNOX.append(torreNOX[posicionMenorDistanciaNOX])
+
+    ###
+    ### Se determina la menor distancia para las torres de contaminantes O3...
+    ###
+
+    distanciasAtorresO3 = []
+    menorDistanciaO3 = 9999999999999
+    posicionMenorDistanciaO3 = -99
+    for j in range(len(torreO3)):
+        coordenada1 = (latitudes[i], longitudes[i])
+        coordenada2 = (torreO3Latitud[j], torreO3Longitud[j])
+        distanciasAtorresO3.append(distance.distance(coordenada1, coordenada2))
+        if(distanciasAtorresO3[j] < menorDistanciaO3):
+            menorDistanciaO3 = distanciasAtorresO3[j]
+            posicionMenorDistanciaO3 = j
+    torreAsignadaO3.append(torreO3[posicionMenorDistanciaO3])
+
+    ###
+    ### Se determina la menor distancia para las torres de contaminantes PM10...
+    ###
+
+    distanciasAtorresPM10 = []
+    menorDistanciaPM10 = 9999999999999
+    posicionMenorDistanciaPM10 = -99
+    for j in range(len(torrePM10)):
+        coordenada1 = (latitudes[i], longitudes[i])
+        coordenada2 = (torrePM10Latitud[j], torrePM10Longitud[j])
+        distanciasAtorresPM10.append(distance.distance(coordenada1, coordenada2))
+        if(distanciasAtorresPM10[j] < menorDistanciaPM10):
+            menorDistanciaPM10 = distanciasAtorresPM10[j]
+            posicionMenorDistanciaPM10 = j
+    torreAsignadaPM10.append(torrePM10[posicionMenorDistanciaPM10])
+
+    ###
+    ### Se determina la menor distancia para las torres de contaminantes PM25...
+    ###
+
+    distanciasAtorresPM25 = []
+    menorDistanciaPM25 = 9999999999999
+    posicionMenorDistanciaPM25 = -99
+    for j in range(len(torrePM25)):
+        coordenada1 = (latitudes[i], longitudes[i])
+        coordenada2 = (torrePM25Latitud[j], torrePM25Longitud[j])
+        distanciasAtorresPM25.append(distance.distance(coordenada1, coordenada2))
+        if(distanciasAtorresPM25[j] < menorDistanciaPM25):
+            menorDistanciaPM25 = distanciasAtorresPM25[j]
+            posicionMenorDistanciaPM25 = j
+    torreAsignadaPM25.append(torrePM25[posicionMenorDistanciaPM25])
+
+    ###
+    ### Se determina la menor distancia para las torres de contaminantes PA...
+    ###
+
+    distanciasAtorresPA = []
+    menorDistanciaPA = 9999999999999
+    posicionMenorDistanciaPA = -99
+    for j in range(len(torrePA)):
+        coordenada1 = (latitudes[i], longitudes[i])
+        coordenada2 = (torrePALatitud[j], torrePALongitud[j])
+        distanciasAtorresPA.append(distance.distance(coordenada1, coordenada2))
+        if(distanciasAtorresPA[j] < menorDistanciaPA):
+            menorDistanciaPA = distanciasAtorresPA[j]
+            posicionMenorDistanciaPA = j
+    torreAsignadaPA.append(torrePA[posicionMenorDistanciaPA])
+
+    ###
+    ### Se determina la menor distancia para las torres de contaminantes UVA...
+    ###
+
+    distanciasAtorresUVA = []
+    menorDistanciaUVA = 9999999999999
+    posicionMenorDistanciaUVA = -99
+    for j in range(len(torreUVA)):
+        coordenada1 = (latitudes[i], longitudes[i])
+        coordenada2 = (torreUVALatitud[j], torreUVALongitud[j])
+        distanciasAtorresUVA.append(distance.distance(coordenada1, coordenada2))
+        if(distanciasAtorresUVA[j] < menorDistanciaUVA):
+            menorDistanciaUVA = distanciasAtorresUVA[j]
+            posicionMenorDistanciaUVA = j
+    torreAsignadaUVA.append(torreUVA[posicionMenorDistanciaUVA])
+
+    ###
+    ### Se determina la menor distancia para las torres de contaminantes UVB...
+    ###
+
+    distanciasAtorresUVB = []
+    menorDistanciaUVB = 9999999999999
+    posicionMenorDistanciaUVB = -99
+    for j in range(len(torreUVB)):
+        coordenada1 = (latitudes[i], longitudes[i])
+        coordenada2 = (torreUVBLatitud[j], torreUVBLongitud[j])
+        distanciasAtorresUVB.append(distance.distance(coordenada1, coordenada2))
+        if(distanciasAtorresUVB[j] < menorDistanciaUVB):
+            menorDistanciaUVB = distanciasAtorresUVB[j]
+            posicionMenorDistanciaUVB = j
+    torreAsignadaUVB.append(torreUVB[posicionMenorDistanciaUVB])
+
+    ###
+    ### Se determina la menor distancia para las torres de contaminantes TEMP...
+    ###
+
+    distanciasAtorresTEMP = []
+    menorDistanciaTEMP = 9999999999999
+    posicionMenorDistanciaTEMP = -99
+    for j in range(len(torreTEMP)):
+        coordenada1 = (latitudes[i], longitudes[i])
+        coordenada2 = (torreTEMPLatitud[j], torreTEMPLongitud[j])
+        distanciasAtorresTEMP.append(distance.distance(coordenada1, coordenada2))
+        if(distanciasAtorresTEMP[j] < menorDistanciaTEMP):
+            menorDistanciaTEMP = distanciasAtorresTEMP[j]
+            posicionMenorDistanciaTEMP = j
+    torreAsignadaTEMP.append(torreTEMP[posicionMenorDistanciaTEMP])
+
+######################################################################################################################
+##                                                                                                                  ##
+## -> Se asignan los valores a cada una de las variables para insertar los valores adecuados en la base de datos    ##
+##                                                                                                                  ##
+######################################################################################################################
+
+for i in range(0, valoresTotales):
+    latit = float(latitudes[i])
+    longit = float(longitudes[i])
+    torreDSO2 = torreAsignadaSO2[i]
+    torreDNO2 = torreAsignadaNO2[i]
+    torreDRH = torreAsignadaRH[i]
+    torreDCO = torreAsignadaCO[i]
+    torreDNO = torreAsignadaNO[i]
+    torreDNOX = torreAsignadaNOX[i]
+    torreDO3 = torreAsignadaO3[i]
+    torreDPM10 = torreAsignadaPM10[i]
+    torreDPM25 = torreAsignadaPM25[i]
+    torreDPA = torreAsignadaPA[i]
+    torreDUVA = torreAsignadaUVA[i]
+    torreDUVB = torreAsignadaUVB[i]
+    torreDTEMP = torreAsignadaTEMP[i]
+
+    datosLoc = {
+    'datoLatitud' : latit,
+    'datoLongitud' : longit,
+    'datoTorreSO2' : torreDSO2,
+    'datoTorreNO2' : torreDNO2,
+    'datoTorreRH' : torreDRH,
+    'datoTorreCO' : torreDCO,
+    'datoTorreNO' : torreDNO,
+    'datoTorreNOX' : torreDNOX,
+    'datoTorreO3' : torreDO3,
+    'datoTorrePM10' : torreDPM10,
+    'datoTorrePM25' : torreDPM25,
+    'datoTorrePA' : torreDPA,
+    'datoTorreUVA' : torreDUVA,
+    'datoTorreUVB' : torreDUVB,
+    'datoTorreTEMP' : torreDTEMP,
+    }
+
+    print ("Insertando registro " + str(i) + " de " + str(valoresTotales))
+    cursor.execute(addLoc, datosLoc)
+    cnx.commit()
+    print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(valoresTotales)) +  " porciento del total de datos")
+
+######################################################################################################################
+##                                                                                                                  ##
+##                                     Cerrando las conexiones a la base de datos...                                ##
+##                                                                                                                  ##
+######################################################################################################################
+
+print ("Se insertaron adecuadamente el 100 porciento de los datos en la base de datos.")
+cursor.close()
+cnx.close()
