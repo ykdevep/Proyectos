@@ -150,7 +150,7 @@ class NumpyMySQLConverter(mysql.connector.conversion.MySQLConverter):
     
     """ A mysql.connector Converter que es capaz de manejar los tipos de datos de Numpy """
 
-    def _float32_to_mysql(self, value):
+    def _float32_to_mysql(self, value): 
         return float(value)
 
     def _float64_to_mysql(self, value):

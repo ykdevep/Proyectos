@@ -368,7 +368,7 @@ torreTEMPLongitud = ["-98.912003", "-99.162459", "-99.207658", "-99.158969", "-9
 ##                                                                                                                  ##
 ######################################################################################################################
 
-valoresTotales = 5000
+valoresTotales = 580292
 for i in range(0, valoresTotales):
     latitudes.append(random.randint(19079559, 19857710))
     longitudes.append(random.randint(98763194, 99495169))
@@ -426,12 +426,22 @@ addLoc = ("INSERT INTO localizaciones"
 
 ######################################################################################################################
 ##                                                                                                                  ##
+##                                     Cerrando las conexiones a la base de datos...                                ##
+##                                                                                                                  ##
+######################################################################################################################
+
+cursor.close()
+cnx.close()
+
+######################################################################################################################
+##                                                                                                                  ##
 ## -> Se calculan las distancias a cada una de las torres y se selecciona la torre más cercana para cada una de     ##
 ##       las coordenadas generadas por cada uno de los contaminantes...                                             ##      
 ##                                                                                                                  ##
 ######################################################################################################################
 
 for i in range(0, valoresTotales):
+    print (str(i))
 
     ###
     ### Se determina la menor distancia para las torres de contaminantes SO2...
@@ -640,6 +650,31 @@ for i in range(0, valoresTotales):
             menorDistanciaTEMP = distanciasAtorresTEMP[j]
             posicionMenorDistanciaTEMP = j
     torreAsignadaTEMP.append(torreTEMP[posicionMenorDistanciaTEMP])
+
+######################################################################################################################
+##                                                                                                                  ##
+## -> Conectando al SGBD MySQL y creando las tablas definidas...                                                    ##
+##                                                                                                                  ##
+######################################################################################################################
+
+try:
+    print ("Creando las variables de conexión...")
+    cnx = mysql.connector.connect(**config)
+    cnx.set_converter_class(NumpyMySQLConverter)
+except mysql.connector.Error as err:
+  if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+    print ("   ")
+    print("Su usuario o contraseña no son correctos, por favor verifique...")
+  elif err.errno == errorcode.ER_BAD_DB_ERROR:
+    print ("   ")
+    print("No existe la base de datos, por favor verifique...")
+  else:
+    print ("   ")
+    print(err)
+else:
+    print ("   ")
+    print ("Conexión exitosa...")
+    cursor = cnx.cursor()
 
 ######################################################################################################################
 ##                                                                                                                  ##
