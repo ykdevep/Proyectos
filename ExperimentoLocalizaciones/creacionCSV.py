@@ -6,7 +6,7 @@ from datetime import datetime
 ###
 ### Primera parte: Selección de los datos desde la base y creación del CSV original
 ###
-
+'''
 nombreBDAlmacen = 'localizacionesexp'  ## Configuración para la base de dato de localización gegráfica...
 configAlmacen = {
   'user' : 'kike',
@@ -121,9 +121,30 @@ print("Datos guardados en el CSV...")
 ###
 ### Fin de la primera parte...
 ###
+'''
 
 ###
 ### Segunda parte: Creación de ficheros CSV a partir del original...
 ###
+print ("Cargando CSV...")
+direccionFichero = "C:/Users/Cubano/Documents/GitHub/Proyectos/ExperimentoLocalizaciones/localizacionesCompleto.csv"
+csv = panda.read_csv(direccionFichero)
+print ("CSV cargado...")
+
+latitud = []
+longitud = []
+claseCompleta = []
+for i in range(0, len(csv)):
+    print (i)
+    latitud.append(csv.iloc[i, 0])
+    longitud.append(csv.iloc[i, 1])
+    claseCompleta.append(csv.iloc[i, 2] + csv.iloc[i, 3] + csv.iloc[i, 4] + csv.iloc[i, 5] + csv.iloc[i, 6] + csv.iloc[i, 7] + csv.iloc[i, 8] + csv.iloc[i, 9] + csv.iloc[i, 10] + csv.iloc[i, 11] + csv.iloc[i, 12] + csv.iloc[i, 13] + csv.iloc[i, 14])
+
+print("Agregando los datos al CSV...")
+segundoCSV = {'LATITUD' : latitud, 'LONGITUD' : longitud, 'CLASE' : claseCompleta}
+print("Guardando los datos en ubicación física en el PC...")
+dataFrame = panda.DataFrame(segundoCSV, columns= ['LATITUD', 'LONGITUD', 'CLASE'])
+dataFrame.to_csv('localizaciones1Clase.csv', index=False)
+print("Datos guardados en el CSV...")
 
 
