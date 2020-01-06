@@ -173,7 +173,17 @@ datosEDA = cursor.fetchall()
 cursor.execute(
     "SELECT * FROM e4bvp"
 )
-datosTEMP = cursor.fetchall()
+datosBVP = cursor.fetchall()
 
 cursor.close()
 cnx.close()
+
+valorGenerado = []
+
+for i in datosTEMP:
+    fecha = i[1]
+    bvp = i[2]
+    usuario = i[3]
+    print("Fecha: " + str(fecha))
+    print("BVP: " + str(bvp))
+    print("Usuario: " + str(usuario))

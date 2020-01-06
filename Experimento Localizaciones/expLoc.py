@@ -368,7 +368,7 @@ torreTEMPLongitud = ["-98.912003", "-99.162459", "-99.207658", "-99.158969", "-9
 ##                                                                                                                  ##
 ######################################################################################################################
 
-valoresTotales = 580292
+valoresTotales = 1000000
 for i in range(0, valoresTotales):
     latitudes.append(random.randint(19079559, 19857710))
     longitudes.append(random.randint(98763194, 99495169))
