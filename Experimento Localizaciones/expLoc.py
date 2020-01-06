@@ -1,17 +1,16 @@
 ######################################################################################################################
 ##                                                                                                                  ##
-## -> Módulo Python para generar aleatoriamente un millón (1000000) de coordenadas geográficas aleatorias de        ##
-##           acuerdo a las coordenadas de las estaciones de monitoreo de calidad del aire de la CDMX y área         ##
-##           metropolitana cercana. Con la finalidad de crear un banco de datos de coordenadas geográficas que      ##
-##           pueda ser empleado para entrenar un algoritmo de clasificación que determine la estación de monitoreo  ##
-##           más cercana a las coordenadas seleccionadas...                                                         ##
-##             -> Fue probado para versiones de Python  de 3.6.5 a 3.7.4 (32 bits y 64 bits)...                     ##    
-##             -> Se usa de manera indistinta "torres" y "estaciones de monitoreo" para referirse al mismo          ##
-##                objeto físico...                                                                                  ##
+## -> Módulo Python para generar coordenadas geográficas aleatorias de acuerdo a las coordenadas de las estaciones  ##
+##                  de monitoreo de calidad del aire de la CDMX y área metropolitana cercana. Con la finalidad de   ##
+##                  crear un banco de datos de coordenadas geográficas que pueda ser empleado para entrenar un      ##
+##                  algoritmo de clasificación que determine la estación de monitoreo más cercana a las             ##
+##                  coordenadas seleccionadas...                                                                    ##
+## -> Fue probado para versiones de Python  de 3.6.5 a 3.7.4 (32 bits y 64 bits)...                                 ##    
+## -> Se usa de manera indistinta "torres" y "estaciones de monitoreo" para referirse al mismo objeto físico...     ##                                                                                  ##
 ##                                                                                                                  ##
 ## -> Las coordenadas generadas se encuentran dentro del rango siguiente:                                           ##
-##                         latitudes ["19.079559" - "19.857710"]                                                    ##
-##                         longitudes ["-98.763194" - "-99.495169"]                                                 ## 
+##                         latitudes ["19.079559" a "19.857710"]                                                    ##
+##                         longitudes ["-98.763194" a "-99.495169"]                                                 ## 
 ##                                                                                                                  ##
 ##                                                  Versión 1.3                                                     ##
 ##                                          Fecha creación: 15/09/2019                                              ##
