@@ -53,7 +53,7 @@ else:
 
 print("Realizando consulta...")
 cursor.execute(
-    "SELECT * FROM localizaciones"
+    "SELECT * FROM localizaciones LIMIT 100"
 )
 datosTEMP = cursor.fetchall()
 
@@ -75,9 +75,9 @@ torreTEMP = []
 print("Consulta realizada...")
 
 for i in datosTEMP:
-    print(i)
-    latitud.append(i[1])
-    longitud.append(i[2])
+    #print(i)
+    latitud.append(str(i[1]))
+    longitud.append(str(i[2]))
     torreSO2.append(i[3])
     torreNO2.append(i[4])
     torreRH.append(i[5])
@@ -92,7 +92,27 @@ for i in datosTEMP:
     torreUVB.append(i[14])
     torreTEMP.append(i[15])
 
+
 print(latitud)
-print(torreSO2)
- 
+print("Agregando los datos al CSV...")
+primerCSV = {'latitud' : latitud,
+             'longitud' : longitud,
+             'SO2' : torreSO2,
+             'NO2' : torreNO2,
+             'RH' : torreRH,
+             'CO' : torreCO,
+             'NO' : torreNO,
+             'NOX' : torreNOX,
+             'O3' : torreO3,
+             'PM10' : torrePM10,
+             'PM25' : torrePM25,
+             'PA' : torrePA,
+             'UVA' : torreUVA,
+             'UVB' : torreUVB,
+             'TEMP' : torreTEMP}
+
+print("Guardando los datos en ubicación física en el PC...")
+dataFrame = panda.DataFrame(primerCSV, columns= ['LATITUD', 'LONGITUD', 'SO2', 'NO2', 'RH', 'CO', 'NO', 'NOX', 'O3', 'PM10', 'PM25', 'PA', 'UVA', 'UVB', 'TEMP'])
+dataFrame.to_csv('localizacionesCompleto11.csv')
+print("Datos guardados en el CSV...")
 
