@@ -134,7 +134,9 @@ print ("CSV cargado...")
 latitud = []
 longitud = []
 claseCompleta = []
-for i in range(0, len(csv)):
+tamanno = len(csv)
+total = int(tamanno)/100
+for i in range(0, int(total)):
     print (i)
     latitud.append(csv.iloc[i, 0])
     longitud.append(csv.iloc[i, 1])
@@ -144,7 +146,7 @@ print("Agregando los datos al CSV...")
 segundoCSV = {'LATITUD' : latitud, 'LONGITUD' : longitud, 'CLASE' : claseCompleta}
 print("Guardando los datos en ubicación física en el PC...")
 dataFrame = panda.DataFrame(segundoCSV, columns= ['LATITUD', 'LONGITUD', 'CLASE'])
-dataFrame.to_csv('localizaciones1Clase.csv', index=False)
+dataFrame.to_csv('localizaciones1Clase100000.csv', index=False)
 print("Datos guardados en el CSV...")
 
 
