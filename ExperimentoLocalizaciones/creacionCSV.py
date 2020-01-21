@@ -135,6 +135,10 @@ latitud = []
 longitud = []
 claseCompleta = []
 tamanno = len(csv)
+
+'''
+##
+## Creando CSV de 100000 registros
 total = int(tamanno)/100
 for i in range(0, int(total)):
     print (i)
@@ -148,5 +152,17 @@ print("Guardando los datos en ubicación física en el PC...")
 dataFrame = panda.DataFrame(segundoCSV, columns= ['LATITUD', 'LONGITUD', 'CLASE'])
 dataFrame.to_csv('localizaciones1Clase100000.csv', index=False)
 print("Datos guardados en el CSV...")
+'''
+total = int(tamanno)/10
+for i in range(0, int(total)):
+    print (i)
+    latitud.append(csv.iloc[i, 0])
+    longitud.append(csv.iloc[i, 1])
+    claseCompleta.append(csv.iloc[i, 2] + csv.iloc[i, 3] + csv.iloc[i, 4] + csv.iloc[i, 5] + csv.iloc[i, 6] + csv.iloc[i, 7] + csv.iloc[i, 8] + csv.iloc[i, 9] + csv.iloc[i, 10] + csv.iloc[i, 11] + csv.iloc[i, 12] + csv.iloc[i, 13] + csv.iloc[i, 14])
 
-
+print("Agregando los datos al CSV...")
+segundoCSV = {'LATITUD' : latitud, 'LONGITUD' : longitud, 'CLASE' : claseCompleta}
+print("Guardando los datos en ubicación física en el PC...")
+dataFrame = panda.DataFrame(segundoCSV, columns= ['LATITUD', 'LONGITUD', 'CLASE'])
+dataFrame.to_csv('localizaciones1Clase1Millon.csv', index=False)
+print("Datos guardados en el CSV...")
