@@ -5,7 +5,7 @@ import gpx_csv_converter
 from gpx_csv_converter import Converter
 import gpx_parser as parser
 
-direccion = "C:/Users/Cubano/Documents/GitHub/Proyectos/ProtocoloValidacion/mygeodata/AAAA.gpx"
+direccion = "C:/Users/Cubano/Documents/GitHub/Proyectos/ProtocoloValidacion/mygeodata/AmazfitStratos/Validacion/Prueba5.gpx"
 fichero = open(direccion, 'r')
 fichgpx = gpxpy.parse(fichero)
 
@@ -28,7 +28,7 @@ columns = ['Longitude', 'Latitude', 'Altitude', 'Time', 'Speed']
 df = DataFrame(data, columns=columns)
 
 
-df.to_csv('pruebaCSVConvert.csv', header=True, index=False)
+df.to_csv('C:/Users/Cubano/Documents/GitHub/Proyectos/ProtocoloValidacion/mygeodata/AmazfitStratos/Validacion/prueba5.csv', header=True, index=False)
 
 print("Iniciando conversion...")
 #gpx_csv_converter.Converter(direccion, 'pruebacsv1.csv')
