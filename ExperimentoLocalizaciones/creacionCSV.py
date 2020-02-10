@@ -153,16 +153,97 @@ dataFrame = panda.DataFrame(segundoCSV, columns= ['LATITUD', 'LONGITUD', 'CLASE'
 dataFrame.to_csv('localizaciones1Clase100000.csv', index=False)
 print("Datos guardados en el CSV...")
 '''
+
+SO2 = []
+NO2 = []
+RH = []
+CO = []
+NO = []
+NOX = []
+O3 = []
+PM10 = []
+PM25 = []
+PA = []
+UVA = []
+UVB = []
+TEMP = []
 total = int(tamanno)/10
-for i in range(0, int(total)):
+for i in range(0, 100000):
     print (i)
     latitud.append(csv.iloc[i, 0])
     longitud.append(csv.iloc[i, 1])
-    claseCompleta.append(csv.iloc[i, 2] + csv.iloc[i, 3] + csv.iloc[i, 4] + csv.iloc[i, 5] + csv.iloc[i, 6] + csv.iloc[i, 7] + csv.iloc[i, 8] + csv.iloc[i, 9] + csv.iloc[i, 10] + csv.iloc[i, 11] + csv.iloc[i, 12] + csv.iloc[i, 13] + csv.iloc[i, 14])
+    #claseCompleta.append(csv.iloc[i, 2] + csv.iloc[i, 3] + csv.iloc[i, 4] + csv.iloc[i, 5] + csv.iloc[i, 6] + csv.iloc[i, 7] + csv.iloc[i, 8] + csv.iloc[i, 9] + csv.iloc[i, 10] + csv.iloc[i, 11] + csv.iloc[i, 12] + csv.iloc[i, 13] + csv.iloc[i, 14])
+    SO2.append(csv.iloc[i, 2])
+    NO2.append(csv.iloc[i, 3])
+    RH.append(csv.iloc[i, 4])
+    CO.append(csv.iloc[i, 5])
+    NO.append(csv.iloc[i, 6])
+    NOX.append(csv.iloc[i, 7])
+    O3.append(csv.iloc[i, 8])
+    PM10.append(csv.iloc[i, 9])
+    PM25.append(csv.iloc[i, 10])
+    PA.append(csv.iloc[i, 11])
+    UVA.append(csv.iloc[i, 12])
+    UVB.append(csv.iloc[i, 13])
+    TEMP.append(csv.iloc[i, 14])
 
 print("Agregando los datos al CSV...")
-segundoCSV = {'LATITUD' : latitud, 'LONGITUD' : longitud, 'CLASE' : claseCompleta}
+segundoCSV = {'LATITUD' : latitud, 'LONGITUD' : longitud, 'SO2' : SO2, 'NO2' : NO2, 'RH' : RH,
+              'CO' : CO, 'NO' : NO, 'NOX' : NOX, 'O3' : O3, 'PM10' : PM10, 'PM25' : PM25, 'PA' : PA,
+              'UVA' : UVA, 'UVB' : UVB, 'TEMP' : TEMP}
 print("Guardando los datos en ubicación física en el PC...")
-dataFrame = panda.DataFrame(segundoCSV, columns= ['LATITUD', 'LONGITUD', 'CLASE'])
-dataFrame.to_csv('localizaciones1Clase1Millon.csv', index=False)
+dataFrame = panda.DataFrame(segundoCSV, columns= ['LATITUD', 'LONGITUD', 'SO2', 'NO2', 'RH', 'CO',
+                                                  'NO', 'NOX', 'O3', 'PM10', 'PM25', 'PA', 'UVA',
+                                                  'UVB', 'TEMP'])
+dataFrame.to_csv('localizacionesCompleto100000.csv', index=False)
+print("Datos guardados en el CSV...")
+
+
+#### 1 millon
+
+latitud = []
+longitud = []
+claseCompleta = []
+SO2 = []
+NO2 = []
+RH = []
+CO = []
+NO = []
+NOX = []
+O3 = []
+PM10 = []
+PM25 = []
+PA = []
+UVA = []
+UVB = []
+TEMP = []
+
+for i in range(0, 1000000):
+    print (i)
+    latitud.append(csv.iloc[i, 0])
+    longitud.append(csv.iloc[i, 1])
+    #claseCompleta.append(csv.iloc[i, 2] + csv.iloc[i, 3] + csv.iloc[i, 4] + csv.iloc[i, 5] + csv.iloc[i, 6] + csv.iloc[i, 7] + csv.iloc[i, 8] + csv.iloc[i, 9] + csv.iloc[i, 10] + csv.iloc[i, 11] + csv.iloc[i, 12] + csv.iloc[i, 13] + csv.iloc[i, 14])
+    SO2.append(csv.iloc[i, 2])
+    NO2.append(csv.iloc[i, 3])
+    RH.append(csv.iloc[i, 4])
+    CO.append(csv.iloc[i, 5])
+    NO.append(csv.iloc[i, 6])
+    NOX.append(csv.iloc[i, 7])
+    O3.append(csv.iloc[i, 8])
+    PM10.append(csv.iloc[i, 9])
+    PM25.append(csv.iloc[i, 10])
+    PA.append(csv.iloc[i, 11])
+    UVA.append(csv.iloc[i, 12])
+    UVB.append(csv.iloc[i, 13])
+    TEMP.append(csv.iloc[i, 14])
+
+print("Agregando los datos al CSV...")
+segundoCSV = {'LATITUD' : latitud, 'LONGITUD' : longitud, 'SO2' : SO2, 'NO2' : NO2, 'RH' : RH,
+              'CO' : CO, 'NO' : NO, 'NOX' : NOX, 'O3' : O3, 'PM10' : PM10, 'PM25' : PM25, 'PA' : PA,
+              'UVA' : UVA, 'UVB' : UVB, 'TEMP' : TEMP}
+print("Guardando los datos en ubicación física en el PC...")
+dataFrame = panda.DataFrame(segundoCSV, columns= ['LATITUD', 'LONGITUD', 'SO2', 'NO2', 'RH', 'CO',
+                                                  'NO', 'NOX', 'O3', 'PM10', 'PM25', 'PA', 'UVA',
+                                                  'UVB', 'TEMP'])
+dataFrame.to_csv('localizacionesCompleto1Millon.csv', index=False)
 print("Datos guardados en el CSV...")
