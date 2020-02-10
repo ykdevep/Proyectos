@@ -28,7 +28,9 @@ columns = ['Longitude', 'Latitude', 'Altitude', 'Time', 'Speed']
 df = DataFrame(data, columns=columns)
 
 
+df.to_csv('pruebaCSVConvert.csv', header=True, index=False)
+
 print("Iniciando conversion...")
-gpx_csv_converter.Converter(direccion, 'pruebacsv1.csv')
+#gpx_csv_converter.Converter(direccion, 'pruebacsv1.csv')
 #Converter(direccion, 'pruebaCSVConverter.csv')
 print("Terminado...")
