@@ -1094,15 +1094,22 @@ for i in range(0, len(catalogoMunicipios)):
 ## -> En el caso que existan campos vacios se les adiciona el valor "NULL"                                              ##
 ##########################################################################################################################
 '''
-direccionFichero = "C:/Users/Cubano/Documents/GitHub/Proyectos/DatosCovid/datos/COVID.csv"
+direccionFichero = "C:/Users/Cubano/Documents/GitHub/Proyectos/DatosCovid/Fixed/COVIDMexico.xlsx"
 
-covid19Mexico = panda.read_csv(direccionFichero)
+covid19Mexico = panda.read_excel(direccionFichero)
 print ("Cargando fichero de datos de Covid-19 en México, puede tardar un momento, por favor espere...")
 if covid19Mexico.empty:
     print ("Fichero se encuentra vacío, por favor verifique que sea el correcto...")
 else:
     print ("Fichero cargado exitosamente...")
 covid19Mexico = covid19Mexico.fillna("NULL")
+
+print ("Imprimiendo los primeros 5 registros del registro de contaminantes SO2...")
+print (covid19Mexico.head(5))
+
+print ("    ")
+print ("Imprimiendo los últimos 5 registros del registro de contaminantes SO2...")
+print (covid19Mexico.tail(5))
 
 
 
