@@ -304,7 +304,7 @@ tablaCatSector[nombreBDCovid] = (
     "CREATE TABLE `catsector` ("
     "   `IDCAT` INT NOT NULL AUTO_INCREMENT,"
     "   `CLAVE` TEXT NULL,"
-    "   `DESCRIPCION` TEXT NULL,"
+    "   `SECTOR` TEXT NULL,"
     "   PRIMARY KEY (`IDCAT`));"
     "   ENGINE = InnoDB"
 )
@@ -425,9 +425,9 @@ tablaCatMunicipios = {}
 tablaCatMunicipios[nombreBDCovid] = (
     "CREATE TABLE `catmunicipios` ("
     "   `IDCAT` INT NOT NULL AUTO_INCREMENT,"
+    "   `CLAVEMUNICIPIO` TEXT NULL,"
+    "   `MUNICIPIO` TEXT NULL,"
     "   `CLAVEENTIDAD` TEXT NULL,"
-    "   `ENTIDADFEDERATIVA` TEXT NULL,"
-    "   `ABREVIATURA` TEXT NULL,"
     "   PRIMARY KEY (`IDCAT`));"
     "   ENGINE = InnoDB"
 )
@@ -446,10 +446,10 @@ class NumpyMySQLConverter(mysql.connector.conversion.MySQLConverter):
 
     def _int32_to_mysql(self, value):
         return int(value)
-
+    
     def _int64_to_mysql(self, value):
         return int(value) 
-
+    
     def _timestamp_to_mysql(self, value):
         return datetime.timestamp(value)
 
@@ -588,6 +588,22 @@ except ValueError:
     print ("Opss, un error inesperado ah ocurrido. No se realizará ninguna acción.")
 
 ##########################################################################################################################
+## -> Se le solicita al usuario la confirmación para la creación de la tabla catSexo...                                 ##
+##########################################################################################################################
+
+crearTabla = input ("¿Desea crear la tabla CatSexo? [S/N]: ")
+try:
+    if crearTabla == "S":
+        print ("Se procede a crear la tabla CatSexo.")
+        CrearTablasEnSGBD(tablaCatSexo)
+    if crearTabla == "N":
+        print ("La tabla CatSexo no será creada.")
+    if crearTabla != "S" and crearTabla != "N":
+        print ("La entrada proporcionada no fue válida. No se realizará ninguna acción.")
+except ValueError:
+    print ("Opss, un error inesperado ah ocurrido. No se realizará ninguna acción.")
+
+##########################################################################################################################
 ## -> Se le solicita al usuario la confirmación para la creación de la tabla catTipoPaciente...                         ##
 ##########################################################################################################################
 
@@ -684,60 +700,394 @@ except ValueError:
     print ("Opss, un error inesperado ah ocurrido. No se realizará ninguna acción.")
 
 ##########################################################################################################################
-## -> Cargando el fichero con la información de los catálogos para ser almacenada...                                    ##
+## -> Cargando el fichero con la información de los catálogos para ser almacenada...                                    ##  
+## -> Se carga cada Hoja por separado ya que cada Hoja es un catálogo...                                                ##
+## -> En el caso que existan campos vacios se les adiciona el valor "NULL"                                              ##
 ##########################################################################################################################
 
 direccionFichero = "C:/Users/Cubano/Documents/GitHub/Proyectos/DatosCovid/diccionario/Catalogos.xlsx"
-catalogoOrigen = panda.read_excel(open(direccionFichero), sheet_name = 'Catálogo ORIGEN')
 
-print ("    ")
-print ("Cargando fichero de catálogos, puede tardar un momento, por favor espere...")
-if catalogoOrigen.empty: #Validando si los datos fueron cargados...
-    print ("    ")
+catalogoOrigen = panda.read_excel(direccionFichero, sheet_name="ORIGEN")
+print ("Cargando fichero de catálogo ORIGEN, puede tardar un momento, por favor espere...")
+if catalogoOrigen.empty:
     print ("Fichero se encuentra vacío, por favor verifique que sea el correcto...")
 else:
-    print ("    ")
     print ("Fichero cargado exitosamente...")
+catalogoOrigen = catalogoOrigen.fillna("NULL")
 
-print ("Imprimiendo los primeros 5 registros del registro de temperatura...")
-print (catalogoOrigen.head(5))
+catalogoSector = panda.read_excel(direccionFichero, sheet_name="SECTOR")
+print ("Cargando fichero de catálogo SECTOR, puede tardar un momento, por favor espere...")
+if catalogoSector.empty:
+    print ("Fichero se encuentra vacío, por favor verifique que sea el correcto...")
+else:
+    print ("Fichero cargado exitosamente...")
+catalogoSector = catalogoSector.fillna("NULL")
 
+catalogoSexo = panda.read_excel(direccionFichero, sheet_name="SEXO")
+print ("Cargando fichero de catálogo SEXO, puede tardar un momento, por favor espere...")
+if catalogoSexo.empty:
+    print ("Fichero se encuentra vacío, por favor verifique que sea el correcto...")
+else:
+    print ("Fichero cargado exitosamente...")
+catalogoSexo = catalogoSexo.fillna("NULL")
 
+catalogoTipoPaciente = panda.read_excel(direccionFichero, sheet_name="TIPOPACIENTE")
+print ("Cargando fichero de catálogo TIPOPACIENTE, puede tardar un momento, por favor espere...")
+if catalogoTipoPaciente.empty:
+    print ("Fichero se encuentra vacío, por favor verifique que sea el correcto...")
+else:
+    print ("Fichero cargado exitosamente...")
+catalogoTipoPaciente = catalogoTipoPaciente.fillna("NULL")
 
+catalogoSiNo = panda.read_excel(direccionFichero, sheet_name="SINO")
+print ("Cargando fichero de catálogo SI_NO, puede tardar un momento, por favor espere...")
+if catalogoSiNo.empty:
+    print ("Fichero se encuentra vacío, por favor verifique que sea el correcto...")
+else:
+    print ("Fichero cargado exitosamente...")
+catalogoSiNo = catalogoSiNo.fillna("NULL")
 
+catalogoNacionalidad = panda.read_excel(direccionFichero, sheet_name="NACIONALIDAD")
+print ("Cargando fichero de catálogo NACIONALIDAD, puede tardar un momento, por favor espere...")
+if catalogoNacionalidad.empty:
+    print ("Fichero se encuentra vacío, por favor verifique que sea el correcto...")
+else:
+    print ("Fichero cargado exitosamente...")
+catalogoNacionalidad = catalogoNacionalidad.fillna("NULL")
 
+catalogoResultado = panda.read_excel(direccionFichero, sheet_name="RESULTADO")
+print ("Cargando fichero de catálogo RESULTADO, puede tardar un momento, por favor espere...")
+if catalogoResultado.empty:
+    print ("Fichero se encuentra vacío, por favor verifique que sea el correcto...")
+else:
+    print ("Fichero cargado exitosamente...")
+catalogoResultado = catalogoResultado.fillna("NULL")
 
+catalogoEntidades = panda.read_excel(direccionFichero, sheet_name="ENTIDADES")
+print ("Cargando fichero de catálogo ENTIDADES, puede tardar un momento, por favor espere...")
+if catalogoEntidades.empty:
+    print ("Fichero se encuentra vacío, por favor verifique que sea el correcto...")
+else:
+    print ("Fichero cargado exitosamente...")
+catalogoEntidades = catalogoEntidades.fillna("NULL")
 
+catalogoMunicipios = panda.read_excel(direccionFichero, sheet_name="MUNICIPIOS")
+print ("Cargando fichero de catálogo MUNICIPIOS, puede tardar un momento, por favor espere...")
+if catalogoMunicipios.empty:
+    print ("Fichero se encuentra vacío, por favor verifique que sea el correcto...")
+else:
+    print ("Fichero cargado exitosamente...")
+catalogoMunicipios = catalogoMunicipios.fillna("NULL")
 
+##########################################################################################################################
+## -> Preparando las consultas SQL y las variables necesarias para almacenar los datos en el SGBD...                    ##
+## -> Las variables corresponden a sus respectivos campos en la base de datos...                                        ##
+##               -> datosAAAA [Contiene la información necesaria para hacer la inserción en la base de datos]...        ##
+##               -> addAAAAAA [Consulta SQL que inserta la información en la base de datos]...                          ##
+## -> Catálogo "ORIGEN"                                                                                                 ##
+##########################################################################################################################
 
+claveOrigen = ""
+descripcionOrigen = ""
 
+datosOrigen = {
+    'datoClave' : claveOrigen,
+    'datoDescripcion' : descripcionOrigen,
+}
 
+addOrigen = ("INSERT INTO catorigen"
+                "(CLAVE, DESCRIPCION)"
+                "VALUES (%(datoClave)s, %(datoDescripcion)s)"
+            )
 
+##########################################################################################################################
+## -> Catálogo "SECTOR"                                                                                                 ##
+##########################################################################################################################
 
+claveSector = ""
+sector = ""
 
+datosSector = {
+    'datoClave' : claveSector,
+    'datoSector' : sector,
+}
 
+addSector = ("INSERT INTO catsector"
+                "(CLAVE, SECTOR)"
+                "VALUES (%(datoClave)s, %(datoSector)s)"
+            )
 
+##########################################################################################################################
+## -> Catálogo "SEXO"                                                                                                   ##
+##########################################################################################################################
 
+claveSexo = ""
+descripcionSexo = ""
 
+datosSexo = {
+    'datoClave' : claveSexo,
+    'datoDescripcion' : descripcionSexo,
+}
 
+addSexo = ("INSERT INTO catsexo"
+                "(CLAVE, DESCRIPCION)"
+                "VALUES (%(datoClave)s, %(datoDescripcion)s)"
+            )
 
+##########################################################################################################################
+## -> Catálogo "TIPOPACIENTE"                                                                                           ##
+##########################################################################################################################
 
+claveTipoPaciente = ""
+descripcionTipoPaciente = ""
 
+datosTipoPaciente = {
+    'datoClave' : claveTipoPaciente,
+    'datoDescripcion' : descripcionTipoPaciente,
+}
 
+addTipoPaciente = ("INSERT INTO cattipopaciente"
+                "(CLAVE, DESCRIPCION)"
+                "VALUES (%(datoClave)s, %(datoDescripcion)s)"
+            )
 
+##########################################################################################################################
+## -> Catálogo "SI_NO"                                                                                                  ##
+##########################################################################################################################
 
+claveSiNo = ""
+descripcionSiNo = ""
 
+datosSiNo = {
+    'datoClave' : claveSiNo,
+    'datoDescripcion' : descripcionSiNo,
+}
 
+addSiNo = ("INSERT INTO catsino"
+                "(CLAVE, DESCRIPCION)"
+                "VALUES (%(datoClave)s, %(datoDescripcion)s)"
+            )
 
+##########################################################################################################################
+## -> Catálogo "NACIONALIDAD"                                                                                           ##
+##########################################################################################################################
 
+claveNacionalidad = ""
+descripcionNacionalidad = ""
 
+datosNacionalidad = {
+    'datoClave' : claveNacionalidad,
+    'datoDescripcion' : descripcionNacionalidad,
+}
 
+addNacionalidad = ("INSERT INTO catnacionalidad"
+                "(CLAVE, DESCRIPCION)"
+                "VALUES (%(datoClave)s, %(datoDescripcion)s)"
+            )
 
+##########################################################################################################################
+## -> Catálogo "RESULTADO"                                                                                              ##
+##########################################################################################################################
 
+claveResultado = ""
+descripcionResultado = ""
 
+datosResultado = {
+    'datoClave' : claveResultado,
+    'datoDescripcion' : descripcionResultado,
+}
 
+addResultado = ("INSERT INTO catresultado"
+                "(CLAVE, DESCRIPCION)"
+                "VALUES (%(datoClave)s, %(datoDescripcion)s)"
+            )
 
+##########################################################################################################################
+## -> Catálogo "ENTIDADES"                                                                                              ##
+##########################################################################################################################
 
+claveEntidad = ""
+entidadFederativa = ""
+abreviaturaEntidadFederativa = ""
+
+datosEntidadFederativa = {
+    'datoClave' : claveEntidad,
+    'datoEntidadFederativa' : entidadFederativa,
+    'datoAbreviaturaEntidadFederativa' : abreviaturaEntidadFederativa,
+}
+
+addEntidadFederativa = ("INSERT INTO catentidades"
+                "(CLAVEENTIDAD, ENTIDADFEDERATIVA, ABREVIATURA)"
+                "VALUES (%(datoClave)s, %(datoEntidadFederativa)s, %(datoAbreviaturaEntidadFederativa)s)"
+            )
+
+##########################################################################################################################
+## -> Catálogo "MUNICIPIOS"                                                                                             ##
+##########################################################################################################################
+
+claveMunicipio = ""
+municipio = ""
+claveEntidadMunicipio = ""
+
+datosMunicipio = {
+    'datoClaveMunicipio' : claveMunicipio,
+    'datoMunicipio' : municipio,
+    'datoClaveEntidadMunicipio' : claveEntidadMunicipio,
+}
+
+addMunicipio = ("INSERT INTO catmunicipios"
+                "(CLAVEMUNICIPIO, MUNICIPIO, CLAVEENTIDAD)"
+                "VALUES (%(datoClaveMunicipio)s, %(datoMunicipio)s, %(datoClaveEntidadMunicipio)s)"
+            )
+
+##########################################################################################################################
+##  -> Se leen los datos de cada uno de los catálogos y se ejecuntan las consultas SQL...                               ##
+##  -> Catálogo "ORIGEN"...                                                                                             ##
+##########################################################################################################################
+
+for i in range(0, len(catalogoOrigen)):
+    claveOrigen = int(catalogoOrigen.iloc[i,0])
+    descripcionOrigen = catalogoOrigen.iloc[i,1]
+    datosOrigen = {
+    'datoClave' : claveOrigen,
+    'datoDescripcion' : descripcionOrigen,
+    }
+    print ("Insertando registro " + str(i) + " de " + str(len(catalogoOrigen)))
+    cursor.execute(addOrigen, datosOrigen)
+    cnx.commit()
+    print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(catalogoOrigen))) +  " porciento del total de datos")
+
+##########################################################################################################################
+##  -> Catálogo "SECTOR"...                                                                                             ##
+##########################################################################################################################
+
+for i in range(0, len(catalogoSector)):
+    claveSector = int(catalogoSector.iloc[i,0])
+    sector = catalogoSector.iloc[i,1]
+    datosSector = {
+    'datoClave' : claveSector,
+    'datoSector' : sector,
+    }
+    print ("Insertando registro " + str(i) + " de " + str(len(catalogoSector)))
+    cursor.execute(addSector, datosSector)
+    cnx.commit()
+    print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(catalogoSector))) +  " porciento del total de datos")
+
+##########################################################################################################################
+##  -> Catálogo "SEXO"...                                                                                               ##
+##########################################################################################################################
+
+for i in range(0, len(catalogoSexo)):
+    claveSexo = int(catalogoSexo.iloc[i,0])
+    descripcionSexo = catalogoSexo.iloc[i,1]
+    datosSexo = {
+    'datoClave' : claveSexo,
+    'datoDescripcion' : descripcionSexo,
+    }
+    print ("Insertando registro " + str(i) + " de " + str(len(catalogoSexo)))
+    cursor.execute(addSexo, datosSexo)
+    cnx.commit()
+    print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(catalogoSexo))) +  " porciento del total de datos")
+
+##########################################################################################################################
+##  -> Catálogo "TIPOPACIENTE"...                                                                                       ##
+##########################################################################################################################
+
+for i in range(0, len(catalogoTipoPaciente)):
+    claveTipoPaciente = int(catalogoTipoPaciente.iloc[i,0])
+    descripcionTipoPaciente = catalogoTipoPaciente.iloc[i,1]
+    datosTipoPaciente = {
+    'datoClave' : claveTipoPaciente,
+    'datoDescripcion' : descripcionTipoPaciente,
+    }
+    print ("Insertando registro " + str(i) + " de " + str(len(catalogoTipoPaciente)))
+    cursor.execute(addTipoPaciente, datosTipoPaciente)
+    cnx.commit()
+    print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(catalogoTipoPaciente))) +  " porciento del total de datos")
+
+##########################################################################################################################
+##  -> Catálogo "SI_NO"...                                                                                              ##
+##########################################################################################################################
+
+for i in range(0, len(catalogoSiNo)):
+    claveSiNo = int(catalogoSiNo.iloc[i,0])
+    descripcionSiNo = catalogoSiNo.iloc[i,1]
+    datosSiNo = {
+    'datoClave' : claveSiNo,
+    'datoDescripcion' : descripcionSiNo,
+    }
+    print ("Insertando registro " + str(i) + " de " + str(len(catalogoSiNo)))
+    cursor.execute(addSiNo, datosSiNo)
+    cnx.commit()
+    print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(catalogoSiNo))) +  " porciento del total de datos")
+
+##########################################################################################################################
+##  -> Catálogo "NACIONALIDAD"...                                                                                       ##
+##########################################################################################################################
+
+for i in range(0, len(catalogoNacionalidad)):
+    claveNacionalidad = int(catalogoNacionalidad.iloc[i,0])
+    descripcionNacionalidad = catalogoNacionalidad.iloc[i,1]
+    datosNacionalidad = {
+    'datoClave' : claveNacionalidad,
+    'datoDescripcion' : descripcionNacionalidad,
+    }
+    print ("Insertando registro " + str(i) + " de " + str(len(catalogoNacionalidad)))
+    cursor.execute(addNacionalidad, datosNacionalidad)
+    cnx.commit()
+    print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(catalogoNacionalidad))) +  " porciento del total de datos")
+
+##########################################################################################################################
+##  -> Catálogo "RESULTADO"...                                                                                          ##
+##########################################################################################################################
+
+for i in range(0, len(catalogoResultado)):
+    claveResultado = int(catalogoResultado.iloc[i,0])
+    descripcionResultado = catalogoResultado.iloc[i,1]
+    datosResultado = {
+    'datoClave' : claveResultado,
+    'datoDescripcion' : descripcionResultado,
+    }
+    print ("Insertando registro " + str(i) + " de " + str(len(catalogoResultado)))
+    cursor.execute(addResultado, datosResultado)
+    cnx.commit()
+    print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(catalogoResultado))) +  " porciento del total de datos")
+
+##########################################################################################################################
+##  -> Catálogo "ENTIDADES"...                                                                                          ##
+##########################################################################################################################
+
+for i in range(0, len(catalogoEntidades)):
+    claveEntidad = int(catalogoEntidades.iloc[i,0])
+    entidadFederativa = catalogoEntidades.iloc[i,1]
+    abreviaturaEntidadFederativa = catalogoEntidades.iloc[i,2]
+    datosEntidadFederativa = {
+    'datoClave' : claveEntidad,
+    'datoEntidadFederativa' : entidadFederativa,
+    'datoAbreviaturaEntidadFederativa': abreviaturaEntidadFederativa,
+    }
+    print ("Insertando registro " + str(i) + " de " + str(len(catalogoEntidades)))
+    cursor.execute(addEntidadFederativa, datosEntidadFederativa)
+    cnx.commit()
+    print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(catalogoEntidades))) +  " porciento del total de datos")
+
+##########################################################################################################################
+##  -> Catálogo "MUNICIPIOS"...                                                                                         ##
+##########################################################################################################################
+
+for i in range(0, len(catalogoMunicipios)):
+    claveMunicipio = int(catalogoMunicipios.iloc[i,0])
+    municipio = catalogoMunicipios.iloc[i,1]
+    claveEntidadMunicipio = int(catalogoMunicipios.iloc[i,2])
+    datosMunicipio = {
+    'datoClaveMunicipio' : claveMunicipio,
+    'datoMunicipio' : municipio,
+    'datoClaveEntidadMunicipio': claveEntidadMunicipio,
+    }
+    print ("Insertando registro " + str(i) + " de " + str(len(catalogoMunicipios)))
+    cursor.execute(addMunicipio, datosMunicipio)
+    cnx.commit()
+    print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(catalogoMunicipios))) +  " porciento del total de datos")
 
 ##########################################################################################################################
 ## -> Cerrando la conexión al SGBD...                                                                                   ##
@@ -745,8 +1095,3 @@ print (catalogoOrigen.head(5))
 
 cursor.close()
 cnx.close()
-
-
-
-
-
