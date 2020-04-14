@@ -475,7 +475,7 @@ else:
     print ("   ")
     print ("Conexión exitosa...")
     cursor = cnx.cursor()
-
+'''
 ##########################################################################################################################
 ## -> Función para crear las bases de datos en el formato correspondiente...                                            ##
 ##########################################################################################################################
@@ -1088,6 +1088,59 @@ for i in range(0, len(catalogoMunicipios)):
     cursor.execute(addMunicipio, datosMunicipio)
     cnx.commit()
     print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(catalogoMunicipios))) +  " porciento del total de datos")
+
+##########################################################################################################################
+## -> Cargando el fichero con la información de los casos de COVID19 en México...                                       ##  
+## -> En el caso que existan campos vacios se les adiciona el valor "NULL"                                              ##
+##########################################################################################################################
+'''
+direccionFichero = "C:/Users/Cubano/Documents/GitHub/Proyectos/DatosCovid/datos/COVID19Mexico.csv"
+
+covid19Mexico = panda.read_csv(direccionFichero)
+print ("Cargando fichero de datos de Covid-19 en México, puede tardar un momento, por favor espere...")
+if covid19Mexico.empty:
+    print ("Fichero se encuentra vacío, por favor verifique que sea el correcto...")
+else:
+    print ("Fichero cargado exitosamente...")
+covid19Mexico = covid19Mexico.fillna("NULL")
+
+print ("Imprimiendo los primeros 5 registros del registro de contaminantes SO2...")
+print (covid19Mexico.head(5))
+
+print ("    ")
+print ("Imprimiendo los últimos 5 registros del registro de contaminantes SO2...")
+print (covid19Mexico.tail(5))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ##########################################################################################################################
 ## -> Cerrando la conexión al SGBD...                                                                                   ##
