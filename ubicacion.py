@@ -317,6 +317,3 @@ print ("Se insertaron adecuadamente el 100 porciento de los datos del xls en la 
 cursor.close()
 cnx.close()
 
-
-
-   

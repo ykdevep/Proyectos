@@ -174,7 +174,7 @@ else:
 ##                                                                                                                  ##
 ######################################################################################################################
 
-def create_database(cursor):  ## Función para la base de d...
+def create_database(cursor):  ## Función para la creación de la base de datos...
     try:
         cursor.execute(
             "CREATE DATABASE {} DEFAULT CHARACTER SET 'utf8'".format(nombreBDWearable))
@@ -504,7 +504,7 @@ for i in range(24, len(bvp)):
     print ("Insertando registro " + str(i) + " de " + str(len(bvp)))
     cursor.execute(addBVP, datosBVP)
     cnx.commit()
-    print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(bvp))) +  " porciento del total de datos")
+    print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(bvp))) +  " porciento del total de datos (BVP)")
 
 print ("Se insertaron adecuadamente el 100 porciento de los datos del xls en la base de datos.")
 
@@ -526,7 +526,7 @@ for i in range(5, len(eda)):
     print ("Insertando registro " + str(i) + " de " + str(len(eda)))
     cursor.execute(addEDA, datosEDA)
     cnx.commit()
-    print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(eda))) +  " porciento del total de datos")
+    print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(eda))) +  " porciento del total de datos (EDA)")
 
 print ("Se insertaron adecuadamente el 100 porciento de los datos del xls en la base de datos.")
 
@@ -548,7 +548,7 @@ for i in range(4, len(hr)):
     print ("Insertando registro " + str(i) + " de " + str(len(hr)))
     cursor.execute(addHR, datosHR)
     cnx.commit()
-    print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(hr))) +  " porciento del total de datos")
+    print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(hr))) +  " porciento del total de datos HR")
 
 print ("Se insertaron adecuadamente el 100 porciento de los datos del xls en la base de datos.")
 
@@ -570,7 +570,7 @@ for i in range(4, len(temp)):
     print ("Insertando registro " + str(i) + " de " + str(len(temp)))
     cursor.execute(addTEMP, datosTEMP)
     cnx.commit()
-    print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(temp))) +  " porciento del total de datos")
+    print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(temp))) +  " porciento del total de datos (TEMP)")
 
 print ("Se insertaron adecuadamente el 100 porciento de los datos del xls en la base de datos.")
 
