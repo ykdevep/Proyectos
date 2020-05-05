@@ -698,7 +698,7 @@ try:
         print ("La entrada proporcionada no fue válida. No se realizará ninguna acción.")
 except ValueError:
     print ("Opss, un error inesperado ah ocurrido. No se realizará ninguna acción.")
-
+'''
 ##########################################################################################################################
 ## -> Cargando el fichero con la información de los catálogos para ser almacenada...                                    ##  
 ## -> Se carga cada Hoja por separado ya que cada Hoja es un catálogo...                                                ##
@@ -778,7 +778,7 @@ if catalogoMunicipios.empty:
 else:
     print ("Fichero cargado exitosamente...")
 catalogoMunicipios = catalogoMunicipios.fillna("NULL")
-
+'''
 ##########################################################################################################################
 ## -> Preparando las consultas SQL y las variables necesarias para almacenar los datos en el SGBD...                    ##
 ## -> Las variables corresponden a sus respectivos campos en la base de datos...                                        ##
@@ -1092,6 +1092,7 @@ for i in range(0, len(catalogoMunicipios)):
 ##########################################################################################################################
 ## -> Cargando el fichero con la información de los casos de COVID19 en México...                                       ##  
 ## -> En el caso que existan campos vacios se les adiciona el valor "NULL"                                              ##
+## -> IMPORTANTE: El fichero CSV original tiene errores que no permiten su carga con pandas. Se debe convertir a XLSX.  ##
 ##########################################################################################################################
 '''
 direccionFichero = "C:/Users/Cubano/Documents/GitHub/Proyectos/DatosCovid/Fixed/COVIDMexico.xlsx"
@@ -1104,12 +1105,307 @@ else:
     print ("Fichero cargado exitosamente...")
 covid19Mexico = covid19Mexico.fillna("NULL")
 
-print ("Imprimiendo los primeros 5 registros del registro de contaminantes SO2...")
-print (covid19Mexico.head(5))
+##########################################################################################################################
+## -> Preparando las consultas SQL y las variables necesarias para almacenar los datos en el SGBD...                    ##
+## -> Las variables corresponden a sus respectivos campos en la base de datos...                                        ##
+##               -> datosAAAA [Contiene la información necesaria para hacer la inserción en la base de datos]...        ##
+##               -> addAAAAAA [Consulta SQL que inserta la información en la base de datos]...                          ##
+## -> Datos COVID-19 México (Sin cambios)....                                                                           ##
+## -> Datos COVID-19 México (Modificado)....                                                                            ##
+##########################################################################################################################
 
-print ("    ")
-print ("Imprimiendo los últimos 5 registros del registro de contaminantes SO2...")
-print (covid19Mexico.tail(5))
+fechaActualizacion = ""
+origen = ""
+sector = ""
+entidadUM = ""
+sexo = ""
+entidadNac = ""
+entidadRes = ""
+municipioRes = ""
+tipoPaciente = ""
+fechaIngreso = ""
+fechaSintomas = ""
+fechaDef = ""
+intubado = ""
+neumonia = ""
+edad = ""
+nacionalidad = ""
+embarazo = ""
+hablaLenguaIndi = ""
+diabetes = ""
+epoc = ""
+asma = ""
+inmunosupr = ""
+hipertension = ""
+otraCon = ""
+cardiovascular = ""
+obesidad = ""
+renalCronica = ""
+tabaquismo = ""
+otroCaso = ""
+resultado = ""
+migrante = ""
+paisNacionalidad = ""
+paisOrigen = ""
+uci = ""
+
+datosCovidOriginal = {
+    'datoFechaActualizacion' : fechaActualizacion,
+    'datoOrigen' : origen,
+    'datoSector' : sector,
+    'datoEntidadUM' : entidadUM,
+    'datoSexo' : sexo,
+    'datoEntidadNac' : entidadNac,
+    'datoEntidadRes' : entidadRes,
+    'datoMunicipioRes' : municipioRes,
+    'datoTipoPaciente' : tipoPaciente,
+    'datoFechaIngreso' : fechaIngreso,
+    'datoFechaSintomas' : fechaSintomas,
+    'datoFechaDef' : fechaDef,
+    'datoIntubado' : intubado,
+    'datoNeumonia' : neumonia,
+    'datoEdad' : edad,
+    'datoNacionalidad' : nacionalidad,
+    'datoEmbarazo' : embarazo,
+    'datoHablaLenguaIndi' : hablaLenguaIndi,
+    'datoDiabetes' : diabetes,
+    'datoEpoc' : epoc,
+    'datoAsma' : asma,
+    'datoInmunosupr' : inmunosupr,
+    'datoHipertension' : hipertension,
+    'datoOtraCon' : otraCon,
+    'datoCardiovascular' : cardiovascular,
+    'datoObesidad' : obesidad,
+    'datoRenalCronica' : renalCronica,
+    'datoTabaquismo' : tabaquismo,
+    'datoOtroCaso' : otroCaso,
+    'datoResultado' : resultado,
+    'datoMigrante' : migrante,
+    'datoPaisNacionalidad': paisNacionalidad,
+    'datoPaisOrigen' : paisOrigen,
+    'datoUci' : uci,
+}
+
+addCovidOriginal = ("INSERT INTO covid19original"
+                "(FECHAACTUALIZACION, ORIGEN, SECTOR, ENTIDADUM, SEXO, ENTIDADNAC, ENTIDADRES, MUNICIPIORES, TIPOPACIENTE, FECHAINGRESO, FECHASINTOMAS, FECHADEF, INTUBADO, NEUMONIA, EDAD, NACIONALIDAD, EMBARAZO, HABLALENGUAINDI, DIABETES, EPOC, ASMA, INMUNOSUPR, HIPERTENSION, OTRACON, CARDIOVASCULAR, OBESIDAD, RENALCRONICA, TABAQUISMO, OTROCASO, RESULTADO, MIGRANTE, PAISNACIONALIDAD, PAISORIGEN, UCI)"
+                "VALUES (%(datoFechaActualizacion)s, %(datoOrigen)s, %(datoSector)s, %(datoEntidadUM)s, %(datoSexo)s, %(datoEntidadNac)s, %(datoEntidadRes)s, %(datoMunicipioRes)s, %(datoTipoPaciente)s, %(datoFechaIngreso)s, %(datoFechaSintomas)s, %(datoFechaDef)s, %(datoIntubado)s, %(datoNeumonia)s, %(datoEdad)s, %(datoNacionalidad)s, %(datoEmbarazo)s, %(datoHablaLenguaIndi)s, %(datoDiabetes)s, %(datoEpoc)s, %(datoAsma)s, %(datoInmunosupr)s, %(datoHipertension)s, %(datoOtraCon)s, %(datoCardiovascular)s, %(datoObesidad)s, %(datoRenalCronica)s, %(datoTabaquismo)s, %(datoOtroCaso)s, %(datoResultado)s, %(datoMigrante)s, %(datoPaisNacionalidad)s, %(datoPaisOrigen)s, %(datoUci)s)"
+            )
+
+datosCovidModificado = {
+    'datoFechaActualizacion' : fechaActualizacion,
+    'datoOrigen' : origen,
+    'datoSector' : sector,
+    'datoEntidadUM' : entidadUM,
+    'datoSexo' : sexo,
+    'datoEntidadNac' : entidadNac,
+    'datoEntidadRes' : entidadRes,
+    'datoMunicipioRes' : municipioRes,
+    'datoTipoPaciente' : tipoPaciente,
+    'datoFechaIngreso' : fechaIngreso,
+    'datoFechaSintomas' : fechaSintomas,
+    'datoFechaDef' : fechaDef,
+    'datoIntubado' : intubado,
+    'datoNeumonia' : neumonia,
+    'datoEdad' : edad,
+    'datoNacionalidad' : nacionalidad,
+    'datoEmbarazo' : embarazo,
+    'datoHablaLenguaIndi' : hablaLenguaIndi,
+    'datoDiabetes' : diabetes,
+    'datoEpoc' : epoc,
+    'datoAsma' : asma,
+    'datoInmunosupr' : inmunosupr,
+    'datoHipertension' : hipertension,
+    'datoOtraCon' : otraCon,
+    'datoCardiovascular' : cardiovascular,
+    'datoObesidad' : obesidad,
+    'datoRenalCronica' : renalCronica,
+    'datoTabaquismo' : tabaquismo,
+    'datoOtroCaso' : otroCaso,
+    'datoResultado' : resultado,
+    'datoMigrante' : migrante,
+    'datoPaisNacionalidad': paisNacionalidad,
+    'datoPaisOrigen' : paisOrigen,
+    'datoUci' : uci,
+}
+
+addCovidModificado = ("INSERT INTO covid19modificado"
+                "(FECHAACTUALIZACION, ORIGEN, SECTOR, ENTIDADUM, SEXO, ENTIDADNAC, ENTIDADRES, MUNICIPIORES, TIPOPACIENTE, FECHAINGRESO, FECHASINTOMAS, FECHADEF, INTUBADO, NEUMONIA, EDAD, NACIONALIDAD, EMBARAZO, HABLALENGUAINDI, DIABETES, EPOC, ASMA, INMUNOSUPR, HIPERTENSION, OTRACON, CARDIOVASCULAR, OBESIDAD, RENALCRONICA, TABAQUISMO, OTROCASO, RESULTADO, MIGRANTE, PAISNACIONALIDAD, PAISORIGEN, UCI)"
+                "VALUES (%(datoFechaActualizacion)s, %(datoOrigen)s, %(datoSector)s, %(datoEntidadUM)s, %(datoSexo)s, %(datoEntidadNac)s, %(datoEntidadRes)s, %(datoMunicipioRes)s, %(datoTipoPaciente)s, %(datoFechaIngreso)s, %(datoFechaSintomas)s, %(datoFechaDef)s, %(datoIntubado)s, %(datoNeumonia)s, %(datoEdad)s, %(datoNacionalidad)s, %(datoEmbarazo)s, %(datoHablaLenguaIndi)s, %(datoDiabetes)s, %(datoEpoc)s, %(datoAsma)s, %(datoInmunosupr)s, %(datoHipertension)s, %(datoOtraCon)s, %(datoCardiovascular)s, %(datoObesidad)s, %(datoRenalCronica)s, %(datoTabaquismo)s, %(datoOtroCaso)s, %(datoResultado)s, %(datoMigrante)s, %(datoPaisNacionalidad)s, %(datoPaisOrigen)s, %(datoUci)s)"
+            )
+
+##########################################################################################################################
+##  -> Se leen los datos de COVID y se ejecuntan las consultas SQL...                                                   ##
+##  -> Covid-19 México (Sin cambios)...                                                                                 ##
+##########################################################################################################################
+
+for i in range(0, len(covid19Mexico)):
+    fechaActualizacion = covid19Mexico.iloc[i,0]
+    origen = int(covid19Mexico.iloc[i,1])
+    sector = int(covid19Mexico.iloc[i,2])
+    entidadUM = int(covid19Mexico.iloc[i,3])
+    sexo = int(covid19Mexico.iloc[i,4])
+    entidadNac = int(covid19Mexico.iloc[i,5])
+    entidadRes = int(covid19Mexico.iloc[i,6])
+    municipioRes = int(covid19Mexico.iloc[i,7])
+    tipoPaciente = int(covid19Mexico.iloc[i,8])
+    fechaIngreso = covid19Mexico.iloc[i,9]
+    fechaSintomas = covid19Mexico.iloc[i,10]
+    fechaDef = covid19Mexico.iloc[i,11]
+    intubado = int(covid19Mexico.iloc[i,12])
+    neumonia = int(covid19Mexico.iloc[i,13])
+    edad = int(covid19Mexico.iloc[i,14])
+    nacionalidad = int(covid19Mexico.iloc[i,15])
+    embarazo = int(covid19Mexico.iloc[i,16])
+    hablaLenguaIndi = int(covid19Mexico.iloc[i,17])
+    diabetes = int(covid19Mexico.iloc[i,18])
+    epoc = int(covid19Mexico.iloc[i,19])
+    asma = int(covid19Mexico.iloc[i,20])
+    inmunosupr = int(covid19Mexico.iloc[i,21])
+    hipertension = int(covid19Mexico.iloc[i,22])
+    otraCon = int(covid19Mexico.iloc[i,23])
+    cardiovascular = int(covid19Mexico.iloc[i,24])
+    obesidad = int(covid19Mexico.iloc[i,25])
+    renalCronica = int(covid19Mexico.iloc[i,26])
+    tabaquismo = int(covid19Mexico.iloc[i,27])
+    otroCaso = int(covid19Mexico.iloc[i,28])
+    resultado = int(covid19Mexico.iloc[i,29])
+    migrante = int(covid19Mexico.iloc[i,30])
+    paisNacionalidad = covid19Mexico.iloc[i,31]
+    paisOrigen = covid19Mexico.iloc[i,32]
+    uci = int(covid19Mexico.iloc[i,33])
+
+    datosCovidOriginal = {
+        'datoFechaActualizacion' : fechaActualizacion,
+        'datoOrigen' : origen,
+        'datoSector' : sector,
+        'datoEntidadUM' : entidadUM,
+        'datoSexo' : sexo,
+        'datoEntidadNac' : entidadNac,
+        'datoEntidadRes' : entidadRes,
+        'datoMunicipioRes' : municipioRes,
+        'datoTipoPaciente' : tipoPaciente,
+        'datoFechaIngreso' : fechaIngreso,
+        'datoFechaSintomas' : fechaSintomas,
+        'datoFechaDef' : fechaDef,
+        'datoIntubado' : intubado,
+        'datoNeumonia' : neumonia,
+        'datoEdad' : edad,
+        'datoNacionalidad' : nacionalidad,
+        'datoEmbarazo' : embarazo,
+        'datoHablaLenguaIndi' : hablaLenguaIndi,
+        'datoDiabetes' : diabetes,
+        'datoEpoc' : epoc,
+        'datoAsma' : asma,
+        'datoInmunosupr' : inmunosupr,
+        'datoHipertension' : hipertension,
+        'datoOtraCon' : otraCon,
+        'datoCardiovascular' : cardiovascular,
+        'datoObesidad' : obesidad,
+        'datoRenalCronica' : renalCronica,
+        'datoTabaquismo' : tabaquismo,
+        'datoOtroCaso' : otroCaso,
+        'datoResultado' : resultado,
+        'datoMigrante' : migrante,
+        'datoPaisNacionalidad': paisNacionalidad,
+        'datoPaisOrigen' : paisOrigen,
+        'datoUci' : uci,
+    }
+
+    print ("Insertando registro " + str(i) + " de " + str(len(covid19Mexico)))
+    cursor.execute(addCovidOriginal, datosCovidOriginal)
+    cnx.commit()
+    print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(covid19Mexico))) +  " porciento del total de datos")
+
+##########################################################################################################################
+##  -> Se leen los datos de COVID y se ejecuntan las consultas SQL...                                                   ##
+##  -> Covid-19 México (Modificados)...                                                                                 ##
+##########################################################################################################################
+
+for i in range(0, len(covid19Mexico)):
+    fechaActualizacion = covid19Mexico.iloc[i,0]
+    origen = int(covid19Mexico.iloc[i,1])
+    for j in range(0, len(catalogoOrigen)):
+        if (origen == int(catalogoEntidades.iloc[i,0])):
+            origen = catalogoEntidades.iloc[i,1]
+    
+    sector = int(covid19Mexico.iloc[i,2])
+    for j in range(0, len(catalogoSector)):
+        if (sector == int(catalogoSector.iloc[i,0])):
+            sector = catalogoSector.iloc[i,1]
+
+    entidadUM = int(covid19Mexico.iloc[i,3])
+    sexo = int(covid19Mexico.iloc[i,4])
+    entidadNac = int(covid19Mexico.iloc[i,5])
+    entidadRes = int(covid19Mexico.iloc[i,6])
+    municipioRes = int(covid19Mexico.iloc[i,7])
+    tipoPaciente = int(covid19Mexico.iloc[i,8])
+    fechaIngreso = covid19Mexico.iloc[i,9]
+    fechaSintomas = covid19Mexico.iloc[i,10]
+    fechaDef = covid19Mexico.iloc[i,11]
+    intubado = int(covid19Mexico.iloc[i,12])
+    neumonia = int(covid19Mexico.iloc[i,13])
+    edad = int(covid19Mexico.iloc[i,14])
+    nacionalidad = int(covid19Mexico.iloc[i,15])
+    embarazo = int(covid19Mexico.iloc[i,16])
+    hablaLenguaIndi = int(covid19Mexico.iloc[i,17])
+    diabetes = int(covid19Mexico.iloc[i,18])
+    epoc = int(covid19Mexico.iloc[i,19])
+    asma = int(covid19Mexico.iloc[i,20])
+    inmunosupr = int(covid19Mexico.iloc[i,21])
+    hipertension = int(covid19Mexico.iloc[i,22])
+    otraCon = int(covid19Mexico.iloc[i,23])
+    cardiovascular = int(covid19Mexico.iloc[i,24])
+    obesidad = int(covid19Mexico.iloc[i,25])
+    renalCronica = int(covid19Mexico.iloc[i,26])
+    tabaquismo = int(covid19Mexico.iloc[i,27])
+    otroCaso = int(covid19Mexico.iloc[i,28])
+    resultado = int(covid19Mexico.iloc[i,29])
+    migrante = int(covid19Mexico.iloc[i,30])
+    paisNacionalidad = covid19Mexico.iloc[i,31]
+    paisOrigen = covid19Mexico.iloc[i,32]
+    uci = int(covid19Mexico.iloc[i,33])
+
+    datosCovidOriginal = {
+        'datoFechaActualizacion' : fechaActualizacion,
+        'datoOrigen' : origen,
+        'datoSector' : sector,
+        'datoEntidadUM' : entidadUM,
+        'datoSexo' : sexo,
+        'datoEntidadNac' : entidadNac,
+        'datoEntidadRes' : entidadRes,
+        'datoMunicipioRes' : municipioRes,
+        'datoTipoPaciente' : tipoPaciente,
+        'datoFechaIngreso' : fechaIngreso,
+        'datoFechaSintomas' : fechaSintomas,
+        'datoFechaDef' : fechaDef,
+        'datoIntubado' : intubado,
+        'datoNeumonia' : neumonia,
+        'datoEdad' : edad,
+        'datoNacionalidad' : nacionalidad,
+        'datoEmbarazo' : embarazo,
+        'datoHablaLenguaIndi' : hablaLenguaIndi,
+        'datoDiabetes' : diabetes,
+        'datoEpoc' : epoc,
+        'datoAsma' : asma,
+        'datoInmunosupr' : inmunosupr,
+        'datoHipertension' : hipertension,
+        'datoOtraCon' : otraCon,
+        'datoCardiovascular' : cardiovascular,
+        'datoObesidad' : obesidad,
+        'datoRenalCronica' : renalCronica,
+        'datoTabaquismo' : tabaquismo,
+        'datoOtroCaso' : otroCaso,
+        'datoResultado' : resultado,
+        'datoMigrante' : migrante,
+        'datoPaisNacionalidad': paisNacionalidad,
+        'datoPaisOrigen' : paisOrigen,
+        'datoUci' : uci,
+    }
+
+    print ("Insertando registro " + str(i) + " de " + str(len(covid19Mexico)))
+    cursor.execute(addCovidOriginal, datosCovidOriginal)
+    cnx.commit()
+    print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(covid19Mexico))) +  " porciento del total de datos")
 
 
 
