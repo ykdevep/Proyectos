@@ -220,6 +220,7 @@ for i in range(4, len(temp)):
     i = i + 4
 
 fechaTimeHR = int(hr.iloc[0,0])
+fechaTimeHR = fechaTimeHR
 
 for i in range(4, len(hr)):
     fechaTimeHR = fechaTimeHR + 1

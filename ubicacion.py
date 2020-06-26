@@ -57,24 +57,27 @@ from datetime import datetime
 ##                                                                                                                  ##
 ######################################################################################################################
 
-nombreBDLoc = 'bancosexternos'  ## Configuración para la base de dato de localización gegráfica...
+nombreBDLoc = 'datawarehouse'  ## Configuración para la base de dato de localización gegráfica...
 config = {
   'user': 'kike',
   'password': 'kike123',
   'host': '127.0.0.1',
-  'database': 'bancosexternos',
+  'database': 'datawarehouse',
   'raise_on_warnings': True,
 }
 
 tablaLoc = {} ## Definición de la tabla de localización...
 tablaLoc[nombreBDLoc] = ( 
-    "CREATE TABLE `mapslocalizacion` ("
+    "CREATE TABLE `localizacion` ("
     "   `IDMAPS` INT NOT NULL AUTO_INCREMENT,"
-    "   `FECHA` TIMESTAMP NULL,"
-    "   `MARCATIEMPO` DOUBLE NULL,"
+    "   `DIA` DOUBLE NULL,"
+    "   `MES` DOUBLE NULL,"
+    "   `ANNO` DOUBLE NULL,"
+    "   `HORA` DOUBLE NULL,"
+    "   `MINUTO` DOUBLE NULL,"
+    "   `SEGUNDO` DOUBLE NULL,"
     "   `LATITUD` DOUBLE NULL,"
     "   `LONGITUD` DOUBLE NULL,"
-    "   `IDUSUARIO` DOUBLE NULL,"
     "   PRIMARY KEY (`IDMAPS`));"
     "   ENGINE = InnoDB"
 )
@@ -192,41 +195,6 @@ for name, ddl in tablaLoc.items():
 direccionFichero = "C:/Users/Cubano/Documents/GitHub/Proyectos/BancosDatos/ubic.json"
 json = panda.read_json(direccionFichero)
 
-print ("    ")
-print ("Cargando fichero de contaminantes CO, puede tardar un momento, por favor espere...")
-if json.empty: #Validando si los datos fueron cargados...
-    print ("    ")
-    print ("Fichero se encuentra vacío, por favor verifique que sea el correcto...")
-else:
-    print ("    ")
-    print ("Fichero cargado exitosamente...")
-
-direccionFicheroUsuario = "C:/Users/Cubano/Documents/GitHub/Proyectos/BancosDatos/IDUSER.xlsx"
-xls = panda.read_excel(direccionFicheroUsuario)
-
-print ("    ")
-print ("Cargando fichero de temperatura, puede tardar un momento, por favor espere...")
-if xls.empty: #Validando si los datos fueron cargados...
-    print ("    ")
-    print ("Fichero se encuentra vacío, por favor verifique que sea el correcto...")
-else:
-    print ("    ")
-    print ("Fichero cargado exitosamente...")
-
-######################################################################################################################
-##                                                                                                                  ##
-##                       Mostrando los primeros 5 valores cargados de cada uno de los ficheros...                   ##
-##                        Mostrando los últimos 5 valores cargados de cada uno de los ficheros...                   ##
-##                                                                                                                  ##
-######################################################################################################################
-
-print ("Imprimiendo los primeros 5 registros del registro de contaminantes CO...")
-print (json.head(5))
-
-print ("    ")
-print ("Imprimiendo los últimos 5 registros del registro de contaminantes CO...")
-print (json.tail(5))
-
 ######################################################################################################################
 ##                                                                                                                  ##
 ##                          Determinando cantidad de campos vacíos en los datos...                                  ##
@@ -257,23 +225,29 @@ json = json.fillna("NULL")
 ##                                                                                                                  ##
 ######################################################################################################################
 
-fecha = ""
-marcaTiempo = ""
+dia = ""
+mes = ""
+anno = ""
+hora = ""
+minuto = ""
+segundo = ""
 latitud = ""
 longitud = ""
-idUsuario = ""
 
 datosLoc = {
-    'datoFecha' : fecha,
-    'datoMarcaTiempo' : marcaTiempo,
+    'datoDia' : dia,
+    'datoMes' : mes,
+    'datoAnno' : anno,
+    'datoHora' : hora,
+    'datoMinuto' : minuto,
+    'datoSegundo' : segundo,
     'datoLatitud' : latitud,
     'datoLongitud' : longitud,
-    'datoIdUsuario' : idUsuario,
 }
 
-addLoc = ("INSERT INTO mapslocalizacion"
-                "(FECHA, MARCATIEMPO, LATITUD, LONGITUD, IDUSUARIO)"
-                "VALUES (%(datoFecha)s, %(datoMarcaTiempo)s, %(datoLatitud)s, %(datoLongitud)s, %(datoIdUsuario)s)"
+addLoc = ("INSERT INTO localizacion"
+                "(DIA, MES, ANNO, HORA, MINUTO, SEGUNDO, LATITUD, LONGITUD)"
+                "VALUES (%(datoDia)s, %(datoMes)s, %(datoAnno)s, %(datoHora)s, %(datoMinuto)s, %(datoSegundo)s, %(datoLatitud)s, %(datoLongitud)s)"
             )
 
 ######################################################################################################################
@@ -283,9 +257,6 @@ addLoc = ("INSERT INTO mapslocalizacion"
 ##                                                                                                                  ##
 ######################################################################################################################
 
-for i in range(0, len(xls)):
-    idUsuario = float(xls.iloc[i,0])
-
 for i in range(0, len(json)):
     control = json.iloc[i,0]
     marcaTiempo = control['timestampMs']
@@ -293,18 +264,31 @@ for i in range(0, len(json)):
     longitud = control['longitudeE7']
     tiempo2 = marcaTiempo[0:10]
     fecha = datetime.fromtimestamp(int(tiempo2))
+    dia = fecha.day
+    mes = fecha.month
+    anno = fecha.year
+    hora = fecha.hour
+    minuto = fecha.minute
+    segundo = fecha.second
 
-    datosLoc = {
-        'datoFecha' : fecha,
-        'datoMarcaTiempo' : marcaTiempo,
-        'datoLatitud' : latitud,
-        'datoLongitud' : longitud,
-        'datoIdUsuario' : idUsuario,
-    }
+    if(mes > 5 and anno == 2018):
+        if(mes <= 12):
+            datosLoc = {
+                'datoDia' : dia,
+                'datoMes' : mes,
+                'datoAnno' : anno,
+                'datoHora' : hora,
+                'datoMinuto' : minuto,
+                'datoSegundo' : segundo,
+                'datoLatitud' : latitud,
+                'datoLongitud' : longitud,
+                }
 
-    print ("Insertando registro " + str(i) + " de " + str(len(json)))
-    cursor.execute(addLoc, datosLoc)
-    cnx.commit()
+            print ("Insertando registro " + str(i) + " de " + str(len(json)))
+            cursor.execute(addLoc, datosLoc)
+            cnx.commit()
+            print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(json))) +  " porciento del total de datos")
+
     print ("Registro " + str(i) +  " insertado, completado el " + str(int(i)*100/int(len(json))) +  " porciento del total de datos")
 
 ######################################################################################################################
