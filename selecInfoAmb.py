@@ -104,7 +104,3 @@ for i in range(0, len(e4HrTemp)):
             valoresAsignados = True
 
 
-print(latitudAsignada)
-print(longitudAsignada)
-print ("La longitud lat es " + str(len(latitudAsignada)))
-print ("La longitud long es " + str(len(longitudAsignada)))
