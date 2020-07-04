@@ -1,0 +1,266 @@
+<Schema name="VariablesYAmbiente">
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="VarFisiologicas">
+    <Hierarchy visible="true" hasAll="true">
+      <Table name="hrtemp">
+      </Table>
+      <Level name="VarFisiol" visible="true" column="IDHRTEMP" nameColumn="IDHRTEMP" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="localizacion">
+    <Hierarchy visible="true" hasAll="true">
+      <Table name="localizacion">
+      </Table>
+      <Level name="Localizacion" visible="true" column="IDMAPS" nameColumn="IDMAPS" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="Tiempo">
+    <Hierarchy visible="true" hasAll="true">
+      <Table name="tiempo">
+      </Table>
+      <Level name="Tiempo" visible="true" column="IDTIEMPO" nameColumn="IDTIEMPO" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Dia" visible="true" column="DIA" nameColumn="DIA" type="String" uniqueMembers="true" levelType="Regular">
+      </Level>
+      <Level name="Mes" visible="true" column="MES" nameColumn="MES" type="String" uniqueMembers="true" levelType="Regular">
+      </Level>
+      <Level name="A&#241;o" visible="true" column="ANNO" nameColumn="ANNO" type="String" uniqueMembers="true" levelType="Regular">
+      </Level>
+      <Level name="Hora" visible="true" column="HORA" nameColumn="HORA" type="String" uniqueMembers="true" levelType="Regular">
+      </Level>
+      <Level name="Minuto" visible="true" column="MINUTO" nameColumn="MINUTO" type="String" uniqueMembers="true" levelType="Regular">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" foreignKey="IDINFOAMB" highCardinality="false" name="InfoAmbiental">
+    <Hierarchy name="Variables" visible="true" hasAll="true">
+      <Table name="infoambiental">
+      </Table>
+      <Level name="Ambiente" visible="true" column="IDINFOAMB" nameColumn="IDINFOAMB" parentColumn="IDINFOAMB" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Cube name="4D VarFisio InfoAmb Loc Tiempo" visible="true" cache="true" enabled="true">
+    <Table name="comportamiento">
+    </Table>
+    <DimensionUsage source="VarFisiologicas" name="Fisiologicas" visible="true" foreignKey="IDHR" highCardinality="false">
+    </DimensionUsage>
+    <DimensionUsage source="Tiempo" name="Tiempo" visible="true" foreignKey="IDTIEMPO" highCardinality="false">
+    </DimensionUsage>
+    <DimensionUsage source="InfoAmbiental" name="Ambiental" visible="true" foreignKey="IDINFOAMB" highCardinality="false">
+    </DimensionUsage>
+    <DimensionUsage source="localizacion" name="Localizacion" visible="true" foreignKey="IDMAPS" highCardinality="false">
+    </DimensionUsage>
+    <Measure name="HRMean" column="HRMEAN" aggregator="avg" visible="true">
+    </Measure>
+    <Measure name="HRMin" column="HRMIN" aggregator="min" visible="true">
+    </Measure>
+    <Measure name="HRMax" column="HRMAX" aggregator="max" visible="true">
+    </Measure>
+    <Measure name="TEMPMean" column="TEMPMEAN" aggregator="avg" visible="true">
+    </Measure>
+    <Measure name="TEMPMin" column="TEMPMIN" aggregator="min" visible="true">
+    </Measure>
+    <Measure name="TEMPMax" column="TEMPMAX" aggregator="max" visible="true">
+    </Measure>
+  </Cube>
+  <Cube name="1D Variables Fisiologicas" visible="true" cache="true" enabled="true">
+    <Table name="hrtemp" alias="">
+    </Table>
+    <DimensionUsage source="VarFisiologicas" name="New Dimension Usage 0" visible="true" foreignKey="IDHRTEMP">
+    </DimensionUsage>
+    <Measure name="ContarHR" column="HR" aggregator="distinct-count" visible="true">
+    </Measure>
+    <Measure name="ContarTemp" column="TEMP" aggregator="distinct-count" visible="true">
+    </Measure>
+  </Cube>
+  <Cube name="1D Informacion Ambiental" visible="true" cache="true" enabled="true">
+    <Table name="infoambiental" alias="">
+    </Table>
+    <DimensionUsage source="InfoAmbiental" name="New Dimension Usage 0" visible="true" foreignKey="IDINFOAMB">
+    </DimensionUsage>
+    <Measure name="ContarDioxAzufre" column="DIOXAZUFRE" aggregator="distinct-count" visible="true">
+    </Measure>
+    <Measure name="ContarDioxNitrogeno" column="DIOXNITROGENO" aggregator="distinct-count" visible="true">
+    </Measure>
+    <Measure name="ContarMonoxCarb" column="MONOXCARBONO" aggregator="distinct-count" visible="true">
+    </Measure>
+    <Measure name="ContarMonoxNitrogeno" column="MONOXNITROGENO" aggregator="distinct-count" visible="true">
+    </Measure>
+    <Measure name="ContarOxNitr" column="OXNITROGENO" aggregator="distinct-count" visible="true">
+    </Measure>
+    <Measure name="ContarOzono" column="OZONO" aggregator="distinct-count" visible="true">
+    </Measure>
+    <Measure name="ContarPM10" column="PM10" aggregator="distinct-count" visible="true">
+    </Measure>
+    <Measure name="ContarPM25" column="PM25" aggregator="distinct-count" visible="true">
+    </Measure>
+    <Measure name="ContarHumRel" column="HUMRELATIVA" aggregator="distinct-count" visible="true">
+    </Measure>
+    <Measure name="ContarPresionAtm" column="PRESIONATM" aggregator="distinct-count" visible="true">
+    </Measure>
+    <Measure name="ContarRadUVA" column="RADUVA" aggregator="distinct-count" visible="true">
+    </Measure>
+    <Measure name="ContarRadUVB" column="RADUVB" aggregator="distinct-count" visible="true">
+    </Measure>
+    <Measure name="ContarTempAmb" column="TEMPAMB" aggregator="distinct-count" visible="true">
+    </Measure>
+  </Cube>
+  <Cube name="1D Localizacion" visible="true" cache="true" enabled="true">
+    <Table name="localizacion" alias="">
+    </Table>
+    <DimensionUsage source="localizacion" name="New Dimension Usage 0" visible="true" foreignKey="IDMAPS">
+    </DimensionUsage>
+    <Measure name="ContarLatitud" column="LATITUD" aggregator="distinct-count" visible="true">
+    </Measure>
+    <Measure name="ContarLongitud" column="LONGITUD" aggregator="distinct-count" visible="true">
+    </Measure>
+  </Cube>
+  <Cube name="1D Tiempo" visible="true" cache="true" enabled="true">
+    <Table name="tiempo" alias="">
+    </Table>
+    <DimensionUsage source="Tiempo" name="Tiempo" visible="true" foreignKey="IDTIEMPO">
+    </DimensionUsage>
+    <Measure name="ContarDias" column="DIA" aggregator="distinct-count" visible="true">
+    </Measure>
+    <Measure name="ContarMes" column="MES" aggregator="distinct-count" visible="true">
+    </Measure>
+    <Measure name="ContarA&#241;o" column="ANNO" aggregator="distinct-count" visible="true">
+    </Measure>
+    <Measure name="ContarHora" column="HORA" aggregator="distinct-count" visible="true">
+    </Measure>
+    <Measure name="ContarMinutos" column="MINUTO" aggregator="distinct-count" visible="true">
+    </Measure>
+  </Cube>
+  <Cube name="2D VarFisio InfoAmb" visible="true" cache="true" enabled="true">
+    <Table name="comportamiento" alias="">
+    </Table>
+    <DimensionUsage source="VarFisiologicas" name="Variables Fisiologicas" visible="true" foreignKey="IDHR">
+    </DimensionUsage>
+    <DimensionUsage source="InfoAmbiental" name="Informacion Ambiental" visible="true" foreignKey="IDINFOAMB">
+    </DimensionUsage>
+    <Measure name="HRMean" column="HRMEAN" aggregator="avg" visible="true">
+    </Measure>
+    <Measure name="TempMean" column="TEMPMEAN" aggregator="avg" visible="true">
+    </Measure>
+  </Cube>
+  <Cube name="2D VarFisio Loc" visible="true" cache="true" enabled="true">
+    <Table name="comportamiento" alias="">
+    </Table>
+    <DimensionUsage source="VarFisiologicas" name="Variables Fisiologicas" visible="true" foreignKey="IDHR">
+    </DimensionUsage>
+    <DimensionUsage source="localizacion" name="Localizacion" visible="true" foreignKey="IDMAPS">
+    </DimensionUsage>
+    <Measure name="HRMean" column="HRMEAN" aggregator="avg" visible="true">
+    </Measure>
+    <Measure name="TempMean" column="HRMEAN" aggregator="avg" visible="true">
+    </Measure>
+  </Cube>
+  <Cube name="2D VarFisio Tiempo" visible="true" cache="true" enabled="true">
+    <Table name="comportamiento" alias="">
+    </Table>
+    <DimensionUsage source="VarFisiologicas" name="Variables Fisiologicas" visible="true" foreignKey="IDHR">
+    </DimensionUsage>
+    <DimensionUsage source="Tiempo" name="Tiempo" visible="true" foreignKey="IDTIEMPO">
+    </DimensionUsage>
+    <Measure name="HRMean" column="HRMEAN" aggregator="avg" visible="true">
+    </Measure>
+    <Measure name="TempMean" column="TEMPMEAN" aggregator="avg" visible="true">
+    </Measure>
+  </Cube>
+  <Cube name="2D InfoAmb Loc" visible="true" cache="true" enabled="true">
+    <Table name="comportamiento" alias="">
+    </Table>
+    <DimensionUsage source="InfoAmbiental" name="Info Ambiental" visible="true" foreignKey="IDINFOAMB">
+    </DimensionUsage>
+    <DimensionUsage source="localizacion" name="Localizacion" visible="true" foreignKey="IDMAPS">
+    </DimensionUsage>
+    <Measure name="Contar" column="IDMAPS" aggregator="count" visible="true">
+    </Measure>
+  </Cube>
+  <Cube name="2D InfoAmb Tiempo" visible="true" cache="true" enabled="true">
+    <Table name="comportamiento" alias="">
+    </Table>
+    <DimensionUsage source="InfoAmbiental" name="Informacion Ambiental" visible="true" foreignKey="IDINFOAMB">
+    </DimensionUsage>
+    <DimensionUsage source="Tiempo" name="Tiempo" visible="true" foreignKey="IDTIEMPO">
+    </DimensionUsage>
+    <Measure name="Contar" column="IDINFOAMB" aggregator="distinct-count" visible="true">
+    </Measure>
+  </Cube>
+  <Cube name="2D Localizacion Tiempo" visible="true" cache="true" enabled="true">
+    <Table name="comportamiento" alias="">
+    </Table>
+    <DimensionUsage source="localizacion" name="Localizacion" visible="true" foreignKey="IDMAPS">
+    </DimensionUsage>
+    <DimensionUsage source="Tiempo" name="Tiempo" visible="true" foreignKey="IDTIEMPO">
+    </DimensionUsage>
+    <Measure name="Contar" column="IDMAPS" aggregator="distinct-count" visible="true">
+    </Measure>
+  </Cube>
+  <Cube name="3D VarFisio InfoAmb Localizacion" visible="true" cache="true" enabled="true">
+    <Table name="comportamiento" alias="">
+    </Table>
+    <DimensionUsage source="VarFisiologicas" name="Variables Fisiologicas" visible="true" foreignKey="IDHR">
+    </DimensionUsage>
+    <DimensionUsage source="InfoAmbiental" name="Informacion Ambiental" visible="true" foreignKey="IDINFOAMB">
+    </DimensionUsage>
+    <DimensionUsage source="localizacion" name="Localizacion" visible="true" foreignKey="IDMAPS">
+    </DimensionUsage>
+    <Measure name="HRMean" column="HRMEAN" aggregator="avg" visible="true">
+    </Measure>
+    <Measure name="HRMin" column="HRMIN" aggregator="min" visible="true">
+    </Measure>
+    <Measure name="HRMax" column="HRMAX" aggregator="max" visible="true">
+    </Measure>
+    <Measure name="TEMPMean" column="TEMPMEAN" aggregator="avg" visible="true">
+    </Measure>
+    <Measure name="TEMPMin" column="TEMPMIN" aggregator="min" visible="true">
+    </Measure>
+    <Measure name="TEMPMax" column="TEMPMAX" aggregator="max" visible="true">
+    </Measure>
+  </Cube>
+  <Cube name="3D VarFisio InfoAmb Tiempo" visible="true" cache="true" enabled="true">
+    <Table name="comportamiento" alias="">
+    </Table>
+    <DimensionUsage source="VarFisiologicas" name="Variables Fisiologicas" visible="true" foreignKey="IDHR">
+    </DimensionUsage>
+    <DimensionUsage source="InfoAmbiental" name="Informacion Ambiental" visible="true" foreignKey="IDINFOAMB">
+    </DimensionUsage>
+    <DimensionUsage source="Tiempo" name="Tiempo" visible="true" foreignKey="IDTIEMPO">
+    </DimensionUsage>
+    <Measure name="HRMean" column="HRMEAN" aggregator="avg" visible="true">
+    </Measure>
+    <Measure name="TEMPMean" column="TEMPMEAN" aggregator="avg" visible="true">
+    </Measure>
+  </Cube>
+  <Cube name="3D VarFisio Localizacion Tiempo" visible="true" cache="true" enabled="true">
+    <Table name="comportamiento" alias="">
+    </Table>
+    <DimensionUsage source="VarFisiologicas" name="Variables Fisiologicas" visible="true" foreignKey="IDHR">
+    </DimensionUsage>
+    <DimensionUsage source="localizacion" name="Localizacion" visible="true" foreignKey="IDMAPS">
+    </DimensionUsage>
+    <DimensionUsage source="Tiempo" name="Tiempo" visible="true" foreignKey="IDTIEMPO">
+    </DimensionUsage>
+    <Measure name="HRMean" column="HRMEAN" aggregator="avg" visible="true">
+    </Measure>
+    <Measure name="TEMPMean" column="TEMPMEAN" aggregator="avg" visible="true">
+    </Measure>
+  </Cube>
+  <Cube name="3D InfoAmb Localizacion Tiempo" visible="true" cache="true" enabled="true">
+    <Table name="comportamiento" alias="">
+    </Table>
+    <DimensionUsage source="InfoAmbiental" name="Informacion Ambiental" visible="true" foreignKey="IDINFOAMB">
+    </DimensionUsage>
+    <DimensionUsage source="localizacion" name="Localizacion" visible="true" foreignKey="IDMAPS">
+    </DimensionUsage>
+    <DimensionUsage source="Tiempo" name="Tiempo" visible="true" foreignKey="IDTIEMPO">
+    </DimensionUsage>
+    <Measure name="ContarLoc" column="IDMAPS" aggregator="distinct-count" visible="true">
+    </Measure>
+    <Measure name="ContarTiempo" column="IDTIEMPO" aggregator="distinct-count" visible="true">
+    </Measure>
+  </Cube>
+</Schema>
