@@ -1,0 +1,31 @@
+Información del ritmo cardíaco...
+Cantidad de Muestras en cada contenedor del histograma (4 contenedores en total): [1569 2772  466  139]
+Bordes de los contenedores del histograma: [ 61.82  84.74 107.66 130.58 153.5 ]
+Valor máximo: 153.5
+Valor mínimo: 61.82
+Mean: 93.0829276182774
+Median: 93.35
+Rango: 91.68
+Desviación estándar: 16.60606880967873
+Varianza: Variance(statistic=275.7615213117848, minmax=(266.640386705693, 284.8826559178766))
+Rango intercuartil: 20.349999999999994
+Valor de asimetría: 0.6388765040817738
+Valor de curtosis: 0.9790093948779357
+Intervalo inferior de confianza: 60.535630826513156
+Intervalo superior de confianza: 125.63022441004163
+
+Información de la temperatura...
+Cantidad de Muestras en cada contenedor del histograma (4 contenedores en total): [ 866 1204 1864 1012]
+Bordes de los contenedores del histograma: [29.39 29.74 30.09 30.44 30.79]
+Valor máximo: 30.79
+Valor mínimo: 29.39
+Mean: 30.147040032349373
+Median: 30.11
+Rango: 1.3999999999999986
+Desviación estándar: 0.33918382392438506
+Varianza: Variance(statistic=0.11504566641196826, minmax=(0.11124039653892939, 0.11885093628500712))
+Rango intercuartil: 0.5199999999999996
+Valor de asimetría: 0.0534566719746392
+Valor de curtosis: -0.9472567637344671
+Intervalo inferior de confianza: 29.482251953319004
+Intervalo superior de confianza: 30.811828111379743
